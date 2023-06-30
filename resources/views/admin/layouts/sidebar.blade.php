@@ -27,7 +27,7 @@
             fill="#7367F0" />
         </svg>
       </span>
-      <span class="app-brand-text demo menu-text fw-bold">Vuexy</span>
+      <span class="app-brand-text demo menu-text fw-bold">Astrology</span>
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -40,18 +40,17 @@
 
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item active open">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
+    <li class="menu-item">
+      <a href="{{route('admin.admin-dashboard')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
         <div data-i18n="Dashboards">Dashboards</div>
       </a>
     </li>
     <li class="menu-item">
-      <a href="{{route('astrologer.index')}}" class="menu-link">
+      <a href="{{route('admin.astrologer.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-user"></i>
         <div data-i18n="Astrologer">Astrologer</div>
       </a>
     </li>
-
   </ul>
 </aside>

@@ -1,10 +1,13 @@
 @extends('admin.app')
+@section('title')
+    Dashbard || Add Astrologer
+@endsection
 @section('content-main')
 <div class="row">
 	<div class="col">
 	  <div class="card mb-4">
 	    <h5 class="card-header">Astrologer Update</h5>
-	    <form action="{{route('astrologer.update',$edit->id)}}" method="post" enctype="multipart/form-data">
+	    <form action="{{route('admin.astrologer.update',$edit->id)}}" method="post" enctype="multipart/form-data">
 	    	@csrf
 	    	@method('PUT')
 	    <div class="card-body">
@@ -43,7 +46,7 @@
 	    		<div class="col-6">
 	    			<div>
 			        <label for="image" class="form-label">Image</label>
-			        <input type="file" class="form-control" id="image" value="" name="image"/>
+			        <input type="file" class="form-control" id="image" value="{{$edit->image}}" name="image"/>
 			      </div>
 	    		</div>
 	    	</div>  
@@ -57,4 +60,5 @@
 	  </div>
 	</div>
 </div>
+
 @endsection

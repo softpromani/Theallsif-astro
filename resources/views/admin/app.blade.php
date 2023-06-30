@@ -55,5 +55,6 @@
     <!-- / Layout wrapper -->
 
     @include('admin.layouts.script')
+    @stack('scripts')
   </body>
 </html>
