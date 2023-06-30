@@ -43,9 +43,9 @@
           <div class="card">
             <div class="d-flex align-items-end row">
               <div class="col-7">
-                <div class="card-body text-nowrap mb-2">
-                  <h5 class="card-title mb-0">Congratulations 🎉</h5>
-                  <p class="mb-2">{{Auth::guard('admin')->user()->name}}</p>
+                <div class="card-body text-nowrap">
+                  <h5 class="card-title">Congratulations 🎉</h5>
+                  <p class="mb-4">{{Auth::guard('admin')->user()->name}}</p>
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal">Profile View</button>
                    <!-- <a href="{{route('admin.profile.index')}}" class="btn btn-primary"  data-bs-toggle="modal"
                           data-bs-target="#largeModal">>Profile View</a> -->
@@ -151,8 +151,8 @@
             <input type="file" name="image" class="file-input" onchange="previewImage()" capture="camera">
           </div>
             </div>
-            <div class="col-2 mt-4">
-              <button type="submit" class="btn btn-primary btn-sm">Image Save</button>
+            <div class="col-3 mt-4">
+              <button type="submit" class="btn btn-primary btn-sm">Upload Image</button>
             </div>
           </div>
         </form>
@@ -174,7 +174,7 @@
         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary">Update</button>
       </div>
       </form>
     </div>
