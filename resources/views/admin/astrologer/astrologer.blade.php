@@ -19,9 +19,9 @@
 			        {{ session('success') }}
 			    </div>
 					@endif
-					 @if(session('danger'))
+					 @if(session('error'))
 				    <div class="alert alert-danger">
-				        {{ session('danger') }}
+				        {{ session('error') }}
 				    </div>
 					@endif
       <div class="card-title mb-3">
@@ -52,7 +52,7 @@
         
       </table>
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
+	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel">Add Astrologer</h5>
@@ -61,31 +61,57 @@
 	        <form action="{{route('admin.astrologer.store')}}" method="post" enctype="multipart/form-data">
 	        	@csrf
 	    		<div class="modal-body">
-		        	<div class="mb-3">
-					    <label for="first_name" class="form-label">First Name</label>
-					    <input type="test" class="form-control" id="first_name" name="first_name">
-					</div>
-		        	<div class="mb-3">
-					    <label for="last_name" class="form-label">Last Name</label>
-					    <input type="test" class="form-control" id="last_name" name="last_name">
-					</div>
-		        	<div class="mb-3">
-					    <label for="email" class="form-label">Email</label>
-					    <input type="email" class="form-control" id="email" name="email">
-					</div>
-		        	<div class="mb-3">
-					    <label for="phone" class="form-label">Phone</label>
-					    <input type="number" class="form-control" id="phone" name="phone">
-					</div>
-		        	<div class="mb-3">
-					    <label for="country" class="form-label">Country</label>
-					    <input type="test" class="form-control" id="country" name="country">
-					</div>
-					<div class="mb-3">
-					    <label for="image" class="form-label">Image</label>
-					    <input type="file" class="form-control" id="image" name="image">
-					</div>
-		        
+	    			<div class="row">
+	    				<div class="col-md-6">
+	    					 <div class="mb-3">
+								    <label for="first_name" class="form-label">First Name</label>
+								    <input type="test" class="form-control" id="first_name" name="first_name">
+									</div>
+	    				</div>
+	    				<div class="col-md-6">
+	    					<div class="mb-3">
+								    <label for="last_name" class="form-label">Last Name</label>
+								    <input type="test" class="form-control" id="last_name" name="last_name">
+								</div>
+	    				</div>
+	    				<div class="col-md-6">
+	    					<div class="mb-3">
+								    <label for="email" class="form-label">Email</label>
+								    <input type="email" class="form-control" id="email" name="email">
+								</div>
+	    				</div>
+	    				<div class="col-md-6">
+	    					<div class="mb-3">
+								    <label for="phone" class="form-label">Phone</label>
+								    <input type="number" class="form-control" id="phone" name="phone">
+								</div>
+	    				</div>
+	    				<div class="col-md-6">
+	    					<div class="mb-3">
+								    <label for="City" class="form-label">City</label>
+								    <input type="test" class="form-control" id="City" name="country">
+								</div>
+	    				</div>
+	    				<div class="col-md-6">
+	    					<div class="mb-3">
+								    <label for="image" class="form-label">Image</label>
+								    <input type="file" class="form-control" id="image" name="image">
+								</div>
+	    				</div>
+	    			</div>
+	    			<div class="row">
+	    				<div class="col-md-6 mb-4">
+    <label for="select2Primary" class="form-label">Primary</label>
+    <div class="select2-primary">
+        <select id="select2Primary" class="select2 form-select" multiple="multiple">
+            <option value="1" selected>Option1</option>
+            <option value="2" selected>Option2</option>
+            <option value="3">Option3</option>
+            <option value="4">Option4</option>
+        </select>
+    </div>
+</div>
+	    			</div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -130,4 +156,9 @@
             });
         });
     </script>
+    <script>
+    $(document).ready(function() {
+        $('#select2Primary').select2();
+    });
+</script>
 @endpush

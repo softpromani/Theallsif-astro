@@ -52,5 +52,28 @@
         <div data-i18n="Astrologer">Astrologer</div>
       </a>
     </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+        <div data-i18n="Master">Master</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.experties.index')}}" class="menu-link">
+            <div data-i18n="Experties">Experties</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('admin.language.index')}}" class="menu-link">
+            <div data-i18n="Language">Language</div>
+          </a>
+        </li>
+        
+      </ul>
+    </li>
+
+
   </ul>
 </aside>

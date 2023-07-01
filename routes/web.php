@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExpertiesController;
+use App\Http\Controllers\Admin\LanguageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,4 +33,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin','as'=>'admin.'],
     Route::post('image-profile/{id}',[ProfileController::class,'profileImage'])->name('image-profile');
     Route::post('change-password/{id}',[AuthController::class,'changePassword'])->name('change-password');
     Route::resource('astrologer',AstrologerController::class);
+    Route::resource('experties',ExpertiesController::class);
+    Route::resource('language',LanguageController::class);
 });
