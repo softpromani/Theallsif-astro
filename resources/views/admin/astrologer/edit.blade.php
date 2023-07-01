@@ -3,6 +3,7 @@
     Dashbard || Add Astrologer
 @endsection
 @section('content-main')
+
 <div class="row">
 	<div class="col">
 	  <div class="card mb-4">
@@ -49,7 +50,44 @@
 			        <input type="file" class="form-control" id="image" value="{{$edit->image}}" name="image"/>
 			      </div>
 	    		</div>
+	    		<div class="col-6">
+	          <label for="select2lang" class="form-label">Experties</label>
+	          <div class="select2-primary">
+	            <select id="select2lang" class="select2 form-select" name="experties[]" multiple="multiple">
+							  @foreach(json_decode($edit->experties) as $option)
+							    <option value="{{ $option }}" selected>{{ $option }}</option>
+							  @endforeach
+							  @php
+							    $selectedOptions = json_decode($edit->experties);
+							    $allOptions = \App\Models\Experties::pluck('experties');
+							    $unselectedOptions = $allOptions->diff($selectedOptions);
+							  @endphp
+							  @foreach($unselectedOptions as $option)
+							    <option value="{{ $option }}">{{ $option }}</option>
+							  @endforeach
+							</select>
+	          </div>
+	        </div>
+	        <div class="col-6">
+	          <label for="select2primary" class="form-label">Language</label>
+	          <div class="select2-primary">
+	            <select id="select2primary" class="select2 form-select" name="language[]" multiple="multiple">
+	              @foreach(json_decode($edit->language) as $option)
+							    <option value="{{ $option }}" selected>{{ $option }}</option>
+							  @endforeach
+							  @php
+							    $selectedOptions = json_decode($edit->language);
+							    $allOptions = \App\Models\Language::pluck('language');
+							    $selectlang = $allOptions->diff($selectedOptions);
+							  @endphp
+							  @foreach($selectlang as $option)
+							    <option value="{{ $option }}">{{ $option }}</option>
+							  @endforeach
+	            </select>
+	          </div>
+        </div>
 	    	</div>  
+	    	
 	    	<div class="mt-3">
 				    <div class="text-end">
 				        <button type="submit" class="btn btn-primary">Update</button>
@@ -62,3 +100,16 @@
 </div>
 
 @endsection
+@push('scripts')
+
+<script>
+    $(document).ready(function() {
+        $('#select2primary').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#select2lang').select2();
+    });
+</script>
+@endpush

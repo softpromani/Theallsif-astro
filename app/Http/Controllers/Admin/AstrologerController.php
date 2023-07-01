@@ -19,6 +19,13 @@ class AstrologerController extends Controller
             $astrogers = Astrologer::latest()->get();
             return Datatables::of($astrogers)
                 ->addIndexColumn()
+                ->addColumn('experties', function ($row) {
+                    return json_decode($row->experties, true);
+                })
+                ->addColumn('language', function ($row) {
+                    return json_decode($row->language, true);
+                })
+                
                 ->addColumn('action', function($row){
                     return '<a href="'. route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
 
@@ -61,7 +68,10 @@ class AstrologerController extends Controller
             $imageName = 'Img'.time().'.'.$request->image->extension();
             $request->image->move(public_path('images'), $imageName);        
             }
-
+        $experties=$request->experties;
+        $expertiesJson = json_encode($experties);
+        $language=$request->language;
+        $languageJson = json_encode($language);
         $data = Astrologer::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -69,6 +79,8 @@ class AstrologerController extends Controller
             'phone' => $request->phone,
             'country' => $request->country,
             'image' =>$imageName,
+            'experties'=>$expertiesJson,
+            'language'=>$languageJson,
         ]);
         if ($data) {
             return redirect()->back()->with('success', 'Astrologer added successfully!');
@@ -100,8 +112,9 @@ class AstrologerController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-       $request->validate([
+    {   
+        
+        $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email'=>'required|unique:users|email',
@@ -123,6 +136,11 @@ class AstrologerController extends Controller
         $imageName = 'Img'.time().'.'.$request->image->extension();
         $request->image->move(public_path('images'), $imageName); 
         }
+        $experties = $request->experties;
+        $expertiesJson = json_encode($experties);
+
+        $language = $request->language;
+        $languageJson = json_encode($language);
         $data=Astrologer::find($id)->update([
             'first_name'=>$request->first_name,
             'last_name'=>$request->last_name,
@@ -130,6 +148,8 @@ class AstrologerController extends Controller
             'phone'=>$request->phone,
             'country'=>$request->country,
             'image'=> $imageName,
+            'experties' => $expertiesJson,
+            'language' => $languageJson,
         ]);
         if($data)
         {

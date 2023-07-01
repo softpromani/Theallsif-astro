@@ -45,7 +45,9 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Phone</th>
-            <th>Country</th>
+            <th>City</th>
+            <th>Experties</th>
+            <th>Language</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -101,16 +103,31 @@
 	    			</div>
 	    			<div class="row">
 	    				<div class="col-md-6 mb-4">
-    <label for="select2Primary" class="form-label">Primary</label>
-    <div class="select2-primary">
-        <select id="select2Primary" class="select2 form-select" multiple="multiple">
-            <option value="1" selected>Option1</option>
-            <option value="2" selected>Option2</option>
-            <option value="3">Option3</option>
-            <option value="4">Option4</option>
-        </select>
-    </div>
-</div>
+							    <label for="select2success" class="form-label">Experties</label>
+							    <div class="select2-primary" style="z-index: 999999999 !important;">
+							    	@php
+							    		$exp=\App\Models\Experties::get();
+							    	@endphp
+							        <select id="select2success" class="select2 form-select" name="experties[]" multiple="multiple">
+							        	@foreach($exp as $e)
+							            <option value="{{$e->experties}}">{{$e->experties}}</option>
+							          @endforeach
+							        </select>
+							    </div>
+							</div>
+							<div class="col-md-6 mb-4">
+							    <label for="select2successpr" class="form-label">Language</label>
+							    <div class="select2-primary" style="z-index: 999999999 !important;">
+							    	@php
+							    		$lang=\App\Models\Language::get();
+							    	@endphp
+							        <select id="select2pr" class="select2 form-select" name="language[]" multiple="multiple">
+												@foreach($lang as $l)
+							            <option value="{{$l->language}}">{{$l->language}}</option>
+							          @endforeach							        
+							        </select>
+							    </div>
+							</div>
 	    			</div>
 		      </div>
 		      <div class="modal-footer">
@@ -149,6 +166,8 @@
                     { data: 'email', name: 'email' },
                     { data: 'phone', name: 'phone' },
                     { data: 'country', name: 'country' },
+                    { data: 'experties', name: 'experties' },
+                    { data: 'language', name: 'language' },
                     {data: 'action', name: 'action',  orderable: true, searchable: true},
 
                     // Add more column definitions here
@@ -156,9 +175,23 @@
             });
         });
     </script>
-    <script>
-    $(document).ready(function() {
-        $('#select2Primary').select2();
+
+<script>
+   $(document).ready(function() {
+    $('#exampleModal').on('shown.bs.modal', function() {
+      $('#select2success').select2({
+        dropdownParent: $('#exampleModal')
+      });
     });
+  });
+</script>
+<script>
+   $(document).ready(function() {
+    $('#exampleModal').on('shown.bs.modal', function() {
+      $('#select2pr').select2({
+        dropdownParent: $('#exampleModal')
+      });
+    });
+  });
 </script>
 @endpush
