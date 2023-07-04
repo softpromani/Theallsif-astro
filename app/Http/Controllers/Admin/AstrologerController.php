@@ -13,7 +13,7 @@ class AstrologerController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
+    public function index()
     {
         if (request()->ajax()) {
             $astrogers = Astrologer::latest()->get();
@@ -25,9 +25,9 @@ class AstrologerController extends Controller
                 ->addColumn('language', function ($row) {
                     return json_decode($row->language, true);
                 })
-                
-                ->addColumn('action', function($row){
-                    return '<a href="'. route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
+
+                ->addColumn('action', function ($row) {
+                    return '<a href="' . route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
 
                          <form action="' . route("admin.astrologer.destroy", $row->id) . '" method="post" style="display:inline">
                         ' . method_field("DELETE") . '
@@ -56,21 +56,23 @@ class AstrologerController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
+        $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|unique:users|email',
             'phone' => 'required',
             'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
             'image' => 'required|image',
         ]);
-        if($request->hasFile('image')){
-            $imageName = 'Img'.time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);        
-            }
-        $experties=$request->experties;
+        if ($request->hasFile('image')) {
+            $imageName = 'Img' . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+        }
+        $experties = $request->experties ?? [];
         $expertiesJson = json_encode($experties);
-        $language=$request->language;
+        $language = $request->language ?? [];
         $languageJson = json_encode($language);
         $data = Astrologer::create([
             'first_name' => $request->first_name,
@@ -78,16 +80,18 @@ class AstrologerController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'country' => $request->country,
-            'image' =>$imageName,
-            'experties'=>$expertiesJson,
-            'language'=>$languageJson,
+            'state' => $request->state,
+            'city' => $request->city,
+            'image' => $imageName,
+            'experties' => $expertiesJson,
+            'language' => $languageJson,
+            'description' => $request->description,
         ]);
         if ($data) {
             return redirect()->back()->with('success', 'Astrologer added successfully!');
         }
 
         return redirect()->back();
-
     }
 
     /**
@@ -95,8 +99,6 @@ class AstrologerController extends Controller
      */
     public function show(string $id)
     {
-        
-
     }
 
     /**
@@ -104,55 +106,62 @@ class AstrologerController extends Controller
      */
     public function edit(string $id)
     {
-        $edit=Astrologer::find($id);
-        return view('admin.astrologer.edit',compact('edit'));
+        $edit = Astrologer::find($id);
+        return view('admin.astrologer.edit', compact('edit'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {   
-        
+    {
+
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email'=>'required|unique:users|email',
-            'phone'=>'required',
-            'country'=>'required',
-            'image'=>'required|image'
+            'email' => 'required|unique:users|email',
+            'phone' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'image' => 'nullable|image'
         ]);
-        $image=Astrologer::find($id);
-        $oldImagePath = public_path('images/' .$image->image);
+        $image = Astrologer::find($id);
+        $oldImagePath = public_path('images/' . $image->image);
 
         if ($request->hasFile('image')) {
-        // Delete the old image if it exists
-        if ($image->image) {
-            $oldImagePath = public_path('images/' . $image->image);
-            if (File::exists($oldImagePath)) {
-                File::delete($oldImagePath);
+            // Delete the old image if it exists
+            if ($image->image) {
+                $oldImagePath = public_path('images/' . $image->image);
+                if (File::exists($oldImagePath)) {
+                    File::delete($oldImagePath);
+                }
             }
+            $imageName = 'Img' . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+
+            $data = Astrologer::find($id)->update([
+                'image' => $imageName,
+            ]);
         }
-        $imageName = 'Img'.time().'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName); 
-        }
-        $experties = $request->experties;
+        $experties = $request->experties ?? [];
         $expertiesJson = json_encode($experties);
 
-        $language = $request->language;
+        $language = $request->language ?? [];
         $languageJson = json_encode($language);
-        $data=Astrologer::find($id)->update([
-            'first_name'=>$request->first_name,
-            'last_name'=>$request->last_name,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'country'=>$request->country,
-            'image'=> $imageName,
+        $data = Astrologer::find($id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
             'experties' => $expertiesJson,
             'language' => $languageJson,
+            'description' => $request->description,
         ]);
-        if($data)
-        {
+        if ($data) {
 
             return redirect()->route('admin.astrologer.index')->with('success', 'Astrologer Update successfully!.');
         }
@@ -165,8 +174,7 @@ class AstrologerController extends Controller
     public function destroy($id)
     {
         $astroger = Astrologer::find($id);
-        if ($astroger)
-        {
+        if ($astroger) {
             $imagePath = public_path('images/' . $astroger->image);
             if (File::exists($imagePath)) {
                 File::delete($imagePath);
