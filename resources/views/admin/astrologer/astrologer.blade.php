@@ -24,17 +24,22 @@ Dashbard || Add Astrologer
 			{{ session('error') }}
 		</div>
 		@endif
+
+		@can('astrologer_create')
 		<div class="card-title mb-3">
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 				Add
 			</button>
 		</div>
+		@endcan
 		<div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
 			<div class="col-md-4 user_role"></div>
 			<div class="col-md-4 user_plan"></div>
 			<div class="col-md-4 user_status"></div>
 		</div>
 	</div>
+
+	@can('astrologer_read')
 	<div class="card-datatable table-responsive">
 		<table class="datatables table border-top">
 			<thead>
@@ -51,114 +56,118 @@ Dashbard || Add Astrologer
 					<th>Experties</th>
 					<th>Language</th>
 					<th>Description</th>
+					<th>Is Active</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 
 		</table>
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Add Astrologer</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<form action="{{route('admin.astrologer.store')}}" method="post" enctype="multipart/form-data">
-						@csrf
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="first_name" class="form-label">First Name</label>
-										<input type="test" class="form-control" id="first_name" name="first_name">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="last_name" class="form-label">Last Name</label>
-										<input type="test" class="form-control" id="last_name" name="last_name">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="email" class="form-label">Email</label>
-										<input type="email" class="form-control" id="email" name="email">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="phone" class="form-label">Phone</label>
-										<input type="number" class="form-control" id="phone" name="phone">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="Country" class="form-label">Country</label>
-										<input type="text" class="form-control" id="Country" name="country">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="State" class="form-label">State</label>
-										<input type="text" class="form-control" id="State" name="state">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="City" class="form-label">City</label>
-										<input type="text" class="form-control" id="City" name="city">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="mb-3">
-										<label for="image" class="form-label">Image</label>
-										<input type="file" class="form-control" id="image" name="image">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6 mb-4">
-									<label for="select2success" class="form-label">Experties</label>
-									<div class="select2-primary" style="z-index: 999999999 !important;">
-										@php
-										$exp=\App\Models\Experties::get();
-										@endphp
-										<select id="select2success" class="select2 form-select" name="experties[]" multiple="multiple">
-											@foreach($exp as $e)
-											<option value="{{$e->experties}}">{{$e->experties}}</option>
-											@endforeach
-										</select>
-									</div>
-								</div>
-								<div class="col-md-6 mb-4">
-									<label for="select2successpr" class="form-label">Language</label>
-									<div class="select2-primary" style="z-index: 999999999 !important;">
-										@php
-										$lang=\App\Models\Language::get();
-										@endphp
-										<select id="select2pr" class="select2 form-select" name="language[]" multiple="multiple">
-											@foreach($lang as $l)
-											<option value="{{$l->language}}">{{$l->language}}</option>
-											@endforeach
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="mb-3">
-									<label for="description" class="form-label">Description</label>
-									<textarea type="text" class="form-control" id="Description" name="description"></textarea>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Save</button>
-						</div>
-					</form>
 
-				</div>
+	</div>
+	@endcan
+
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Astrologer</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
+			<form action="{{route('admin.astrologer.store')}}" method="post" enctype="multipart/form-data">
+				@csrf
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="first_name" class="form-label">First Name</label>
+								<input type="test" class="form-control" id="first_name" name="first_name">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="last_name" class="form-label">Last Name</label>
+								<input type="test" class="form-control" id="last_name" name="last_name">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="email" class="form-label">Email</label>
+								<input type="email" class="form-control" id="email" name="email">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="phone" class="form-label">Phone</label>
+								<input type="number" class="form-control" id="phone" name="phone">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="Country" class="form-label">Country</label>
+								<input type="text" class="form-control" id="Country" name="country">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="State" class="form-label">State</label>
+								<input type="text" class="form-control" id="State" name="state">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="City" class="form-label">City</label>
+								<input type="text" class="form-control" id="City" name="city">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="image" class="form-label">Image</label>
+								<input type="file" class="form-control" id="image" name="image">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 mb-4">
+							<label for="select2success" class="form-label">Experties</label>
+							<div class="select2-primary" style="z-index: 999999999 !important;">
+								@php
+								$exp=\App\Models\Experties::get();
+								@endphp
+								<select id="select2success" class="select2 form-select" name="experties[]" multiple="multiple">
+									@foreach($exp as $e)
+									<option value="{{$e->experties}}">{{$e->experties}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6 mb-4">
+							<label for="select2successpr" class="form-label">Language</label>
+							<div class="select2-primary" style="z-index: 999999999 !important;">
+								@php
+								$lang=\App\Models\Language::get();
+								@endphp
+								<select id="select2pr" class="select2 form-select" name="language[]" multiple="multiple">
+									@foreach($lang as $l)
+									<option value="{{$l->language}}">{{$l->language}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="description" class="form-label">Description</label>
+							<textarea type="text" class="form-control" id="Description" name="description"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+
 		</div>
 	</div>
 </div>
@@ -226,6 +235,10 @@ Dashbard || Add Astrologer
 					name: 'description'
 				},
 				{
+					data: 'is_active',
+					name: 'is_active',
+				},
+				{
 					data: 'action',
 					name: 'action',
 					orderable: true,
@@ -252,6 +265,22 @@ Dashbard || Add Astrologer
 		$('#exampleModal').on('shown.bs.modal', function() {
 			$('#select2pr').select2({
 				dropdownParent: $('#exampleModal')
+			});
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$(document).on('change', '.is_active', function() {
+			var statusId = $(this).data('id');
+			var isActive = $(this).is(':checked');
+
+			$.ajax({
+				url: '/admin/is_active/' + statusId,
+				type: 'get',
+				success: function(response) {
+					location.reload();
+				},
 			});
 		});
 	});

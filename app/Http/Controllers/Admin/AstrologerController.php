@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Astrologer;
 use Illuminate\Support\Facades\File;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class AstrologerController extends Controller
 {
@@ -25,19 +26,39 @@ class AstrologerController extends Controller
                 ->addColumn('language', function ($row) {
                     return json_decode($row->language, true);
                 })
-
-                ->addColumn('action', function ($row) {
-                    return '<a href="' . route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>
-
-                         <form action="' . route("admin.astrologer.destroy", $row->id) . '" method="post" style="display:inline">
-                        ' . method_field("DELETE") . '
-                        ' . csrf_field() . '
-                        <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
-                            <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
-                        </button>
-                    ';
+                ->addColumn('is_active', function ($row) {
+                    $ht = '
+                    <label class="switch switch-primary">
+                    <input type="checkbox" class="switch-input is_active" data-id="' . $row->id . '"';
+                    $ht .= ($row->is_active == 1) ? 'checked' : '';
+                    $ht .= '>
+                    <span class="switch-toggle-slider">
+                      <span class="switch-on">
+                        <i class="ti ti-check"></i>
+                      </span>
+                      <span class="switch-off">
+                        <i class="ti ti-x"></i>
+                      </span>
+                    </span>
+                  </label>';
+                    return $ht;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('action', function ($row) {
+                    $ht = '';
+                    if (Auth::user()->hasPermissionTo('astrologer_edit')) {
+                        $ht .= '<a href="' . route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0 switch"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('astrologer_delete')) {
+                        $ht .= ' <form action="' . route("admin.astrologer.destroy", $row->id) . '" method="post" style="display:inline">
+                            ' . method_field("DELETE") . '
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                                <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
+                            </button>';
+                    }
+                    return $ht;
+                })
+                ->rawColumns(['action', 'is_active'])
                 ->make(true);
         }
         return view('admin.astrologer.astrologer');
@@ -183,5 +204,20 @@ class AstrologerController extends Controller
             return redirect()->back()->with('danger', 'Astrologer deleted successfully!');
         }
         return redirect()->back()->with('danger', 'Astrologer not found.');
+    }
+
+    public function is_active(Request $request, $id)
+    {
+        $astrologer = Astrologer::find($id)->is_active;
+        if ($astrologer == 1) {
+            $update = Astrologer::find($id)->update([
+                'is_active' => 0
+            ]);
+        } else {
+            $update = Astrologer::find($id)->update([
+                'is_active' => 1
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Updated Successfully');
     }
 }

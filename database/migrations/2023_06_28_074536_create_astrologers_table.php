@@ -21,8 +21,12 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->string('description')->nullable();
+            $table->string('experties')->nullable();
+            $table->string('language')->nullable();
             $table->string('image')->nullable();
+            $table->string('is_active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
