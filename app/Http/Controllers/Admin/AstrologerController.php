@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Astrologer;
+use App\Models\AstrologerCost;
+use App\Models\Customer;
+use App\Models\Error;
 use Illuminate\Support\Facades\File;
 use DataTables;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class AstrologerController extends Controller
 {
@@ -45,8 +50,9 @@ class AstrologerController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $ht = '';
+                    $ht .= '<a  class="btn btn-link p-0 comment_dollar "style="display:inline" data-id="' . $row->id . '"><i class="fa-sharp fa-solid fa-comments-dollar"></i></a>';
                     if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                        $ht .= '<a href="' . route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0 switch"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                        $ht .= '<a href="' . route("admin.astrologer.edit", $row->id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
                     }
                     if (Auth::user()->hasPermissionTo('astrologer_delete')) {
                         $ht .= ' <form action="' . route("admin.astrologer.destroy", $row->id) . '" method="post" style="display:inline">
@@ -86,6 +92,8 @@ class AstrologerController extends Controller
             'state' => 'required',
             'city' => 'required',
             'image' => 'required|image',
+            'experience' => 'required',
+            'education' => 'required',
         ]);
         if ($request->hasFile('image')) {
             $imageName = 'Img' . time() . '.' . $request->image->extension();
@@ -107,6 +115,19 @@ class AstrologerController extends Controller
             'experties' => $expertiesJson,
             'language' => $languageJson,
             'description' => $request->description,
+            'experience' => $request->experience,
+            'education' => $request->education,
+        ]);
+        Customer::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'astrologer_id' => $data->id,
+            'role' => 'astrologer',
         ]);
         if ($data) {
             return redirect()->back()->with('success', 'Astrologer added successfully!');
@@ -145,7 +166,9 @@ class AstrologerController extends Controller
             'country' => 'required',
             'state' => 'required',
             'city' => 'required',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image',
+            'experience' => 'required',
+            'education' => 'required',
         ]);
         $image = Astrologer::find($id);
         $oldImagePath = public_path('images/' . $image->image);
@@ -181,6 +204,17 @@ class AstrologerController extends Controller
             'experties' => $expertiesJson,
             'language' => $languageJson,
             'description' => $request->description,
+            'experience' => $request->experience,
+            'education' => $request->education,
+        ]);
+        Customer::where('astrologer_id', $id)->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
         ]);
         if ($data) {
 
@@ -195,6 +229,7 @@ class AstrologerController extends Controller
     public function destroy($id)
     {
         $astroger = Astrologer::find($id);
+        Customer::where('astrologer_id', $id)->delete();
         if ($astroger) {
             $imagePath = public_path('images/' . $astroger->image);
             if (File::exists($imagePath)) {
@@ -219,5 +254,87 @@ class AstrologerController extends Controller
             ]);
         }
         return redirect()->back()->with('success', 'Status Updated Successfully');
+    }
+
+    public function costHr(Request $request, $id)
+    {
+        try {
+            $cost = AstrologerCost::where('astrologer_id', $id)->first();
+            // dd($cost);
+            $view = '';
+            if ($cost != null) {
+                $view .= '<div class="row">
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="payment" class="form-label">Cost/(hr,min,Sec)</label>
+                        <input type="text" class="form-control" id="payment" name="payment" value="' . $cost->astrologer_cost . '">
+                    </div>
+                </div>
+            </div>
+       ';
+            } else {
+                $view .= '<div class="row">
+                <div class="col-md-6" hidden >
+                    <div class="mb-3">
+                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="payment" class="form-label">Cost/(hr,min,Sec)</label>
+                        <input type="text" class="form-control" id="payment" name="payment"/>
+                    </div>
+                </div>
+            </div>
+       ';
+            }
+            return $view;
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+
+    public function storeCostHr(Request $request)
+    {
+        $request->validate([
+            'astrologer_id' => 'required',
+            'payment' => 'required',
+        ]);
+        try {
+            $res = AstrologerCost::updateOrCreate(
+                [
+                    'astrologer_id' => $request->astrologer_id,
+                ],
+                [
+                    'astrologer_id' => $request->astrologer_id,
+                    'astrologer_cost' => $request->payment,
+                ]
+            );
+            if ($res) {
+                return response()->json([
+                    'message' => 'Astrologer Cost updated Sucessfully!',
+                    'data' =>  $res
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Astrologer Cost not updated !',
+                    'data' => $res
+                ]);
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
     }
 }

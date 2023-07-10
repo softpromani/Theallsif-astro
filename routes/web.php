@@ -38,6 +38,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::post('change-password/{id}', [AuthController::class, 'changePassword'])->name('change-password');
     Route::resource('astrologer', AstrologerController::class);
     Route::get('is_active/{id}', [AstrologerController::class, 'is_active'])->name('is_active');
+    Route::get('cost/{id}', [AstrologerController::class, 'costHr'])->name('costHr');
+    Route::post('charge-store', [AstrologerController::class, 'storeCostHr'])->name('storeCostHr');
     Route::resource('experties', ExpertiesController::class);
     Route::resource('language', LanguageController::class);
     Route::resource('authuser', AuthUserController::class);

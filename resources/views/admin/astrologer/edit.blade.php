@@ -119,10 +119,27 @@ Dashbard || Add Astrologer
 								</select>
 							</div>
 						</div>
-						<div class="mb-3">
-							<label for="description" class="form-label">Description</label>
-							<textarea type="text" class="form-control" id="Description" name="description">{{$edit->description}}</textarea>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="description" class="form-label">Description</label>
+									<textarea type="text" class="form-control" id="Description" name="description">{{$edit->description}}</textarea>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="education" class="form-label">Education</label>
+									<textarea type="text" class="form-control" id="education" name="education">{{$edit->education}}</textarea>
+								</div>
+							</div>
 						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="experience" class="form-label">Experience</label>
+								<input type="text" class="form-control" id="experience" name="experience" value="{{$edit->experience}}" />
+							</div>
+						</div>
+
 					</div>
 
 					<div class="mt-3">

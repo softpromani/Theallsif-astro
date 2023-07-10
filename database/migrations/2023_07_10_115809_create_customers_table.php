@@ -11,22 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('astrologers', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique();
-            $table->string('phone')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->unique();
+            $table->string('otp')->nullable();
+            $table->string('expires_at')->nullable();
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
-            $table->string('description')->nullable();
-            $table->string('experties')->nullable();
-            $table->string('education')->nullable();
-            $table->string('experience')->nullable();
-            $table->string('language')->nullable();
             $table->string('image')->nullable();
-            $table->string('is_active')->default(1);
+            $table->string('astrologer_id')->nullable();
+            $table->string('role')->default('customer');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -37,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('astrologers');
+        Schema::dropIfExists('customers');
     }
 };

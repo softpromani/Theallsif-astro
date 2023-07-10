@@ -56,6 +56,8 @@ Dashbard || Add Astrologer
 					<th>Experties</th>
 					<th>Language</th>
 					<th>Description</th>
+					<th>Experience</th>
+					<th>Education</th>
 					<th>Is Active</th>
 					<th>Actions</th>
 				</tr>
@@ -155,12 +157,27 @@ Dashbard || Add Astrologer
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label for="description" class="form-label">Description</label>
-							<textarea type="text" class="form-control" id="Description" name="description"></textarea>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="description" class="form-label">Description</label>
+								<textarea type="text" class="form-control" id="Description" name="description"></textarea>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="education" class="form-label">Education</label>
+								<textarea type="text" class="form-control" id="education" name="education"></textarea>
+							</div>
 						</div>
 					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="experience" class="form-label">Experience</label>
+							<input type="text" class="form-control" id="experience" name="experience" />
+						</div>
+					</div>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -171,6 +188,29 @@ Dashbard || Add Astrologer
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Payment/(hr,min,sec)</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form id="myForm" action="#" method="post" enctype="multipart/form-data">
+				@csrf
+				<div id="contentDiv" class="modal-body">
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button id="myButton" type="button" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
 @endsection
 @push('scripts')
 <script>
@@ -235,6 +275,14 @@ Dashbard || Add Astrologer
 					name: 'description'
 				},
 				{
+					data: 'experience',
+					name: 'experience'
+				},
+				{
+					data: 'education',
+					name: 'education'
+				},
+				{
 					data: 'is_active',
 					name: 'is_active',
 				},
@@ -280,6 +328,40 @@ Dashbard || Add Astrologer
 				type: 'get',
 				success: function(response) {
 					location.reload();
+				},
+			});
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		$(document).on('click', '#myButton', function() {
+			var formData = $('#myForm').serialize();
+			$.ajax({
+				url: '/admin/charge-store',
+				type: 'POST',
+				data: formData,
+				success: function(response) {
+					alert(response.message);
+					location.reload();
+				},
+			});
+
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		$(document).on('click', '.comment_dollar', function() {
+			var Id = $(this).data('id');
+			$.ajax({
+				url: '/admin/cost/' + Id,
+				type: 'get',
+				success: function(response) {
+					$('#contentDiv').html(response);
+					$('#exampleModal1').modal('show');
 				},
 			});
 		});
