@@ -322,9 +322,10 @@ Dashbard || Add Astrologer
 		$(document).on('change', '.is_active', function() {
 			var statusId = $(this).data('id');
 			var isActive = $(this).is(':checked');
-
+			var newurl = "{{ url('/admin/is_active') }}/" + statusId;
 			$.ajax({
-				url: '/admin/is_active/' + statusId,
+				// url: '/admin/is_active/' + statusId,
+				url: newurl,
 				type: 'get',
 				success: function(response) {
 					location.reload();
@@ -338,8 +339,10 @@ Dashbard || Add Astrologer
 	$(document).ready(function() {
 		$(document).on('click', '#myButton', function() {
 			var formData = $('#myForm').serialize();
+			var newurl = "{{ url('/admin/charge-store') }}";
 			$.ajax({
-				url: '/admin/charge-store',
+				// url: '/admin/charge-store',
+				url: newurl,
 				type: 'POST',
 				data: formData,
 				success: function(response) {
@@ -356,8 +359,10 @@ Dashbard || Add Astrologer
 	$(document).ready(function() {
 		$(document).on('click', '.comment_dollar', function() {
 			var Id = $(this).data('id');
+			var newurl = "{{ url('/admin/cost') }}/" + Id;
 			$.ajax({
-				url: '/admin/cost/' + Id,
+				// url: '/admin/cost/' + Id,
+				url: newurl,
 				type: 'get',
 				success: function(response) {
 					$('#contentDiv').html(response);
