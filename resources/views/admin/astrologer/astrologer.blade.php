@@ -243,6 +243,7 @@ Dashbard || Add Astrologer
 					name: 'last_name'
 				},
 				{
+
 					data: 'email',
 					name: 'email'
 				},

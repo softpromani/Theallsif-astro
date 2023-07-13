@@ -43,6 +43,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::resource('experties', ExpertiesController::class);
     Route::resource('language', LanguageController::class);
     Route::resource('authuser', AuthUserController::class);
+    Route::get('customers', [AuthUserController::class, 'customer'])->name('customers');
+    Route::get('customer-delete/{id}', [AuthUserController::class, 'deleteCustomer'])->name('delete');
 
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);

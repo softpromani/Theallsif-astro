@@ -69,6 +69,13 @@
     </li>
     @endcan
 
+    <li class="menu-item">
+      <a href="{{route('admin.customers')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Astrologer">Customer</div>
+      </a>
+    </li>
+
     @can('astrologer')
     <li class="menu-item">
       <a href="{{route('admin.astrologer.index')}}" class="menu-link">

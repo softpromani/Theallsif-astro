@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Error;
 use App\Models\User;
 use Exception;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
@@ -253,5 +255,37 @@ class AuthUserController extends Controller
             Error::create(['url' => $url, 'message' => $ex->getMessage()]);
             return redirect()->back()->with('error', 'Server Error ');
         }
+    }
+
+
+    public function customer()
+    {
+
+        if (request()->ajax()) {
+            $customers = Customer::where('role', 'customer')->latest()->get();
+            return Datatables::of($customers)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $ht = '';
+
+                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
+                    $ht .= '<a href="' . route("admin.delete", $row->id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i></a>';
+                    // }
+                    return $ht;
+                })
+                ->rawColumns(['action',])
+                ->make(true);
+        }
+        return view('admin.customer');
+    }
+
+    public function deleteCustomer($id)
+    {
+        $customer = Customer::find($id);
+        if ($customer) {
+            $customer->delete();
+            return redirect()->back()->with('danger', 'Customer deleted successfully!');
+        }
+        return redirect()->back()->with('danger', 'Customer not found.');
     }
 }

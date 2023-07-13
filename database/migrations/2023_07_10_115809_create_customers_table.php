@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('image')->nullable();
             $table->string('astrologer_id')->nullable();
+            $table->string('dob')->nullable();
+            $table->string('dob_time')->nullable();
             $table->string('role')->default('customer');
             $table->timestamps();
             $table->softDeletes();

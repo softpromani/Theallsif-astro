@@ -127,6 +127,7 @@ class AstrologerController extends Controller
             'state' => $request->state,
             'city' => $request->city,
             'astrologer_id' => $data->id,
+            'image' => $imageName,
             'role' => 'astrologer',
         ]);
         if ($data) {
@@ -185,6 +186,10 @@ class AstrologerController extends Controller
             $request->image->move(public_path('images'), $imageName);
 
             $data = Astrologer::find($id)->update([
+                'image' => $imageName,
+            ]);
+
+            Customer::where('astrologer_id', $id)->update([
                 'image' => $imageName,
             ]);
         }
