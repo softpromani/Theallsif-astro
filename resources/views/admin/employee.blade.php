@@ -150,7 +150,10 @@ Dashbard || Add Permisssion
                                     <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         @php $eid=Crypt::encrypt($employee->id); @endphp
-
+                                        @if (Auth::user()->roles[0]->name == 'superadmin')
+                                        <a class="dropdown-item" href="{{ route('admin.loginUsingId', $eid) }}"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Login As</span>
+                                        </a>
+                                        @endif
                                         @can('employee_edit')
                                         <a class="dropdown-item" href="{{ route('admin.authuser.edit', $eid) }}"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Edit</span>
                                         </a>

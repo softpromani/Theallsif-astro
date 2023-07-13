@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::resource('profile', ProfileController::class);
     Route::post('image-profile/{id}', [ProfileController::class, 'profileImage'])->name('image-profile');
     Route::post('change-password/{id}', [AuthController::class, 'changePassword'])->name('change-password');
+    Route::get('login/{id}', [AuthController::class, 'loginUsingId'])->name('loginUsingId');
     Route::resource('astrologer', AstrologerController::class);
     Route::get('is_active/{id}', [AstrologerController::class, 'is_active'])->name('is_active');
     Route::get('cost/{id}', [AstrologerController::class, 'costHr'])->name('costHr');

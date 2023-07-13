@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -55,5 +56,18 @@ class AuthController extends Controller
             return redirect()->route('login');
         }
         return redirect()->route('admin.admin-dashboard')->with('error', 'Current Password Invalid!');
+    }
+
+    public function loginUsingId($userId)
+    {
+        $userId = Crypt::decrypt($userId);
+        $user = \App\Models\User::find($userId); // Find the user by ID
+
+        if ($user) {
+            Auth::loginUsingId($user->id); // Log in the user using ID
+            return redirect()->route('admin.admin-dashboard'); // Redirect to the intended page after successful login
+        }
+
+        return redirect()->route('login')->with('error', 'Invalid user ID'); // Handle case where user is not found
     }
 }
