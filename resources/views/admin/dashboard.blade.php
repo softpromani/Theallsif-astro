@@ -199,4 +199,15 @@ $admin=Auth::user();
   }
 </script>
 
+<div id="template-customizer" class="invert-bg-white" style="visibility: visible">
+  @php
+  $superadminId = session('superadmin_id');
+  $eid=Crypt::encrypt($superadminId);
+  @endphp
+  <a href="{{ route('admin.loginUsingId', $eid) }}" class="template-customizer-open-btn" tabindex="-1">
+    <i class="menu-icon tf-icons ti ti-user" style="visibility: visible"></i>
+  </a>
+
+</div>
+
 @endpush

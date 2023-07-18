@@ -24,3 +24,4 @@
 <script src="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/typeahead-js/typeahead.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/bloodhound/bloodhound.js')}}"></script>
+<script src="{{asset('assets/vendor/js/template-customizer.js')}}"></script>

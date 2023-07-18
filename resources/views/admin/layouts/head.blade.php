@@ -31,4 +31,8 @@
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/tagify/tagify.css')}}" />
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="{{asset('assets/vendor/css/rtl/core.css" class="template-customizer-core-css')}}" />
+  <link rel="stylesheet" href="{{asset('assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css')}}" />
 </head>

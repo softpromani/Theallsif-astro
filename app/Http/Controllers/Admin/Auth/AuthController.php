@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 
 class AuthController extends Controller
@@ -63,6 +64,13 @@ class AuthController extends Controller
         $userId = Crypt::decrypt($userId);
         $user = \App\Models\User::find($userId); // Find the user by ID
 
+        // Get the superadmin's ID
+        $superadminId = auth()->id();
+
+        // Logout the superadmin
+        auth()->logout();
+        // Store the superadmin ID in the session
+        Session::put('superadmin_id', $superadminId);
         if ($user) {
             Auth::loginUsingId($user->id); // Log in the user using ID
             return redirect()->route('admin.admin-dashboard'); // Redirect to the intended page after successful login
