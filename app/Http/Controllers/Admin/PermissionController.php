@@ -105,11 +105,19 @@ class PermissionController extends Controller
         //
     }
 
-    public function userPermission()
+    public function userPermission($id = null)
     {
-        $roles = Role::all();
-        $permissions = PermissionName::all();
-        return view('admin.user_permission', compact('roles', 'permissions'));
+
+        if ($id != null) {
+            $editrole = Role::find($id);
+            $roles = Role::all();
+            $permissions = PermissionName::all();
+            return view('admin.user_permission', compact('roles', 'permissions', 'editrole'));
+        } else {
+            $roles = Role::all();
+            $permissions = PermissionName::all();
+            return view('admin.user_permission', compact('roles', 'permissions'));
+        }
     }
 
     public function assignPermission(Request $request)

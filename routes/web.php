@@ -49,7 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
 
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);
-    Route::get('user-permission', [PermissionController::class, 'userPermission'])->name('userPermission');
+    Route::get('user-permission/{id?}', [PermissionController::class, 'userPermission'])->name('userPermission');
     Route::post('assign-permission', [PermissionController::class, 'assignPermission'])->name('assignPermission');
     Route::get('roles-has-permission', [PermissionController::class, 'roleHasPermission'])->name('roleHasPermission');
     Route::get('view-role/{id}', [RoleController::class, 'viewRole'])->name('viewRole');

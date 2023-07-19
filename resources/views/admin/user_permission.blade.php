@@ -35,7 +35,7 @@ Dashbard || User Permission
                 @csrf
                 <div class="col-md-6 mb-1">
                     <label class="form-label" for="desc">Role Name</label>
-                    <select class="select2 form-select" id="select2-basic" name='roleid' required>
+                    <select class="select2 form-select" id="roleid" name='roleid' required>
 
                         <option selected disabled value="">--Select Role--</option>
 
@@ -105,5 +105,9 @@ Dashbard || User Permission
 
 @endsection
 @push('scripts')
-
+<script>
+    $(document).on('change', '#roleid', function() {
+        window.location.href = "{{url('admin/user-permission')}}/" + $(this).val();
+    });
+</script>
 @endpush
