@@ -83,22 +83,22 @@ Dashbard || Admin
             <div class="col-md-3 col-6">
               <div class="d-flex align-items-center">
                 <div class="badge rounded-pill bg-label-primary me-3 p-2">
-                  <i class="ti ti-chart-pie-2 ti-sm"></i>
+                  <i class="ti ti-users ti-sm"></i>
                 </div>
                 <div class="card-info">
-                  <h5 class="mb-0">230k</h5>
-                  <small>Sales</small>
+                  <h5 class="mb-0">{{\App\Models\Customer::where('role','customer')->get()->count()}}+</h5>
+                  <small>Customers</small>
                 </div>
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="d-flex align-items-center">
                 <div class="badge rounded-pill bg-label-danger me-3 p-2">
-                  <i class="ti ti-shopping-cart ti-sm"></i>
+                  <i class="ti ti-users ti-sm"></i>
                 </div>
                 <div class="card-info">
-                  <h5 class="mb-0">1.423k</h5>
-                  <small>Products</small>
+                  <h5 class="mb-0">{{\App\Models\User::get()->count()}}+</h5>
+                  <small>Employee</small>
                 </div>
               </div>
             </div>
@@ -114,6 +114,29 @@ Dashbard || Admin
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-header flex-nowrap header-elements">
+          <h5 class="card-title mb-0">Revenue Data</h5>
+          <div class="card-header-elements ms-auto py-0 d-none d-sm-block">
+            <div class="btn-group" role="group" aria-label="radio toggle button group">
+              <input type="radio" class="btn-check" name="btnradio" id="dailyRadio" checked="">
+              <label class="btn btn-outline-secondary waves-effect" for="dailyRadio">Daily</label>
+
+              <input type="radio" class="btn-check" name="btnradio" id="monthlyRadio">
+              <label class="btn btn-outline-secondary waves-effect" for="monthlyRadio">Monthly</label>
+
+              <input type="radio" class="btn-check" name="btnradio" id="yearlyRadio">
+              <label class="btn btn-outline-secondary waves-effect" for="yearlyRadio">Yearly</label>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-2">
+          <canvas id="scatterChart" class="chartjs" data-height="435" height="410" width="959" style="display: block; box-sizing: border-box; height: 205px; width: 479.5px;"></canvas>
         </div>
       </div>
     </div>
@@ -198,16 +221,4 @@ $admin=Auth::user();
     }
   }
 </script>
-
-<div id="template-customizer" class="invert-bg-white" style="visibility: visible">
-  @php
-  $superadminId = session('superadmin_id');
-  $eid=Crypt::encrypt($superadminId);
-  @endphp
-  <a href="{{ route('admin.loginUsingId', $eid) }}" class="template-customizer-open-btn" tabindex="-1">
-    <i class="menu-icon tf-icons ti ti-user" style="visibility: visible"></i>
-  </a>
-
-</div>
-
 @endpush

@@ -277,8 +277,14 @@ class AstrologerController extends Controller
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="payment" class="form-label">Cost/(hr,min,Sec)</label>
+                        <label for="payment" class="form-label">Astrologer Cost/Min</label>
                         <input type="text" class="form-control" id="payment" name="payment" value="' . $cost->astrologer_cost . '">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="payment" class="form-label">Admin Cost/Min</label>
+                        <input type="text" class="form-control" id="admin_payment" name="admin_payment" value="' . $cost->admin_cost . '">
                     </div>
                 </div>
             </div>
@@ -293,10 +299,16 @@ class AstrologerController extends Controller
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="payment" class="form-label">Cost/(hr,min,Sec)</label>
+                        <label for="payment" class="form-label">Astrologer Cost/Min</label>
                         <input type="text" class="form-control" id="payment" name="payment"/>
                     </div>
                 </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="payment" class="form-label">Admin Cost/Min</label>
+                    <input type="text" class="form-control" id="admin_payment" name="admin_payment"/>
+                </div>
+            </div>
             </div>
        ';
             }
@@ -314,6 +326,7 @@ class AstrologerController extends Controller
         $request->validate([
             'astrologer_id' => 'required',
             'payment' => 'required',
+            'admin_payment' => 'required',
         ]);
         try {
             $res = AstrologerCost::updateOrCreate(
@@ -323,6 +336,7 @@ class AstrologerController extends Controller
                 [
                     'astrologer_id' => $request->astrologer_id,
                     'astrologer_cost' => $request->payment,
+                    'admin_cost' => $request->admin_payment,
                 ]
             );
             if ($res) {

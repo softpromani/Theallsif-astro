@@ -36,7 +36,9 @@ Dashbard || Customer
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <th>Phone</th>
+                    @if($role !== 'intern')
+                    <th>Phone </th>
+                    @endif
                     <th>City</th>
                     <th>State</th>
                     <th>Country</th>
@@ -87,11 +89,15 @@ Dashbard || Customer
                     data: 'email',
                     name: 'email'
                 },
-                {
+                // {
+                //     data: 'phone',
+                //     name: 'phone'
+                // },
+                @if($role !== 'intern') {
                     data: 'phone',
                     name: 'phone'
                 },
-                {
+                @endif {
                     data: 'city',
                     name: 'city'
                 },

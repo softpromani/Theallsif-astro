@@ -32,28 +32,28 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
-        <div data-i18n="Master">Roles/Permission</div>
+        <div data-i18n="Roles/Permission">Roles/Permission</div>
       </a>
 
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="{{route('admin.role.index')}}" class="menu-link">
-            <div data-i18n="Experties">Roles</div>
+            <div data-i18n="Roles">Roles</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="{{route('admin.permission.index')}}" class="menu-link">
-            <div data-i18n="Language">Permissions</div>
+            <div data-i18n="Permissions">Permissions</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="{{route('admin.userPermission')}}" class="menu-link">
-            <div data-i18n="Experties">Assign Permission</div>
+            <div data-i18n="Assign Permission">Assign Permission</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="{{route('admin.roleHasPermission')}}" class="menu-link">
-            <div data-i18n="Experties">Role Has Permission</div>
+            <div data-i18n="Role Has Permission">Role Has Permission</div>
           </a>
         </li>
 
@@ -64,7 +64,7 @@
     <li class="menu-item">
       <a href="{{route('admin.authuser.index')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
-        <div data-i18n="Dashboards">Employee</div>
+        <div data-i18n="Employee">Employee</div>
       </a>
     </li>
     @endcan
@@ -72,7 +72,7 @@
     <li class="menu-item">
       <a href="{{route('admin.customers')}}" class="menu-link">
         <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Astrologer">Customer</div>
+        <div data-i18n="Customer">Customer</div>
       </a>
     </li>
 
@@ -105,6 +105,39 @@
 
       </ul>
     </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+        <div data-i18n="Report">Report</div>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{route('admin.chatReport')}}" class="menu-link">
+            <div data-i18n="Chat Report">Chat Report</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('admin.callReport')}}" class="menu-link">
+            <div data-i18n="Call Report">Call Report</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{{route('admin.revenueReport')}}" class="menu-link">
+            <div data-i18n="Revenue Report">Revenue Report</div>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+    <!-- <li class="menu-item">
+      <a href="{{route('common-chat')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-messages"></i>
+        <div data-i18n="Chat">Chat</div>
+      </a>
+    </li> -->
 
 
   </ul>

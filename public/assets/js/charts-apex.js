@@ -26,6 +26,7 @@
     column: {
       series1: '#826af9',
       series2: '#d2b0ff',
+      series3: '#2b9bf4',
       bg: '#f8d3ff'
     },
     donut: {
@@ -200,7 +201,7 @@
           useSeriesColors: false
         }
       },
-      colors: [chartColors.column.series1, chartColors.column.series2],
+      colors: [chartColors.column.series1, chartColors.column.series2, chartColors.column.series3,],
       stroke: {
         show: true,
         colors: ['transparent']
@@ -215,11 +216,16 @@
       },
       series: [
         {
-          name: 'Apple',
+          name: 'Total Revanue',
           data: [90, 120, 55, 100, 80, 125, 175, 70, 88, 180]
         },
         {
-          name: 'Samsung',
+          name: 'Astrologer Revenue',
+          data: [85, 100, 30, 40, 95, 90, 30, 110, 62, 20]
+        }
+        ,
+        {
+          name: 'Profite Revenue',
           data: [85, 100, 30, 40, 95, 90, 30, 110, 62, 20]
         }
       ],

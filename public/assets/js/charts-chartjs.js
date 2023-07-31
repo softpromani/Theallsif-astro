@@ -796,11 +796,11 @@
     const doughnutChartVar = new Chart(doughnutChart, {
       type: 'doughnut',
       data: {
-        labels: ['Tablet', 'Mobile', 'Desktop'],
+        labels: ['Call', 'Chat'],
         datasets: [
           {
-            data: [10, 10, 80],
-            backgroundColor: [cyanColor, orangeLightColor, config.colors.primary],
+            data: [80, 20],
+            backgroundColor: [config.colors.primary, cyanColor],
             borderWidth: 0,
             pointStyle: 'rectRounded'
           }
@@ -848,7 +848,7 @@
       data: {
         datasets: [
           {
-            label: 'iPhone',
+            label: 'Total Revenue',
             data: [
               {
                 x: 72,
@@ -922,7 +922,7 @@
             pointRadius: 5
           },
           {
-            label: 'Samsung Note',
+            label: 'Astrologer Revenue',
             data: [
               {
                 x: 13,
@@ -990,7 +990,7 @@
             pointRadius: 5
           },
           {
-            label: 'OnePlus',
+            label: 'Profit Revenue',
             data: [
               {
                 x: 70,

@@ -206,12 +206,24 @@
       </li>
       <!--/ Notification -->
 
+      <!-- Style Switcher -->
+      <li class="nav-item me-2 me-xl-0">
+        <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
+          <i class="ti ti-md"></i>
+        </a>
+      </li>
+      <!--/ Style Switcher -->
+
       <!-- User -->
       @if($data=Auth::user())
       <li class="nav-item navbar-dropdown dropdown-user dropdown">
         <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
           <div class="avatar avatar-online">
+            @if ($data->pic !=null)
+            <img src="{{asset($data->pic)}}" alt class="h-auto rounded-circle" />
+            @else
             <img src="../../assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+            @endif
           </div>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
@@ -220,7 +232,11 @@
               <div class="d-flex">
                 <div class="flex-shrink-0 me-3">
                   <div class="avatar avatar-online">
+                    @if ($data->pic !=null)
+                    <img src="{{asset($data->pic)}}" alt class="h-auto rounded-circle" />
+                    @else
                     <img src="../../assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                    @endif
                   </div>
                 </div>
                 <div class="flex-grow-1">

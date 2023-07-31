@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title> | Charbell India Admin Panel|</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content=" Admin & Dashboard" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
+
+    <!-- Bootstrap Css -->
+    <link href="{{asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/css/toastr.css" rel="stylesheet" />
+</head>
+
+<body data-sidebar="dark" data-layout-mode="light">
+    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="#" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="{{asset('assets/images/charbellsm.png')}}" alt="" height="30">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{asset('assets/images/charbell.png')}}" alt="" style="width: 100%;height:auto">
+                            </span>
+                        </a>
+
+                        <a href="#" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{{asset('assets/images/charbellsm.png')}}" alt="" height="30">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{asset('assets/images/charbell.png')}}" alt="" style="width: 100%;height:auto">
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+
+                    <!-- App Search-->
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="bx bx-search-alt"></span>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </header>
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100">
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title" key="t-menu">Menu</li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-home-circle"></i>
+                                <span key="t-dashboards">Dashboards</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{url('/calculation')}}" key="t-default">Cost_Calculater</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <!-- <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18" style="text-align: center;">Cost calculater </h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Cost calculater </li>
+                                    </ol>
+                                </div>
+
+                            </div>
+                        </div> -->
+                        <div class="col-12">
+                            <div class="page-title-box ">
+                                <h4 class="mb-sm-0 font-size-18" style="text-align: center;">Cost calculater </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-xl-mb-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Form</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form class="custom-validation" id="postForm1" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
+                                            <!-- start yarn_rate and gst -->
+                                            
+                                            <div class="col-md-4">
+                                                <label class="form-label">Yarn Rate_1</label>
+                                                <div>
+                                                    <input data-parsley-type="digits" type="number" id="yarn_rate_1" value=0 class="form-control" name="yarn_rate_1" placeholder="Enter only yarn rate_1" required onkeyup="rate1()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GST_1</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="gst_1" value=0 class="form-control" name="gst_1" placeholder="Enter only gst" required onkeyup="rate1()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Rate_1</label>
+                                                <input type="number" id="rate_1" class="form-control" name="rate_1" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Yarn Rate_2</label>
+                                                <div>
+                                                    <input data-parsley-type="digits" type="number" id="yarn_rate_2" value=0 class="form-control" name="yarn_rate_2" placeholder="Enter only yarn rate_2" required onkeyup="rate2()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GST_2</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="gst_2" value=0 class="form-control" name="gst_2" placeholder="Enter only gst" required onkeyup="rate2()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Rate_2</label>
+                                                <input type="number" id="rate_2" class="form-control" name="rate_2" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+                                            <!-- end yarn_rate and gst -->
+
+
+                                            <!-- start width, Reed Space and On Reed/Pick  -->
+                                            <div class="col-md-4">
+                                                <label class="form-label">Width</label>
+                                                <div>
+                                                    <input data-parsley-type="digits" type="number" id="width" value=0 class="form-control" name="width" placeholder="Enter only width" required onkeyup="totalEnds1()" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Reed Space</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="reed_space" value=0 class="form-control" name="reed_space" placeholder="Enter only reed space" required onkeyup="totalEnds1()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">warp(On Reed/Pick)</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="warp_reed_pick" value=0 class="form-control" name="warp_reed_pick" placeholder="Enter only on warp reed pick" required onkeyup="totalEnds1()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Totle Ends</label>
+                                                <input type="number" id="total_ends" class="form-control" name="total_ends" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">warp(Warp/Weft)</label>
+                                                <input type="number" id="warp_warp_weft" class="form-control" name="warp_warp_weft" value=0 placeholder="Enter only on warp warp_weft" required onkeyup="warp1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Lasa</label>
+                                                <input type="number" id="lasa" class="form-control" name="lasa" value=0 placeholder="Enter only on lasa" required onkeyup="warp1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">L2L</label>
+                                                <input type="number" id="l2l" class="form-control" name="l2l" value=0 placeholder="Enter only on l2l" required onkeyup="warp1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">warp</label>
+                                                <input type="number" id="warp" class="form-control" name="warp" value="0" readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <!-- end width, Reed Space and On Reed/Pick  -->
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Wastage</label>
+                                                <input type="number" id="wastage" class="form-control" name="wastage" value=1.05 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">weft(On Reed/Pick)</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="weft_reed_pick" value=0 class="form-control" name="weft_reed_pick" placeholder="Enter only on weft reed pick" required onkeyup="weft1()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">weft(Warp/Weft)</label>
+                                                <input type="number" id="weft_warp_weft" class="form-control" name="weft_warp_weft" value=0 placeholder="Enter only on weft warp_weft" required onkeyup="weft1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weft RS</label>
+                                                <input type="number" id="weft_rs" class="form-control" name="weft_rs" value=0 placeholder="Enter only on weft rs" required onkeyup="weft1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">weft</label>
+                                                <input type="number" id="weft" class="form-control" name="weft" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Fabric Wt</label>
+                                                <input type="number" id="fabric_wt" class="form-control" name="fabric_wt" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GSM</label>
+                                                <input type="number" id="gsm" class="form-control" name="gsm" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Warp</label>
+                                                <input type="number" id="Warp" class="form-control" name="Warp" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weft</label>
+                                                <input type="number" id="Weft" class="form-control" name="Weft" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Sizing Rate</label>
+                                                <input type="number" id="sizing_rate" class="form-control" name="sizing_rate" value=0 placeholder="Enter only on sizing rate" required onkeyup="sizing1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">sizing</label>
+                                                <input type="number" id="sizing" class="form-control" name="sizing" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weaving job</label>
+                                                <input type="number" id="weaving_job" class="form-control" name="weaving_job" value=0 placeholder="Enter only on weaving job" required onkeyup="weaving1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weaving</label>
+                                                <input type="number" id="weaving" class="form-control" name="weaving" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">SUM</label>
+                                                <input type="number" id="sum" class="form-control" name="sum" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">SUM_Multi</label>
+                                                <input type="number" id="sum_multi" class="form-control" name="sum_multi" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Quantity_1</label>
+                                                <input type="number" id="quantity_1" class="form-control" name="quantity_1" value=0 placeholder="Enter only on quantity" required onkeyup="warp_yarn_req1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">warp Yarn Req</label>
+                                                <input type="number" id="warp_yarn_req" class="form-control" name="warp_yarn_req" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Quantity_2</label>
+                                                <input type="number" id="quantity_2" class="form-control" name="quantity_2" value=0 placeholder="Enter only on quantity" required onkeyup="weft_yarn_req1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">weft Yarn Req</label>
+                                                <input type="number" id="weft_yarn_req" class="form-control" name="weft_yarn_req" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Total Yarn Req</label>
+                                                <input type="number" id="total_yarn_req" class="form-control" name="total_yarn_req" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Rate_3</label>
+                                                <input type="number" id="rate_3" class="form-control" name="rate_3" value=0 placeholder="Enter only on rate" required onkeyup="net1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GST_3</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="gst_3" value=0 class="form-control" name="gst_3" placeholder="Enter only gst" required onkeyup="net1()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Net Rate_3</label>
+                                                <input type="number" id="net_rate_3" class="form-control" name="net_rate_3" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Ends_3</label>
+                                                <input type="number" id="ends_3" class="form-control" name="ends_3" value=0 placeholder="Enter only on ends" required onkeyup="consumption3()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Count_3</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="count_3" value=0 class="form-control" name="count_3" placeholder="Enter only count" required onkeyup="consumption3()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Consumption_3</label>
+                                                <input type="number" id="consumption_3" class="form-control" name="consumption_3" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Quantity_3</label>
+                                                <input type="number" id="quantity_3" class="form-control" name="quantity_3" value=0 placeholder="Enter only on quantity" required onkeyup="yarn_req3()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Yarn Req_3</label>
+                                                <input type="number" id="yarn_req_3" class="form-control" name="yarn_req_3" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+
+
+
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Rate_4</label>
+                                                <input type="number" id="rate_4" class="form-control" name="rate_4" value=0 placeholder="Enter only on rate" required onkeyup="net2()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GST_4</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="gst_4" value=0 class="form-control" name="gst_4" placeholder="Enter only gst" required onkeyup="net2()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Net Rate_4</label>
+                                                <input type="number" id="net_rate_4" class="form-control" name="net_rate_4" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Ends_4</label>
+                                                <input type="number" id="ends_4" class="form-control" name="ends_4" value=0 placeholder="Enter only on ends" required onkeyup="consumption4()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Count_4</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="count_4" value=0 class="form-control" name="count_4" placeholder="Enter only count" required onkeyup="consumption4()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Consumption_4</label>
+                                                <input type="number" id="consumption_4" class="form-control" name="consumption_4" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+
+
+
+
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Rate_5</label>
+                                                <input type="number" id="rate_5" class="form-control" name="rate_5" value=0 placeholder="Enter only on rate" required onkeyup="net3()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GST_5</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="gst_5" value=0 class="form-control" name="gst_5" placeholder="Enter only gst" required onkeyup="net3()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Net Rate_5</label>
+                                                <input type="number" id="net_rate_5" class="form-control" name="net_rate_5" value="0" placeholder="Enter only on net rate" readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Picks_5</label>
+                                                <input type="number" id="picks_5" class="form-control" name="picks_5" value=0 placeholder="Enter only on picks" required onkeyup="consumption5()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Count_5</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="count_5" value=0 class="form-control" name="count_5" placeholder="Enter only count" required onkeyup="consumption5()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Consumption_5</label>
+                                                <input type="number" id="consumption_5" class="form-control" name="consumption_5" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Quantity_5</label>
+                                                <input type="number" id="quantity_5" class="form-control" name="quantity_5" value=0 placeholder="Enter only on quantity" required onkeyup="yarn_req5()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Yarn Req_5</label>
+                                                <input type="number" id="yarn_req_5" class="form-control" name="yarn_req_5" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+
+
+
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Rate_6</label>
+                                                <input type="number" id="rate_6" class="form-control" name="rate_6" value=0 placeholder="Enter only on rate" required onkeyup="net4()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">GST_6</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="gst_6" value=0 class="form-control" name="gst_6" placeholder="Enter only gst" required onkeyup="net4()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Net Rate_6</label>
+                                                <input type="number" id="net_rate_6" class="form-control" name="net_rate_6" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Picks_6</label>
+                                                <input type="number" id="picks_6" class="form-control" name="picks_6" value=0 placeholder="Enter only on picks" required onkeyup="consumption6()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Count_6</label>
+                                                <div>
+                                                    <input data-parsley-type="number" type="number" id="count_6" value=0 class="form-control" name="count_6" placeholder="Enter only count" required onkeyup="consumption6()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Consumption_6</label>
+                                                <input type="number" id="consumption_6" class="form-control" name="consumption_6" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Quantity_6</label>
+                                                <input type="number" id="quantity_6" class="form-control" name="quantity_6" value=0 placeholder="Enter only on quantity" required onkeyup="yarn_req6()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Yarn Req_6</label>
+                                                <input type="number" id="yarn_req_6" class="form-control" name="yarn_req_6" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Top Beem 1</label>
+                                                <input type="number" id="top_beem_1" class="form-control" name="top_beem_1" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Top Beem 2</label>
+                                                <input type="number" id="top_beem_2" class="form-control" name="top_beem_2" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weft 1 Weaving Cost</label>
+                                                <input type="number" id="weft_1_weaving_cost" class="form-control" name="weft_1_weaving_cost" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Picks_7</label>
+                                                <input type="number" id="picks_7" class="form-control" name="picks_7" value=0 placeholder="Enter only on picks" required onkeyup="weft1_cost()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weft 1 Cost</label>
+                                                <input type="number" id="weft_1_cost" class="form-control" name="weft_1_cost" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weft 2 Weaving Cost</label>
+                                                <input type="number" id="weft_2_weaving_cost" class="form-control" name="weft_2_weaving_cost" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Weft 2 Cost</label>
+                                                <input type="number" id="weft_2_cost" class="form-control" name="weft_2_cost" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Buta Cutting Charges</label>
+                                                <input type="number" id="Buta_cutting_charges" class="form-control" name="Buta_cutting_charges" value=2 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Other Charges</label>
+                                                <input type="number" id="other_charges" class="form-control" name="other_charges" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Warping Cost 1</label>
+                                                <input type="number" id="warping_cost_1" class="form-control" name="warping_cost_1" value=0 placeholder="Enter only warping cost" required onkeyup="total1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Warping Cost 2</label>
+                                                <input type="number" id="warping_cost_2" class="form-control" name="warping_cost_2" value=0 placeholder="Enter only warping cost" required onkeyup="total1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Total</label>
+                                                <input type="number" id="total" class="form-control" name="total" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Transportation Cost</label>
+                                                <input type="number" id="transportation_cost" class="form-control" name="transportation_cost" value=0 placeholder="Enter only on transportation_cost" required onkeyup="proposed1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Margin</label>
+                                                <input type="number" id="margin" class="form-control" name="margin" value=1.10 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Proposed</label>
+                                                <input type="number" id="proposed" class="form-control" name="proposed" value=0 placeholder="Enter only on proposed"style="background-color: lightcoral;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Fabric Wt_1</label>
+                                                <input type="number" id="fabric_wt_1" class="form-control" name="fabric_wt_1" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Process Charges/mtr</label>
+                                                <input type="number" id="process_charges_mtr" class="form-control" name="process_charges_mtr" value=0 placeholder="Enter only on process_charges_mtr" required onkeyup="processed_fabric_cost1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Process Charges/Kg</label>
+                                                <input type="number" id="process_charges_kg" class="form-control" name="process_charges_kg" value=0 placeholder="Enter only on process_charges_mtr" required onkeyup="process_charges1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Process Charges</label>
+                                                <input type="number" id="process_charges" class="form-control" name="process_charges" value=0 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Wastage_1</label>
+                                                <input type="number" id="wastage_1" class="form-control" name="wastage_1" value=1.05 readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Processed Fabric Cost</label>
+                                                <input type="number" id="processed_fabric_cost" class="form-control" name="processed_fabric_cost" value=0 placeholder="Enter only on processed fabric cost" style="background-color: lightcoral;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Margin_1</label>
+                                                <input type="number" id="margin_1" class="form-control" name="margin_1" value=0 placeholder="Enter only on margin" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Finish Proposed</label>
+                                                <input type="number" id="finish_proposed" class="form-control" name="finish_proposed" value=0 placeholder="Enter only on finish proposed" style="background-color: lightcoral;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Yard Rate</label>
+                                                <input type="number" id="yard_rate" class="form-control" name="yard_rate" value=0 placeholder="Enter only on yard_rate" style="background-color: lightcoral;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">$Price</label>
+                                                <input type="number" id="price" class="form-control" name="price" value=0 placeholder="Enter only on price" required onkeyup="price_11()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">$Price1</label>
+                                                <input type="number" id="price_1" class="form-control" name="price_1" value=0 placeholder="Enter only on price" style="background-color: lightcoral;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Cone WT</label>
+                                                <input type="number" id="cone_wt" class="form-control" name="cone_wt" value=0 placeholder="Enter only on cone wt" required onkeyup="major_mtr1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Major %</label>
+                                                <input type="number" id="major_1" class="form-control" name="major_1" value=0 placeholder="Enter only on major " required onkeyup="major_mtr1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Part</label>
+                                                <input type="number" id="part" class="form-control" name="part" value=0 placeholder="Enter only on part" required onkeyup="ENDS1()" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">Major mtr</label>
+                                                <input type="number" id="major_mtr" class="form-control" name="major_mtr" value=0 placeholder="Enter only on major mtr " readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">CUTS</label>
+                                                <input type="number" id="cuts" class="form-control" name="cuts" value=0 placeholder="Enter only on cuts " readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">EXP MTR</label>
+                                                <input type="number" id="exp_mtr" class="form-control" name="exp_mtr" value=0 placeholder="Enter only on exp mtr " readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label class="form-label">ENDS</label>
+                                                <input type="number" id="ENDS" class="form-control" name="ENDS" value=0 placeholder="Enter only on ENDS " readonly style="background-color: lightgreen;" />
+                                            </div>
+
+                                        </div><br>
+                                        <div class=" d-flex flex-wrap gap-2">
+                                            <button type="button" id="Btn" value="createBtn" class="btn btn-primary waves-effect waves-light">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © KSPL.
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- end main content-->
+    </div>
+    <!-- END layout-wrapper -->
+
+    <!-- Right Sidebar -->
+    <div class="right-bar">
+        <div data-simplebar class="h-100">
+            <div class="rightbar-title d-flex align-items-center px-3 py-4">
+
+                <h5 class="m-0 me-2">Settings</h5>
+
+                <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
+                    <i class="mdi mdi-close noti-icon"></i>
+                </a>
+            </div>
+
+            <!-- Settings -->
+            <hr class="mt-0" />
+            <h6 class="text-center mb-0">Choose Layouts</h6>
+
+            <div class="p-4">
+                <div class="mb-2">
+                    <img src="assets/images/layouts/layout-1.jpg" class="img-thumbnail" alt="layout images">
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" checked>
+                    <label class="form-check-label" for="light-mode-switch">Light Mode</label>
+                </div>
+
+                <div class="mb-2">
+                    <img src="assets/images/layouts/layout-2.jpg" class="img-thumbnail" alt="layout images">
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input theme-choice" type="checkbox" id="dark-mode-switch">
+                    <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
+                </div>
+
+                <div class="mb-2">
+                    <img src="assets/images/layouts/layout-3.jpg" class="img-thumbnail" alt="layout images">
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input theme-choice" type="checkbox" id="rtl-mode-switch">
+                    <label class="form-check-label" for="rtl-mode-switch">RTL Mode</label>
+                </div>
+
+                <div class="mb-2">
+                    <img src="assets/images/layouts/layout-4.jpg" class="img-thumbnail" alt="layout images">
+                </div>
+                <div class="form-check form-switch mb-5">
+                    <input class="form-check-input theme-choice" type="checkbox" id="dark-rtl-mode-switch">
+                    <label class="form-check-label" for="dark-rtl-mode-switch">Dark RTL Mode</label>
+                </div>
+
+
+            </div>
+
+        </div> <!-- end slimscroll-menu-->
+    </div>
+    <!-- /Right-bar -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <!-- JAVASCRIPT -->
+    <script src="{{asset('assets/libs/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('assets/libs/metismenu/metisMenu.min.js')}}"></script>
+    <script src="{{asset('assets/libs/simplebar/simplebar.min.js')}}"></script>
+    <script src="{{asset('assets/libs/node-waves/waves.min.js')}}"></script>
+
+    <script src="{{asset('assets/libs/parsleyjs/parsley.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
+
+    <script src="{{asset('assets/js/app.js')}}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#Btn', function() {
+                var value = $(this).val();
+                var form_data = $("#postForm1").serialize();
+                var cnewurl = "{{route('calculation.store')}}";
+                if (value == 'createBtn') {
+                    $.ajax({
+                        url: cnewurl,
+                        method: 'post',
+                        data: form_data,
+                        success: function(p) {
+                            if (p.status == '200') {
+                                toastr.success('Cost Calculations Successfully!');
+                            } else {
+                                toastr.error('Cost Calculations Not Successfully!');
+                            }
+                        },
+                        error: function(a) {
+                            if (a.status == 422) {
+                                var data = $.parseJSON(a.responseText);
+                                $.each(data.errors, function(key, val) {
+                                    toastr.warning(val);
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        function rate1() {
+            var yarn_rate_1 = parseFloat($('#yarn_rate_1').val());
+            var gst_1 = parseFloat($('#gst_1').val());
+            var rate_1 = $('#rate_1').val((yarn_rate_1 / gst_1));
+        }
+
+        function rate2() {
+            var yarn_rate_2 = parseFloat($('#yarn_rate_2').val());
+            var gst_2 = parseFloat($('#gst_2').val());
+            $('#rate_2').val((yarn_rate_2 / gst_2));
+        }
+
+        function totalEnds1() {
+            var width = parseFloat($('#width').val());
+            var reed_space = parseFloat($('#reed_space').val());
+            var warp_reed_pick = parseFloat($('#warp_reed_pick').val());
+            $('#total_ends').val(((width + reed_space) * warp_reed_pick));
+            ENDS1();
+        }
+
+        function warp1() {
+            var width = parseFloat($('#width').val());
+            var reed_space = parseFloat($('#reed_space').val());
+            var warp_reed_pick = parseFloat($('#warp_reed_pick').val());
+            var warp_warp_weft = parseFloat($('#warp_warp_weft').val());
+            var lasa = parseFloat($('#lasa').val());
+            var l2l = parseFloat($('#l2l').val());
+            $('#warp').val(((((width + reed_space) * warp_reed_pick) / 1693.33 / warp_warp_weft) * lasa / l2l));
+            var weft = parseFloat($('#weft').val());
+            var warp = parseFloat($('#warp').val());
+            $('#fabric_wt').val((warp + weft));
+            var fabric_wt = parseFloat($('#fabric_wt').val());
+            $('#gsm').val((39.37 * fabric_wt) / 63);
+            var rate_1 = parseFloat($('#rate_1').val());
+            $('#Warp').val(warp * rate_1);
+            var picks_7 = parseFloat($('#picks_7').val());
+            $('#weft_1_cost').val(picks_7 * l2l);
+
+            var Weft = parseFloat($('#Weft').val());
+            var Warp = parseFloat($('#Warp').val());
+            var sizing = parseFloat($('#sizing').val());
+            var weaving = parseFloat($('#weaving').val());
+            $('#sum').val(Warp + Weft + sizing + weaving);
+
+            var sum = parseFloat($('#sum').val());
+            $('#sum_multi').val(sum * 1.07);
+
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            var consumption_6 = parseFloat($('#consumption_6').val());
+
+            $('#fabric_wt_1').val(consumption_3 + consumption_4 + consumption_5 + consumption_6 + warp + weft);
+            total1();
+
+        }
+
+        function weft1() {
+            var wastage = parseFloat($('#wastage').val());
+            var width = parseFloat($('#width').val());
+            var weft_reed_pick = parseFloat($('#weft_reed_pick').val());
+            var weft_warp_weft = parseFloat($('#weft_warp_weft').val());
+            var weft_rs = parseFloat($('#weft_rs').val());
+            $('#weft').val(((((width + weft_rs) * weft_reed_pick) / 1693.33 / weft_warp_weft) * wastage));
+            var weft = parseFloat($('#weft').val());
+            var warp = parseFloat($('#warp').val());
+            $('#fabric_wt').val((warp + weft));
+            var fabric_wt = parseFloat($('#fabric_wt').val());
+            $('#gsm').val((39.37 * fabric_wt) / 63);
+            var rate_2 = parseFloat($('#rate_2').val());
+            $('#Weft').val(weft * rate_2);
+
+            var Weft = parseFloat($('#Weft').val());
+            var Warp = parseFloat($('#Warp').val());
+            var sizing = parseFloat($('#sizing').val());
+            var weaving = parseFloat($('#weaving').val());
+            $('#sum').val(Warp + Weft + sizing + weaving);
+
+            var sum = parseFloat($('#sum').val());
+            $('#sum_multi').val(sum * 1.07);
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            var consumption_6 = parseFloat($('#consumption_6').val());
+            $('#fabric_wt_1').val(consumption_3 + consumption_4 + consumption_5 + consumption_6 + warp + weft);
+            total1();
+        }
+
+        function sizing1() {
+            var sizing_rate = parseFloat($('#sizing_rate').val());
+            var warp = parseFloat($('#warp').val());
+            $('#sizing').val(warp * sizing_rate);
+
+            var Weft = parseFloat($('#Weft').val());
+            var Warp = parseFloat($('#Warp').val());
+            var sizing = parseFloat($('#sizing').val());
+            var weaving = parseFloat($('#weaving').val());
+            $('#sum').val(Warp + Weft + sizing + weaving);
+
+            var sum = parseFloat($('#sum').val());
+            $('#sum_multi').val(sum * 1.07);
+        }
+
+        function weft_yarn_req1() {
+            var quantity_2 = parseFloat($('#quantity_2').val());
+            var weft = parseFloat($('#weft').val());
+            $('#weft_yarn_req').val(quantity_2 * weft);
+
+            var warp_yarn_req = parseFloat($('#warp_yarn_req').val());
+            var weft_yarn_req = parseFloat($('#weft_yarn_req').val());
+            $('#total_yarn_req').val(weft_yarn_req + warp_yarn_req);
+
+        }
+
+        function weaving1() {
+            var weaving_job = parseFloat($('#weaving_job').val());
+            var weft_reed_pick = parseFloat($('#weft_reed_pick').val());
+            $('#weaving').val(weaving_job * weft_reed_pick);
+
+            var picks_5 = parseFloat($('#picks_5').val());
+            $('#weft_1_weaving_cost').val(picks_5 * weaving_job)
+
+            var Weft = parseFloat($('#Weft').val());
+            var Warp = parseFloat($('#Warp').val());
+            var sizing = parseFloat($('#sizing').val());
+            var weaving = parseFloat($('#weaving').val());
+            $('#sum').val(Warp + Weft + sizing + weaving);
+
+            var sum = parseFloat($('#sum').val());
+            $('#sum_multi').val(sum * 1.07);
+
+            total1();
+        }
+
+
+        function warp_yarn_req1() {
+            var quantity_1 = parseFloat($('#quantity_1').val());
+            var warp = parseFloat($('#warp').val());
+            $('#warp_yarn_req').val(quantity_1 * warp);
+
+            var weft_yarn_req = parseFloat($('#weft_yarn_req').val());
+            var warp_yarn_req = parseFloat($('#warp_yarn_req').val());
+            $('#total_yarn_req').val(weft_yarn_req + warp_yarn_req);
+        }
+
+        function net1() {
+            var rate_3 = parseFloat($('#rate_3').val());
+            var gst_1 = parseFloat($('#gst_3').val());
+            $('#net_rate_3').val((rate_3 / gst_1));
+
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            var net_rate_3 = parseFloat($('#net_rate_3').val());
+            $('#top_beem_1').val(net_rate_3 * consumption_3)
+            total1();
+        }
+
+        function consumption3() {
+            var ends_3 = parseFloat($('#ends_3').val());
+            var count_3 = parseFloat($('#count_3').val());
+            $('#consumption_3').val((ends_3 / 840 / 2.202 / count_3) * 120 / 110);
+
+            var net_rate_3 = parseFloat($('#net_rate_3').val());
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            $('#top_beem_1').val(net_rate_3 * consumption_3)
+
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            var consumption_6 = parseFloat($('#consumption_6').val());
+            var warp = parseFloat($('#warp').val());
+            var weft = parseFloat($('#weft').val());
+
+            $('#fabric_wt_1').val(consumption_3 + consumption_4 + consumption_5 + consumption_6 + warp + weft);
+
+            total1();
+        }
+
+        function yarn_req3() {
+            var quantity_3 = parseFloat($('#quantity_3').val());
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            $('#yarn_req_3').val(quantity_3 * consumption_3);
+        }
+
+        function net2() {
+            var rate_4 = parseFloat($('#rate_4').val());
+            var gst_4 = parseFloat($('#gst_4').val());
+            $('#net_rate_4').val((rate_4 / gst_4));
+
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            var net_rate_4 = parseFloat($('#net_rate_4').val());
+            $('#top_beem_2').val(net_rate_4 * consumption_4)
+            total1();
+
+        }
+
+        function consumption4() {
+            var ends_4 = parseFloat($('#ends_4').val());
+            var count_4 = parseFloat($('#count_4').val());
+            $('#consumption_4').val((ends_4 / 840 / 2.202 / count_4) * 120 / 110);
+
+            var net_rate_4 = parseFloat($('#net_rate_4').val());
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            $('#top_beem_2').val(net_rate_4 * consumption_4)
+
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            var consumption_6 = parseFloat($('#consumption_6').val());
+            var warp = parseFloat($('#warp').val());
+            var weft = parseFloat($('#weft').val());
+
+            $('#fabric_wt_1').val(consumption_3 + consumption_4 + consumption_5 + consumption_6 + warp + weft);
+
+            total1();
+
+        }
+
+        function net3() {
+            var rate_5 = parseFloat($('#rate_5').val());
+            var gst_5 = parseFloat($('#gst_5').val());
+            $('#net_rate_5').val((rate_5 / gst_5));
+        }
+
+        function consumption5() {
+            var picks_5 = parseFloat($('#picks_5').val());
+            var count_5 = parseFloat($('#count_5').val());
+            var wastage = parseFloat($('#wastage').val());
+            var width = parseFloat($('#width').val());
+            var reed_space = parseFloat($('#reed_space').val());
+            $('#consumption_5').val(((width + reed_space) * picks_5 / 1693.33 / count_5) * wastage);
+
+            var weaving_job = parseFloat($('#weaving_job').val());
+            $('#weft_1_weaving_cost').val(picks_5 * weaving_job)
+
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            var consumption_6 = parseFloat($('#consumption_6').val());
+            var warp = parseFloat($('#warp').val());
+            var weft = parseFloat($('#weft').val());
+
+            $('#fabric_wt_1').val(consumption_3 + consumption_4 + consumption_5 + consumption_6 + warp + weft);
+
+            total1();
+
+        }
+
+        function yarn_req5() {
+            var quantity_5 = parseFloat($('#quantity_5').val());
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            $('#yarn_req_5').val(quantity_5 * consumption_5);
+        }
+
+        function net4() {
+            var rate_6 = parseFloat($('#rate_6').val());
+            var gst_6 = parseFloat($('#gst_6').val());
+            $('#net_rate_6').val((rate_6 / gst_6));
+        }
+
+        function consumption6() {
+            var picks_6 = parseFloat($('#picks_6').val());
+            var count_6 = parseFloat($('#count_6').val());
+            var weft = parseFloat($('#weft').val());
+            var warp_warp_weft = parseFloat($('#warp_warp_weft').val());
+            var total_ends = parseFloat($('#total_ends').val());
+            $('#consumption_6').val(((warp_warp_weft + total_ends) * picks_6 / 1693.33 / count_6) * weft);
+            var wastage = parseFloat($('#wastage').val());
+            $('#weft_2_weaving_cost').val(picks_6 * wastage);
+
+            var consumption_6 = parseFloat($('#consumption_6').val());
+            var consumption_4 = parseFloat($('#consumption_4').val());
+            var consumption_5 = parseFloat($('#consumption_5').val());
+            var consumption_3 = parseFloat($('#consumption_3').val());
+            var warp = parseFloat($('#warp').val());
+            var weft = parseFloat($('#weft').val());
+
+            $('#fabric_wt_1').val(consumption_3 + consumption_4 + consumption_5 + consumption_6 + warp + weft);
+
+            total1();
+            ENDS1();
+        }
+
+        function yarn_req6() {
+            var quantity_6 = parseFloat($('#quantity_6').val());
+            var consumption_6 = parseFloat($('#consumption_6').val());
+            $('#yarn_req_6').val(quantity_6 * consumption_6);
+        }
+
+        function weft1_cost() {
+            var picks_7 = parseFloat($('#picks_7').val());
+            var l2l = parseFloat($('#l2l').val());
+            $('#weft_1_cost').val(picks_7 * l2l);
+
+        }
+
+        function total1() {
+            var sum = parseFloat($('#sum').val());
+            var top_beem_1 = parseFloat($('#top_beem_1').val());
+            var top_beem_2 = parseFloat($('#top_beem_2').val());
+            var Buta_cutting_charges = parseFloat($('#Buta_cutting_charges').val());
+            var other_charges = parseFloat($('#other_charges').val());
+            var weft_1_weaving_cost = parseFloat($('#weft_1_weaving_cost').val());
+            var weft_1_cost = parseFloat($('#weft_1_cost').val());
+            var warping_cost_1 = parseFloat($('#warping_cost_1').val());
+            var warping_cost_2 = parseFloat($('#warping_cost_2').val());
+            $('#total').val(sum + top_beem_1 + top_beem_2 +
+                Buta_cutting_charges + other_charges + weft_1_weaving_cost +
+                weft_1_cost + warping_cost_1 + warping_cost_2);
+            proposed1();
+        }
+
+        function process_charges1() {
+            var process_charges_kg = parseFloat($('#process_charges_kg').val());
+            var fabric_wt_1 = parseFloat($('#fabric_wt_1').val());
+            $('#process_charges').val(process_charges_kg * fabric_wt_1);
+        }
+
+        function proposed1() {
+            var transportation_cost = parseFloat($('#transportation_cost').val());
+            var margin = parseFloat($('#margin').val());
+            var total = parseFloat($('#total').val());
+            $('#proposed').val((transportation_cost + total) * margin);
+            processed_fabric_cost1();
+        }
+
+        function processed_fabric_cost1() {
+            var process_charges_mtr = parseFloat($('#process_charges_mtr').val());
+            var proposed = parseFloat($('#proposed').val());
+            var wastage_1 = parseFloat($('#wastage_1').val());
+            $('#processed_fabric_cost').val((process_charges_mtr + proposed) * wastage_1);
+            var processed_fabric_cost = parseFloat($('#processed_fabric_cost').val());
+            $('#finish_proposed').val(processed_fabric_cost * 1.15);
+            var finish_proposed = parseFloat($('#finish_proposed').val());
+            $('#yard_rate').val(finish_proposed / 1.09361);
+            price_11();
+        }
+
+        function price_11() {
+            var price = parseFloat($('#price').val());
+            var yard_rate = parseFloat($('#yard_rate').val());
+            $('#price_1').val(yard_rate / price);
+        }
+
+        function ENDS1() {
+            var part = parseFloat($('#part').val());
+            var total_ends = parseFloat($('#total_ends').val());
+            $('#ENDS').val(total_ends / part);
+            major_mtr1();
+        }
+
+        function major_mtr1() {
+            var major_1 = parseFloat($('#major_1').val());
+            var cone_wt = parseFloat($('#cone_wt').val());
+            var part = parseFloat($('#part').val());
+            var warp_warp_weft = parseFloat($('#warp_warp_weft').val());
+            $('#major_mtr').val((cone_wt * warp_warp_weft * 1693.33 * major_1) / part);
+
+            var major_mtr = parseFloat($('#major_mtr').val());
+            $('#cuts').val(major_mtr / 110);
+
+            var cuts = parseFloat($('#cuts').val());
+            var l2l = parseFloat($('#l2l').val());
+            $('#exp_mtr').val(cuts * l2l);
+
+        }
+    </script>
+
+
+</body>
+
+</html>

@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\ExpertiesController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,4 +55,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::post('assign-permission', [PermissionController::class, 'assignPermission'])->name('assignPermission');
     Route::get('roles-has-permission', [PermissionController::class, 'roleHasPermission'])->name('roleHasPermission');
     Route::get('view-role/{id}', [RoleController::class, 'viewRole'])->name('viewRole');
+    Route::get('call-report', [ReportController::class, 'callReport'])->name('callReport');
+    Route::get('chat-report', [ReportController::class, 'chatReport'])->name('chatReport');
+    Route::get('revenue-report', [ReportController::class, 'revenueReport'])->name('revenueReport');
+});
+
+Route::group(['middleware' => 'common'], function () {
+    Route::get('chat', [ChatController::class, 'chat'])->name('common-chat');
 });

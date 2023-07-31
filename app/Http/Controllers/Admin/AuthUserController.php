@@ -277,7 +277,8 @@ class AuthUserController extends Controller
                 ->rawColumns(['action',])
                 ->make(true);
         }
-        return view('admin.customer');
+        $role = auth()->user()->roles->first()->name;
+        return view('admin.customer', compact('role'));
     }
 
     public function deleteCustomer($id)

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('astrologer_id');
             $table->string('astrologer_cost')->nullable();
+            $table->string('admin_cost')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
