@@ -38,6 +38,15 @@
 <script src="{{asset('assets/js/charts-apex.js')}}"></script>
 <script src="{{asset('assets/js/app-chat.js')}}"></script>
 
+<script src="{{asset('assets/vendor/libs/quill/katex.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/quill/quill.js')}}"></script>
+<script src="{{asset('assets/js/forms-editors.js')}}"></script>
+
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor');
+</script>
+
 <div id="template-customizer" class="invert-bg-white" style="visibility: visible">
     @php
     $superadminId = session('superadmin_id');

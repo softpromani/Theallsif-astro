@@ -355,7 +355,7 @@ Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw 
                                 </div>
                                 <div class="chat-message-wrapper flex-grow-1">
                                     <div class="chat-message-text">
-                                        <p class="mb-0">Hey John, I am looking for the best admin template.</p>
+                                        <p class="mb-0">echo</p>
                                         <p class="mb-0">Could you please help me to find it out? 🤔</p>
                                     </div>
                                     <div class="chat-message-text mt-2">
@@ -594,5 +594,10 @@ Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw 
 
 @endsection
 @push('scripts')
-
+<script src="{{asset('js/app.js')}}"></script>
+<!-- <script>
+    window.Echo.channel('trades').listen('NewTrade', (e) => {
+        console.log(e);
+    });
+</script> -->
 @endpush

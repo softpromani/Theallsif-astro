@@ -54,10 +54,23 @@ Dashbard || Add Astrologer
 							</div>
 						</div>
 						<div class="col-6">
-							<div>
+							@php
+							if($edit->phone){
+							$lastTenDigits = substr($edit->phone, -10);
+							$remainingDigits = substr($edit->phone, 0, -10);
+							}
+							@endphp
+							<label for="phone" class="form-label">Phone</label>
+							<div class="mb-3 input-group">
+								<div class="input-group-text col-2">
+									<input class="form-input " type="text" value="{{isset($edit->phone)? $remainingDigits:'+91'}}" aria-label="Checkbox for following text input" name="country_code">
+								</div>
+								<input type="number" class="form-control" id="phone" name="phone" value="{{isset($edit->phone)? $lastTenDigits:''}}">
+							</div>
+							<!-- <div>
 								<label for="phone" class="form-label">Phone</label>
 								<input type="text" class="form-control" id="phone" value="{{$edit->phone}}" name="phone" />
-							</div>
+							</div> -->
 						</div>
 						<div class="col-6">
 							<div>

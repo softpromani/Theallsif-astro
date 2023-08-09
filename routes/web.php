@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\ProfileController;
 use App\Http\Controllers\Admin\AuthUserController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExpertiesController;
 use App\Http\Controllers\Admin\LanguageController;
@@ -58,6 +59,39 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('call-report', [ReportController::class, 'callReport'])->name('callReport');
     Route::get('chat-report', [ReportController::class, 'chatReport'])->name('chatReport');
     Route::get('revenue-report', [ReportController::class, 'revenueReport'])->name('revenueReport');
+    Route::get('web-pages/{type?}', [AuthUserController::class, 'webPage'])->name('webPage');
+    Route::post('web-update', [AuthUserController::class, 'webpageUpdate'])->name('webpageUpdate');
+    Route::post('faq-add', [DashboardController::class, 'faqAdd'])->name('faqAdd');
+    Route::get('faq/{id?}', [DashboardController::class, 'faq'])->name('faq');
+    Route::get('faq-edit/{id}', [DashboardController::class, 'faqEdit'])->name('faqEdit');
+
+    Route::get('category', [BlogController::class, 'category'])->name('category');
+    Route::post('category-store', [BlogController::class, 'categoryStore'])->name('categoryStore');
+    Route::get('category-edit/{id}', [BlogController::class, 'categoryEdit'])->name('categoryEdit');
+    Route::post('category-update/{id}', [BlogController::class, 'categoryUpdate'])->name('categoryUpdate');
+    Route::post('category-delete/{id}', [BlogController::class, 'categoryDelete'])->name('categoryDelete');
+
+    Route::get('blog', [BlogController::class, 'blog'])->name('blog');
+    Route::post('blog-store', [BlogController::class, 'blogStore'])->name('blogStore');
+    Route::get('blog-status/{id}', [BlogController::class, 'is_activeBlog'])->name('is_activeBlog');
+    Route::get('blog-edit/{id}', [BlogController::class, 'blogEdit'])->name('blogEdit');
+    Route::post('blog-update/{id}', [BlogController::class, 'blogUpdate'])->name('blogUpdate');
+    Route::post('blog-delete/{id}', [BlogController::class, 'blogDelete'])->name('blogDelete');
+    Route::get('image-show/{id}', [BlogController::class, 'imageShow'])->name('imageShow');
+    Route::get('image-edit/{id}', [BlogController::class, 'imageEdit'])->name('imageEdit');
+    Route::post('image-update', [BlogController::class, 'imageUpdate'])->name('imageUpdate');
+    Route::post('image-delete/{id}', [BlogController::class, 'imageDelete'])->name('imageDelete');
+
+    Route::get('event', [BlogController::class, 'event'])->name('event');
+    Route::post('event-store', [BlogController::class, 'eventStore'])->name('eventStore');
+    Route::get('event-status/{id}', [BlogController::class, 'is_activeEvent'])->name('is_activeEvent');
+    Route::get('event-edit/{id}', [BlogController::class, 'eventEdit'])->name('eventEdit');
+    Route::post('event-update/{id}', [BlogController::class, 'eventUpdate'])->name('eventUpdate');
+    Route::post('event-delete/{id}', [BlogController::class, 'eventDelete'])->name('eventDelete');
+    Route::get('image-event-show/{id}', [BlogController::class, 'imageeventShow'])->name('imageeventShow');
+    Route::get('image-event-edit/{id}', [BlogController::class, 'imageeventEdit'])->name('imageeventEdit');
+    Route::post('image-event-update', [BlogController::class, 'imageeventUpdate'])->name('imageeventUpdate');
+    Route::post('image-event-delete/{id}', [BlogController::class, 'imageeventDelete'])->name('imageeventDelete');
 });
 
 Route::group(['middleware' => 'common'], function () {

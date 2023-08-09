@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Error;
 use App\Models\User;
+use App\Models\WebPage;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
@@ -56,8 +57,11 @@ class AuthUserController extends Controller
             'email' => 'required',
             'password' => 'nullable',
             'roleid' => 'required',
-            'pic' => 'image|nullable'
+            'pic' => 'image|nullable',
+            'country_code' => 'required',
         ]);
+
+        $phone = $request->country_code . $request->phone;
         try {
             $emppic = '';
             if ($request->hasFile('pic')) {
@@ -68,7 +72,7 @@ class AuthUserController extends Controller
             $hashpassword = Hash::make($request->password);
             $data = [
                 'name' => $request->name,
-                'phone' => $request->phone,
+                'phone' => $phone,
                 'email' => $request->email,
                 'password' => $hashpassword,
                 'pic' => $emppic
@@ -133,8 +137,10 @@ class AuthUserController extends Controller
             'phone' => 'nullable',
             'email' => 'required',
             'roleid' => 'required',
-            'pic' => 'image'
+            'pic' => 'image',
+            'country_code' => 'required',
         ]);
+        $phone = $request->country_code . $request->phone;
         try {
             if ($request->hasFile('pic')) {
                 $emppic = 'emp-' . time() . '-' . rand(0, 99) . '.' . $request->pic->extension();
@@ -145,7 +151,7 @@ class AuthUserController extends Controller
             }
             $data = [
                 'name' => $request->name,
-                'phone' => $request->phone,
+                'phone' => $phone,
                 'email' => $request->email,
             ];
             $role = Role::find($request->roleid);
@@ -289,5 +295,48 @@ class AuthUserController extends Controller
             return redirect()->back()->with('danger', 'Customer deleted successfully!');
         }
         return redirect()->back()->with('danger', 'Customer not found.');
+    }
+
+    public function webPage($type = null)
+    {
+
+        if ($type != null) {
+            $types = WebPage::where('type', $type)->first();
+            if ($types != null) {
+                $ty = $types->description;
+            } else {
+                $ty = null;
+            }
+            return $ty;
+        } else {
+            return view('admin.webpages.webpage');
+        }
+    }
+
+    public function webpageUpdate(Request $request)
+    {
+        $request->validate([
+            'type' => 'required',
+        ]);
+        try {
+            $res = WebPage::updateOrCreate(
+                [
+                    'type' => $request->type,
+                ],
+                [
+                    'type' => $request->type,
+                    'description' => $request->description,
+                ]
+            );
+            if ($res) {
+                return redirect()->back()->with('success', 'Page updated Sucessfully');
+            } else {
+                return redirect()->back()->with('error', 'Page not updated ');
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
     }
 }

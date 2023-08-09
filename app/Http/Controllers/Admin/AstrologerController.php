@@ -94,7 +94,10 @@ class AstrologerController extends Controller
             'image' => 'required|image',
             'experience' => 'required',
             'education' => 'required',
+            'country_code' => 'required',
         ]);
+
+        $phone = $request->country_code . $request->phone;
         if ($request->hasFile('image')) {
             $imageName = 'Img' . time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
@@ -107,7 +110,7 @@ class AstrologerController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $phone,
             'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
@@ -122,7 +125,7 @@ class AstrologerController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $phone,
             'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
@@ -170,7 +173,9 @@ class AstrologerController extends Controller
             'image' => 'nullable|image',
             'experience' => 'required',
             'education' => 'required',
+            'country_code' => 'required',
         ]);
+        $phone = $request->country_code . $request->phone;
         $image = Astrologer::find($id);
         $oldImagePath = public_path('images/' . $image->image);
 
@@ -202,7 +207,7 @@ class AstrologerController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $phone,
             'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
@@ -216,7 +221,7 @@ class AstrologerController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' => $phone,
             'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,

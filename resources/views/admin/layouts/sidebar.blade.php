@@ -106,6 +106,14 @@
       </ul>
     </li>
 
+
+    <!-- <li class="menu-item">
+      <a href="{{route('common-chat')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-messages"></i>
+        <div data-i18n="Chat">Chat</div>
+      </a>
+    </li> -->
+
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
@@ -132,12 +140,44 @@
       </ul>
     </li>
 
-    <!-- <li class="menu-item">
-      <a href="{{route('common-chat')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-messages"></i>
-        <div data-i18n="Chat">Chat</div>
+    <li class="menu-item">
+      <a href="{{route('admin.category')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="Category Pages">Category Pages</div>
       </a>
-    </li> -->
+    </li>
+
+    <li class="menu-item">
+      <a href="{{route('admin.blog')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="Blog Pages">Blog Pages</div>
+      </a>
+    </li>
+
+    <li class="menu-item">
+      <a href="{{route('admin.event')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="Event Pages">Event Pages</div>
+      </a>
+    </li>
+
+
+    <li class="menu-item">
+      <a href="{{route('admin.faq')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="Faq Pages">Faq Pages</div>
+      </a>
+    </li>
+
+    <li class="menu-item">
+      <a href="{{route('admin.webPage')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="Web Pages">Web Pages</div>
+      </a>
+    </li>
+
+
+
 
 
   </ul>

@@ -47,9 +47,21 @@ Dashbard || Add Permisssion
                     <input type="text" id="basic-addon-name" name='name' class="form-control" value="{{ isset($editemployee) ? $editemployee->name : '' }}" placeholder="Enter name" aria-label="Name" aria-describedby="basic-addon-name" required />
                 </div>
                 <div class="col-md-6 mb-1">
-                    <label class="form-label" for="basic-addon-name">Phone</label>
-
-                    <input type="number" id="basic-addon-name" name='phone' class="form-control" value="{{ isset($editemployee) ? $editemployee->phone : '' }}" placeholder="Enter Phone number" aria-label="Name" aria-describedby="basic-addon-name" required />
+                    <label for="phone" class="form-label">Phone</label>
+                    <div class="mb-3 input-group">
+                        @php
+                        if(isset($editemployee)){
+                        $lastTenDigits = substr($editemployee->phone, -10);
+                        $remainingDigits = substr($editemployee->phone, 0, -10);
+                        }
+                        @endphp
+                        <div class="input-group-text col-2">
+                            <input class="form-input " type="text" value="{{ isset($editemployee) ?  $remainingDigits : '+91' }}" aria-label="Checkbox for following text input" name="country_code">
+                        </div>
+                        <input type="number" class="form-control" id="phone" name="phone" value="{{ isset($editemployee) ?  $lastTenDigits : '' }}">
+                    </div>
+                    <!-- <label class="form-label" for="basic-addon-name">Phone</label>
+                    <input type="number" id="basic-addon-name" name='phone' class="form-control" value="{{ isset($editemployee) ? $editemployee->phone : '' }}" placeholder="Enter Phone number" aria-label="Name" aria-describedby="basic-addon-name" required /> -->
                 </div>
                 <div class="col-md-6 mb-1">
                     <label class="form-label" for="basic-addon-name">Email</label>

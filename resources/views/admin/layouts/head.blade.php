@@ -46,4 +46,8 @@
   <link rel="stylesheet" href="{{asset('assets/vendor/css/rtl/core.css" class="template-customizer-core-css')}}" />
   <link rel="stylesheet" href="{{asset('assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css')}}" />
 
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/typography.css')}}" />
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/katex.css')}}" />
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/quill/editor.css')}}" />
+
 </head>
