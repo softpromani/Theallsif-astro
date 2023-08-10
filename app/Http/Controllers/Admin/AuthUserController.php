@@ -10,6 +10,7 @@ use App\Models\WebPage;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -275,9 +276,9 @@ class AuthUserController extends Controller
                 ->addColumn('action', function ($row) {
                     $ht = '';
 
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= '<a href="' . route("admin.delete", $row->id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i></a>';
-                    // }
+                    if (Auth::user()->hasPermissionTo('customer_delete')) {
+                        $ht .= '<a href="' . route("admin.delete", $row->id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i></a>';
+                    }
                     return $ht;
                 })
                 ->rawColumns(['action',])

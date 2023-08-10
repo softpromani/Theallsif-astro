@@ -23,7 +23,7 @@
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
     <li class="menu-item">
-      <a href="{{route('admin.admin-dashboard')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.admin-dashboard')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
         <div data-i18n="Dashboards">Dashboards</div>
       </a>
@@ -36,64 +36,64 @@
       </a>
 
       <ul class="menu-sub">
-        @can('role')
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role')): ?>
         <li class="menu-item">
-          <a href="{{route('admin.role.index')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.role.index')); ?>" class="menu-link">
             <div data-i18n="Roles">Roles</div>
           </a>
         </li>
-        @endcan
-        @can('permission')
+        <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('permission')): ?>
         <li class="menu-item">
-          <a href="{{route('admin.permission.index')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.permission.index')); ?>" class="menu-link">
             <div data-i18n="Permissions">Permissions</div>
           </a>
         </li>
-        @endcan
+        <?php endif; ?>
 
-        @can('assign_permission')
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('assign_permission')): ?>
         <li class="menu-item">
-          <a href="{{route('admin.userPermission')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.userPermission')); ?>" class="menu-link">
             <div data-i18n="Assign Permission">Assign Permission</div>
           </a>
         </li>
-        @endcan
-        @can('assign_permission_read')
+        <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('assign_permission_read')): ?>
         <li class="menu-item">
-          <a href="{{route('admin.roleHasPermission')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.roleHasPermission')); ?>" class="menu-link">
             <div data-i18n="Role Has Permission">Role Has Permission</div>
           </a>
         </li>
-        @endcan
+        <?php endif; ?>
       </ul>
     </li>
 
-    @can('employee')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('employee')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.authuser.index')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.authuser.index')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-smart-home"></i>
         <div data-i18n="Employee">Employee</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('customer')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('customer')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.customers')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.customers')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-user"></i>
         <div data-i18n="Customer">Customer</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('astrologer')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('astrologer')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.astrologer.index')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.astrologer.index')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-user"></i>
         <div data-i18n="Astrologer">Astrologer</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -103,12 +103,12 @@
 
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{route('admin.experties.index')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.experties.index')); ?>" class="menu-link">
             <div data-i18n="Experties">Experties</div>
           </a>
         </li>
         <li class="menu-item">
-          <a href="{{route('admin.language.index')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.language.index')); ?>" class="menu-link">
             <div data-i18n="Language">Language</div>
           </a>
         </li>
@@ -118,7 +118,7 @@
 
 
     <!-- <li class="menu-item">
-      <a href="{{route('common-chat')}}" class="menu-link">
+      <a href="<?php echo e(route('common-chat')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-messages"></i>
         <div data-i18n="Chat">Chat</div>
       </a>
@@ -132,17 +132,17 @@
 
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="{{route('admin.chatReport')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.chatReport')); ?>" class="menu-link">
             <div data-i18n="Chat Report">Chat Report</div>
           </a>
         </li>
         <li class="menu-item">
-          <a href="{{route('admin.callReport')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.callReport')); ?>" class="menu-link">
             <div data-i18n="Call Report">Call Report</div>
           </a>
         </li>
         <li class="menu-item">
-          <a href="{{route('admin.revenueReport')}}" class="menu-link">
+          <a href="<?php echo e(route('admin.revenueReport')); ?>" class="menu-link">
             <div data-i18n="Revenue Report">Revenue Report</div>
           </a>
         </li>
@@ -150,59 +150,59 @@
       </ul>
     </li>
 
-    @can('web_slider')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('web_slider')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.webSlider')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.webSlider')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-file"></i>
         <div data-i18n="Web Sliders">Web Sliders</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('category')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('category')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.category')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.category')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-file"></i>
         <div data-i18n="Category Pages">Category Pages</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('blog')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('blog')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.blog')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.blog')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-file"></i>
         <div data-i18n="Blog Pages">Blog Pages</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('event')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('event')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.event')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.event')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-file"></i>
         <div data-i18n="Event Pages">Event Pages</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('faq')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('faq')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.faq')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.faq')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-file"></i>
         <div data-i18n="Faq Pages">Faq Pages</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
-    @can('web_page')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('web_page')): ?>
     <li class="menu-item">
-      <a href="{{route('admin.webPage')}}" class="menu-link">
+      <a href="<?php echo e(route('admin.webPage')); ?>" class="menu-link">
         <i class="menu-icon tf-icons ti ti-file"></i>
         <div data-i18n="Web Pages">Web Pages</div>
       </a>
     </li>
-    @endcan
+    <?php endif; ?>
 
   </ul>
-</aside>
+</aside><?php /**PATH E:\Theallsif-astro\resources\views/admin/layouts/sidebar.blade.php ENDPATH**/ ?>

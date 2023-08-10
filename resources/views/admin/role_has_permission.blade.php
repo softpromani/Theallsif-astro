@@ -30,9 +30,11 @@ Dashbard || Add Role
                         <div class="col-sm-10 float-left">
                             <h2>{{ $rl->name }}</h2>
                         </div>
+                        @can('assign_permission_edit')
                         <div class="col-sm-2 float-right">
                             <a class="btn btn-info" href="{{ route('admin.permission.edit', $id) }}">Edit</a>
                         </div>
+                        @endcan
                     </div>
                 </div>
                 <!--end::Card title-->

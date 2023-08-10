@@ -25,12 +25,13 @@ Dashbard || Event
         </div>
         @endif
 
-
+        @can('event_create')
         <div class="card-title mb-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Add
             </button>
         </div>
+        @endcan
 
         <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
             <div class="col-md-4 user_role"></div>
@@ -39,7 +40,7 @@ Dashbard || Event
         </div>
     </div>
 
-
+    @can('event_read')
     <div class="card-datatable table-responsive">
         <table class="datatables table border-top">
             <thead>
@@ -60,7 +61,7 @@ Dashbard || Event
         </table>
 
     </div>
-
+    @endcan
 
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

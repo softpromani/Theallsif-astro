@@ -8,6 +8,7 @@ use App\Models\Faq;
 use Exception;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\URL;
 
@@ -33,17 +34,17 @@ class DashboardController extends Controller
                 ->addColumn('action', function ($row) {
                     $id = Crypt::encrypt($row->id);
                     $ht = '';
-                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                    $ht .= '<a href="' . route("admin.faqEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
-                    // }
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= ' <form action="' . route("admin.astrologer.destroy", $id) . '" method="post" style="display:inline">
+                    if (Auth::user()->hasPermissionTo('faq_edit')) {
+                        $ht .= '<a href="' . route("admin.faqEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('faq_delete')) {
+                        $ht .= ' <form action="' . route("admin.astrologer.destroy", $id) . '" method="post" style="display:inline">
                         ' . method_field("DELETE") . '
                         ' . csrf_field() . '
                         <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
                             <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
                         </button>';
-                    // }
+                    }
                     return $ht;
                 })
                 ->rawColumns(['action', 'answer'])

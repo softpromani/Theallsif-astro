@@ -1,6 +1,6 @@
 @extends('admin.app')
 @section('title')
-Dashbard || Add faq-Page
+Dashbard || Edit Web Sliders
 @endsection
 @section('content-main')
 <div class="card">
@@ -25,42 +25,26 @@ Dashbard || Add faq-Page
         </div>
         @endif
 
-        @can('faq_create')
-        <form action="{{route('admin.faqAdd')}}" method="post" enctype="multipart/form-data">
-            @csrf
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 mb-2" hidden>
-                        <div class="mb-3">
-                            @if (isset($faq))
-                            @php
-                            $id = Crypt::encrypt($faq->id);
-                            @endphp
-                            @endif
-                            <input type="text" class="form-control" id="faq" name="id" value="{{$id ?? ''}}" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-2">
-                        <div class="mb-3">
-                            <label for="faq" class="form-label">Question</label>
-                            <input type="text" class="form-control" id="faq" name="faq" value="{{$faq->faq ?? ''}}" />
-                        </div>
-                    </div>
-                    <br>
-                    <div class="col-md-12 mb-2">
-                        <div class="mb-3">
-                            <label for="full-editor" class="form-label">Answer</label>
-                            <textarea type="text" class="form-control" id="editor" name="answer" rows="4">{{$faq->answer ??''}}</textarea>
+
+        <div class="card-title">
+            <form action="{{route('admin.webSliderUpdate',$edit->id)}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-6">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{$edit->title ?? ''}}">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">{{isset($faq)? 'Update':'Save'}}</button>
-            </div>
-        </form>
-        @endcan
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
 
+        </div>
 
         <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
             <div class="col-md-4 user_role"></div>
@@ -69,14 +53,15 @@ Dashbard || Add faq-Page
         </div>
     </div>
 
-    @can('faq_read')
+
     <div class="card-datatable table-responsive">
         <table class="datatables table border-top">
             <thead>
                 <tr>
                     <th>Sr. No.</th>
-                    <th>Question</th>
-                    <th>Answer</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Is Active</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -84,10 +69,7 @@ Dashbard || Add faq-Page
         </table>
 
     </div>
-    @endcan
-
 </div>
-
 @endsection
 @push('scripts')
 <script>
@@ -95,20 +77,23 @@ Dashbard || Add faq-Page
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('admin.faq') !!}",
+            ajax: "{!! route('admin.webSlider') !!}",
 
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
                 },
-
                 {
-                    data: 'faq',
-                    name: 'faq'
+                    data: 'imagemedia',
+                    name: 'imagemedia   '
                 },
                 {
-                    data: 'answer',
-                    name: 'answer'
+                    data: 'title',
+                    name: 'title',
+                },
+                {
+                    data: 'is_active',
+                    name: 'is_active',
                 },
                 {
                     data: 'action',
@@ -122,12 +107,19 @@ Dashbard || Add faq-Page
         });
     });
 </script>
-
 <script>
     $(document).ready(function() {
-        $('#exampleModal').on('shown.bs.modal', function() {
-            $('#select2success').select2({
-                dropdownParent: $('#exampleModal')
+        $(document).on('change', '.is_active', function() {
+            var statusId = $(this).data('id');
+            var isActive = $(this).is(':checked');
+            var newurl = "{{ url('/admin/event-status') }}/" + statusId;
+            $.ajax({
+                // url: '/admin/is_active/' + statusId,
+                url: newurl,
+                type: 'get',
+                success: function(response) {
+                    location.reload();
+                },
             });
         });
     });

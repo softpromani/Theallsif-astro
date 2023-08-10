@@ -3,7 +3,7 @@
 Dashbard || User Permission
 @endsection
 @section('content-main')
-
+@can('assign_permission_create')
 <div class="col-12">
     <div class="card">
         <div class="card-header ">
@@ -102,6 +102,7 @@ Dashbard || User Permission
         </div>
     </div>
 </div>
+@endcan
 
 @endsection
 @push('scripts')

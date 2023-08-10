@@ -1,33 +1,34 @@
-@extends('admin.app')
-@section('title')
+<?php $__env->startSection('title'); ?>
 Dashbard || Customer
-@endsection
-@section('content-main')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content-main'); ?>
 
 <div class="card">
     <div class="card-header border-bottom">
-        @if ($errors->any())
+        <?php if($errors->any()): ?>
         <div class="alert alert-danger">
             <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <li><?php echo e($error); ?></li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
         </div>
-        @endif
-        @if(session('success'))
+        <?php endif; ?>
+        <?php if(session('success')): ?>
         <div class="alert alert-success">
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
         </div>
-        @endif
-        @if(session('error'))
+        <?php endif; ?>
+        <?php if(session('error')): ?>
         <div class="alert alert-danger">
-            {{ session('error') }}
+            <?php echo e(session('error')); ?>
+
         </div>
-        @endif
+        <?php endif; ?>
     </div>
 
-    @can('customer_read')
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('customer_read')): ?>
     <div class="card-datatable table-responsive">
         <table class="datatables table border-top">
             <thead>
@@ -37,9 +38,9 @@ Dashbard || Customer
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    @if($role !== 'intern')
+                    <?php if($role !== 'intern'): ?>
                     <th>Phone </th>
-                    @endif
+                    <?php endif; ?>
                     <th>City</th>
                     <th>State</th>
                     <th>Country</th>
@@ -50,18 +51,18 @@ Dashbard || Customer
         </table>
 
     </div>
-    @endcan
+    <?php endif; ?>
 
 </div>
 
-@endsection
-@push('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('scripts'); ?>
 <script>
     $(document).ready(function() {
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('admin.customers') !!}",
+            ajax: "<?php echo route('admin.customers'); ?>",
 
             columns: [{
                     data: 'DT_RowIndex',
@@ -73,7 +74,7 @@ Dashbard || Customer
                     orderable: true,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        var imagePath = "{{ 'https://8bittask.com/astrologynew/public/images/' }}" + '/' + data;
+                        var imagePath = "<?php echo e('https://8bittask.com/astrologynew/public/images/'); ?>" + '/' + data;
                         return '<div class="avatar me-2"><img src="' + imagePath + '" alt="Avatar" class="rounded-circle" /></div>';
                     }
                 },
@@ -94,11 +95,11 @@ Dashbard || Customer
                 //     data: 'phone',
                 //     name: 'phone'
                 // },
-                @if($role !== 'intern') {
+                <?php if($role !== 'intern'): ?> {
                     data: 'phone',
                     name: 'phone'
                 },
-                @endif {
+                <?php endif; ?> {
                     data: 'city',
                     name: 'city'
                 },
@@ -122,4 +123,5 @@ Dashbard || Customer
         });
     });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('admin.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Theallsif-astro\resources\views/admin/customer.blade.php ENDPATH**/ ?>

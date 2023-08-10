@@ -16,6 +16,8 @@ use App\Models\AstrologerCost;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Media;
+use App\Models\WebSlider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
@@ -66,16 +68,16 @@ class BlogController extends Controller
                     $id = Crypt::encrypt($row->id);
                     $ht = '';
                     $ht .= '<a href="' . route("admin.imageShow", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-image"></i></a>';
-                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                    $ht .= '<a href="' . route("admin.blogEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
-                    // }
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= ' <form action="' . route("admin.blogDelete", $id) . '" method="post" style="display:inline">
+                    if (Auth::user()->hasPermissionTo('blog_edit')) {
+                        $ht .= '<a href="' . route("admin.blogEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('blog_delete')) {
+                        $ht .= ' <form action="' . route("admin.blogDelete", $id) . '" method="post" style="display:inline">
                         ' . csrf_field() . '
                         <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
                             <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
                         </button>';
-                    // }
+                    }
                     return $ht;
                 })
                 // 
@@ -190,16 +192,16 @@ class BlogController extends Controller
                     $id = Crypt::encrypt($row->id);
                     $ht = '';
                     $ht .= '<a href="' . route("admin.imageShow", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-image"></i></a>';
-                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                    $ht .= '<a href="' . route("admin.blogEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
-                    // }
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= ' <form action="' . route("admin.blogDelete", $id) . '" method="post" style="display:inline">
+                    if (Auth::user()->hasPermissionTo('blog_edit')) {
+                        $ht .= '<a href="' . route("admin.blogEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('blog_delete')) {
+                        $ht .= ' <form action="' . route("admin.blogDelete", $id) . '" method="post" style="display:inline">
                         ' . csrf_field() . '
                         <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
                             <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
                         </button>';
-                    // }
+                    }
                     return $ht;
                 })
                 // 
@@ -262,7 +264,7 @@ class BlogController extends Controller
                     }
                 }
                 $blog->delete();
-                return redirect()->route('admin.blog')->with('danger', 'Blog deleted successfully!');
+                return redirect()->route('admin.blog')->with('error', 'Blog deleted successfully!');
             }
             return redirect()->back()->with('error', 'Blog not Found');
         } catch (Exception $ex) {
@@ -382,7 +384,7 @@ class BlogController extends Controller
                     Storage::disk('public')->delete($imagePath);
                 }
                 $media->delete();
-                return redirect()->route('admin.blog')->with('danger', 'Image deleted successfully!');
+                return redirect()->route('admin.blog')->with('error', 'Image deleted successfully!');
             }
             return redirect()->back()->with('error', 'Image not Found');
         } catch (Exception $ex) {
@@ -409,7 +411,7 @@ class BlogController extends Controller
                 ->addColumn('imagemedia', function ($image) {
                     $img = '<div class="avatar me-2">';
                     $img .= '<img src="';
-                    $img .=  $image->images->first()->img ?? '';
+                    $img .=  $image->eventimages->first()->img ?? '';
                     $img .= '" alt="Avatar" class="rounded-circle" /></div>';
                     return $img;
                 })
@@ -435,16 +437,16 @@ class BlogController extends Controller
                     $id = Crypt::encrypt($row->id);
                     $ht = '';
                     $ht .= '<a href="' . route("admin.imageeventShow", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-image"></i></a>';
-                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                    $ht .= '<a href="' . route("admin.eventEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
-                    // }
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= ' <form action="' . route("admin.eventDelete", $id) . '" method="post" style="display:inline">
+                    if (Auth::user()->hasPermissionTo('event_edit')) {
+                        $ht .= '<a href="' . route("admin.eventEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('event_delete')) {
+                        $ht .= ' <form action="' . route("admin.eventDelete", $id) . '" method="post" style="display:inline">
                         ' . csrf_field() . '
                         <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
                             <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
                         </button>';
-                    // }
+                    }
                     return $ht;
                 })
                 // 
@@ -481,7 +483,7 @@ class BlogController extends Controller
                 $files = $request->file('image');
                 foreach ($files as $file) {
                     $image = ImageHelper::uploadImage($file, 'event', 'event');
-                    $event->images()->create($image);
+                    $event->eventimages()->create($image);
                 }
             }
 
@@ -528,7 +530,7 @@ class BlogController extends Controller
                 ->addColumn('imagemedia', function ($image) {
                     $img = '<div class="avatar me-2">';
                     $img .= '<img src="';
-                    $img .=  $image->images->first()->img;
+                    $img .=  $image->eventimages->first()->img;
                     $img .= '" alt="Avatar" class="rounded-circle" /></div>';
                     return $img;
                 })
@@ -554,16 +556,16 @@ class BlogController extends Controller
                     $id = Crypt::encrypt($row->id);
                     $ht = '';
                     $ht .= '<a href="' . route("admin.imageeventShow", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-image"></i></a>';
-                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                    $ht .= '<a href="' . route("admin.eventEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
-                    // }
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= ' <form action="' . route("admin.eventDelete", $id) . '" method="post" style="display:inline">
+                    if (Auth::user()->hasPermissionTo('event_edit')) {
+                        $ht .= '<a href="' . route("admin.eventEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('event_delete')) {
+                        $ht .= ' <form action="' . route("admin.eventDelete", $id) . '" method="post" style="display:inline">
                         ' . csrf_field() . '
                         <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
                             <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
                         </button>';
-                    // }
+                    }
                     return $ht;
                 })
                 // 
@@ -614,7 +616,7 @@ class BlogController extends Controller
             $event = Event::find($id);
 
             if (isset($event)) {
-                $media = $event->images;
+                $media = $event->eventimages;
                 if (isset($media)) {
                     foreach ($media as $md) {
                         $imagePath = $md->path . $md->image_name;
@@ -625,7 +627,7 @@ class BlogController extends Controller
                     }
                 }
                 $event->delete();
-                return redirect()->route('admin.event')->with('danger', 'Event deleted successfully!');
+                return redirect()->route('admin.event')->with('error', 'Event deleted successfully!');
             }
             return redirect()->back()->with('error', 'Event not Found');
         } catch (Exception $ex) {
@@ -642,7 +644,7 @@ class BlogController extends Controller
         $deid = Crypt::decrypt($id);
         if (request()->ajax()) {
             $event = Event::find($deid);
-            return Datatables::of($event->images)
+            return Datatables::of($event->eventimages)
                 ->addIndexColumn()
                 ->addColumn('imagemedia', function ($image) {
                     $img = '<div class="avatar me-2">';
@@ -746,7 +748,7 @@ class BlogController extends Controller
                     Storage::disk('public')->delete($imagePath);
                 }
                 $media->delete();
-                return redirect()->route('admin.event')->with('danger', 'Image deleted successfully!');
+                return redirect()->route('admin.event')->with('error', 'Image deleted successfully!');
             }
             return redirect()->back()->with('error', 'Image not Found');
         } catch (Exception $ex) {
@@ -766,16 +768,16 @@ class BlogController extends Controller
                 ->addColumn('action', function ($row) {
                     $id = Crypt::encrypt($row->id);
                     $ht = '';
-                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
-                    $ht .= '<a href="' . route("admin.categoryEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
-                    // }
-                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
-                    $ht .= ' <form action="' . route("admin.categoryDelete", $id) . '" method="post" style="display:inline">
+                    if (Auth::user()->hasPermissionTo('category_edit')) {
+                        $ht .= '<a href="' . route("admin.categoryEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('category_delete')) {
+                        $ht .= ' <form action="' . route("admin.categoryDelete", $id) . '" method="post" style="display:inline">
                         ' . csrf_field() . '
                         <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
                             <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
                         </button>';
-                    // }
+                    }
                     return $ht;
                 })
                 // 
@@ -797,7 +799,7 @@ class BlogController extends Controller
             if ($category) {
                 return redirect()->back()->with('success', 'Category Added Successfully !');
             }
-            return redirect()->back()->with('danger', 'Category Not Add Successfully !');
+            return redirect()->back()->with('error', 'Category Not Add Successfully !');
         } catch (Exception $ex) {
             $url = URL::current();
             Error::create(['url' => $url, 'message' => $ex->getMessage()]);
@@ -824,7 +826,7 @@ class BlogController extends Controller
             if ($category) {
                 return redirect()->back()->with('success', 'Category Updated Successfully !');
             }
-            return redirect()->back()->with('danger', 'Category Not Update!');
+            return redirect()->back()->with('error', 'Category Not Update!');
         } catch (Exception $ex) {
             $url = URL::current();
             Error::create(['url' => $url, 'message' => $ex->getMessage()]);
@@ -848,5 +850,335 @@ class BlogController extends Controller
             Error::create(['url' => $url, 'message' => $ex->getMessage()]);
             return redirect()->back()->with('error', 'Server Error ');
         }
+    }
+
+    public function webSlider()
+    {
+        // return  $blogs = Blog::first()->images->first()->img;
+        if (request()->ajax()) {
+            $websliders = WebSlider::latest()->get();
+            return Datatables::of($websliders)
+                ->addIndexColumn()
+                ->addColumn('imagemedia', function ($image) {
+                    $img = '<div class="avatar me-2">';
+                    $img .= '<img src="';
+                    $img .=  $image->websliderimages->first()->img ?? '';
+                    $img .= '" alt="Avatar" class="rounded-circle" /></div>';
+                    return $img;
+                })
+                ->addColumn('is_active', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '
+                    <label class="switch switch-primary">
+                    <input type="checkbox" class="switch-input is_active" data-id="' . $id . '"';
+                    $ht .= ($row->is_active == 1) ? 'checked' : '';
+                    $ht .= '>
+                    <span class="switch-toggle-slider">
+                      <span class="switch-on">
+                        <i class="ti ti-check"></i>
+                      </span>
+                      <span class="switch-off">
+                        <i class="ti ti-x"></i>
+                      </span>
+                    </span>
+                  </label>';
+                    return $ht;
+                })
+                ->addColumn('action', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '';
+                    $ht .= '<a href="' . route("admin.imageWebsliderShow", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-image"></i></a>';
+                    if (Auth::user()->hasPermissionTo('web_slider_edit')) {
+                        $ht .= '<a href="' . route("admin.webSliderEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('web_slider_delete')) {
+                        $ht .= ' <form action="' . route("admin.webSliderDelete", $id) . '" method="post" style="display:inline">
+                        ' . csrf_field() . '
+                        <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                            <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
+                        </button>';
+                    }
+                    return $ht;
+                })
+                // 
+                ->rawColumns(['action', 'is_active', 'imagemedia'])
+                ->make(true);
+        }
+
+        return view('admin.webpages.websliders');
+    }
+
+    public function webSliderStore(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+        ]);
+
+        try {
+            $webslider = WebSlider::create([
+                'title' => $request->title,
+            ]);
+            if ($request->hasFile('image')) {
+                $files = $request->file('image');
+                foreach ($files as $file) {
+                    $image = ImageHelper::uploadImage($file, 'webslider', 'webslider');
+                    $webslider->websliderimages()->create($image);
+                }
+            }
+
+            if ($webslider) {
+                return redirect()->back()->with('success', 'Web-Slider Added Sucessfully');
+            } else {
+                return redirect()->back()->with('error', 'Web-Slider not Add ');
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function is_activeWebslider(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+        $webslider = WebSlider::find($id)->is_active;
+        if ($webslider == 1) {
+            $update = WebSlider::find($id)->update([
+                'is_active' => 0
+            ]);
+        } else {
+            $update = WebSlider::find($id)->update([
+                'is_active' => 1
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Updated Successfully');
+    }
+
+    public function webSliderEdit($id)
+    {
+        $id = Crypt::decrypt($id);
+        if (request()->ajax()) {
+            $websliders = WebSlider::latest()->get();
+            return Datatables::of($websliders)
+                ->addIndexColumn()
+                ->addColumn('imagemedia', function ($image) {
+                    $img = '<div class="avatar me-2">';
+                    $img .= '<img src="';
+                    $img .=  $image->websliderimages->first()->img ?? '';
+                    $img .= '" alt="Avatar" class="rounded-circle" /></div>';
+                    return $img;
+                })
+                ->addColumn('is_active', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '
+                    <label class="switch switch-primary">
+                    <input type="checkbox" class="switch-input is_active" data-id="' . $id . '"';
+                    $ht .= ($row->is_active == 1) ? 'checked' : '';
+                    $ht .= '>
+                    <span class="switch-toggle-slider">
+                      <span class="switch-on">
+                        <i class="ti ti-check"></i>
+                      </span>
+                      <span class="switch-off">
+                        <i class="ti ti-x"></i>
+                      </span>
+                    </span>
+                  </label>';
+                    return $ht;
+                })
+                ->addColumn('action', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '';
+                    $ht .= '<a href="' . route("admin.imageWebsliderShow", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-image"></i></a>';
+                    if (Auth::user()->hasPermissionTo('web_slider_edit')) {
+                        $ht .= '<a href="' . route("admin.webSliderEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('web_slider_delete')) {
+                        $ht .= ' <form action="' . route("admin.webSliderDelete", $id) . '" method="post" style="display:inline">
+                        ' . csrf_field() . '
+                        <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                            <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
+                        </button>';
+                    }
+                    return $ht;
+                })
+                // 
+                ->rawColumns(['action', 'is_active', 'imagemedia'])
+                ->make(true);
+        }
+        $edit = WebSlider::find($id);
+        return view('admin.webpages.webslider_edit', compact('edit'));
+    }
+
+    public function webSliderUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+        ]);
+
+        try {
+            $res = WebSlider::find($id)->update([
+                'title' => $request->title,
+            ]);
+            if ($res) {
+                return redirect()->back()->with('success', 'Web-Slider Updated Sucessfully');
+            } else {
+                return redirect()->back()->with('error', 'Web-Slider not Update ');
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function webSliderDelete($id)
+    {
+        $id = Crypt::decrypt($id);
+        try {
+            $webslider = WebSlider::find($id);
+
+            if (isset($webslider)) {
+                $media = $webslider->websliderimages;
+                if (isset($media)) {
+                    foreach ($media as $md) {
+                        $imagePath = $md->path . $md->image_name;
+                        if (Storage::disk('public')->exists($imagePath)) {
+                            Storage::disk('public')->delete($imagePath);
+                        }
+                        $md->delete();
+                    }
+                }
+                $webslider->delete();
+                return redirect()->back()->with('success', 'Web-Slider deleted successfully!');
+            }
+            return redirect()->back()->with('error', 'Web-Slider not Found');
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+        return redirect()->back();
+    }
+
+    public function imageWebsliderShow($id)
+    {
+        $deid = Crypt::decrypt($id);
+        if (request()->ajax()) {
+            $webslider = WebSlider::find($deid);
+            return Datatables::of($webslider->websliderimages)
+                ->addIndexColumn()
+                ->addColumn('imagemedia', function ($image) {
+                    $img = '<div class="avatar me-2">';
+                    $img .= '<img src="';
+                    $img .=  $image->img;
+                    $img .= '" alt="Avatar" class="rounded-circle" /></div>';
+                    return $img;
+                })
+                ->addColumn('action', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '';
+                    // if (Auth::user()->hasPermissionTo('astrologer_edit')) {
+                    $ht .= '<a  class="btn btn-link p-0 image_edit "style="display:inline" data-id="' . $id . '"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    // }
+                    // if (Auth::user()->hasPermissionTo('astrologer_delete')) {
+                    $ht .= ' <form action="' . route("admin.imageWebsliderDelete", $id) . '" method="post" style="display:inline">
+                        ' . csrf_field() . '
+                        <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                            <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
+                        </button>';
+                    // }
+                    return $ht;
+                })
+
+                ->rawColumns(['action', 'imagemedia'])
+                ->make(true);
+        }
+
+        return view('admin.webpages.webslider_img', compact('id', 'deid'));
+    }
+
+    public function imageWebsliderEdit($id)
+    {
+        $id = Crypt::decrypt($id);
+        try {
+            $media = Media::find($id);
+            $view = '';
+            $view .= '<div class="row">
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                    <input type="text" class="form-control" id="media_id" name="media_id" value="' . $media->id . '"/>
+                        <label for="imageable_id" class="form-label">Imageable Id</label>
+                        <input type="text" class="form-control" id="imageable_id" name="imageable_id" value="' . $media->imageable_id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                    <div class="col-2"> <img src="' . $media->img . '" alt="" srcset="" height="50px" width="50px"></div>
+                    <div class="col-10">
+                        <div class="mb-3">
+                         <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+       ';
+
+            return $view;
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function imageWebsliderUpdate(Request $request)
+    {
+        try {
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $media = Media::find($request->media_id);
+                if ($media) {
+                    $imagePath = $media->path . $media->image_name;
+                    if (Storage::disk('public')->exists($imagePath)) {
+                        Storage::disk('public')->delete($imagePath);
+                    }
+                }
+                $image = ImageHelper::uploadImage($file, 'webslider', 'webslider');
+                $media->update($image);
+                $id = Crypt::encrypt($request->imageable_id);
+                return redirect()->route('admin.imageWebsliderShow', $id)->with('success', 'Image Update successfully!');
+            }
+            $id = Crypt::encrypt($request->imageable_id);
+            return redirect()->route('admin.imageWebsliderShow', $id)->with('error', 'Image Not Update successfully!');
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function imageWebsliderDelete($id)
+    {
+        $id = Crypt::decrypt($id);
+        try {
+            $media = Media::find($id);
+            if ($media) {
+                $imagePath = $media->path . $media->image_name;
+                if (Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+                $media->delete();
+                return redirect()->route('admin.webSlider')->with('error', 'Image deleted successfully!');
+            }
+            return redirect()->back()->with('error', 'Image not Found');
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+        return redirect()->back();
     }
 }

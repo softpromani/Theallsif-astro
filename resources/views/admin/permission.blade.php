@@ -4,6 +4,7 @@ Dashbard || Add Permisssion
 @endsection
 @section('content-main')
 
+@can('permission_create')
 <div class="card">
     <div class="card-header">
         <h3>
@@ -53,7 +54,8 @@ Dashbard || Add Permisssion
         </form>
     </div>
 </div>
-
+@endcan
+@can('permission_read')
 <div class="card">
     <div class="card-header">
         <h3>Manage Permissions</h3>
@@ -83,10 +85,14 @@ Dashbard || Add Permisssion
                                     <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         @php $cid=Crypt::encrypt($permission->id); @endphp
+                                        @can('permission_edit')
                                         <a class="dropdown-item" href="#"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Edit</span></a>
+                                        @endcan
                                         <!-- onclick="event.preventDefault();document.getElementById('delete-form-{{ $cid }}').submit();" -->
                                         <!-- {{ route('admin.permission.edit', $cid) }} -->
+                                        @can('permission_delete')
                                         <a class="dropdown-item" href=""><i class="me-1" data-feather="message-square"></i><span class="align-middle">Delete</span></a>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
@@ -109,6 +115,7 @@ Dashbard || Add Permisssion
         </table>
     </div>
 </div>
+@endcan
 
 @endsection
 @push('scripts')

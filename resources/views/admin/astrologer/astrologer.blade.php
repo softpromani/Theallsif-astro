@@ -94,6 +94,12 @@ Dashbard || Add Astrologer
 						</div>
 						<div class="col-md-6">
 							<div class="mb-3">
+								<label for="father_name" class="form-label">Father Name</label>
+								<input type="text" class="form-control" id="father_name" name="father_name">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
 								<label for="email" class="form-label">Email</label>
 								<input type="email" class="form-control" id="email" name="email">
 							</div>
@@ -128,8 +134,37 @@ Dashbard || Add Astrologer
 						</div>
 						<div class="col-md-6">
 							<div class="mb-3">
+								<label for="pin_code" class="form-label">Pin Code</label>
+								<input type="text" class="form-control" id="pin_code" name="pin_code">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="dob_place" class="form-label">Dob Place</label>
+								<input type="text" class="form-control" id="dob_place" name="dob_place">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="dob_time" class="form-label">Dob Time</label>
+								<input type="datetime-local" class="form-control" id="dob_time" name="dob_time">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
 								<label for="image" class="form-label">Image</label>
 								<input type="file" class="form-control" id="image" name="image">
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="gender" id="male" value="male">
+								<label class="form-check-label" for="male">Male</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="gender" id="female" value="female">
+								<label class="form-check-label" for="female">Female</label>
 							</div>
 						</div>
 					</div>
@@ -181,6 +216,7 @@ Dashbard || Add Astrologer
 							<input type="text" class="form-control" id="experience" name="experience" />
 						</div>
 					</div>
+
 
 				</div>
 				<div class="modal-footer">

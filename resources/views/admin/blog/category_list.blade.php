@@ -25,12 +25,13 @@ Dashbard || Category
         </div>
         @endif
 
-
+        @can('category_create')
         <div class="card-title mb-3">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Add
             </button>
         </div>
+        @endcan
 
         <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
             <div class="col-md-4 user_role"></div>
@@ -39,7 +40,7 @@ Dashbard || Category
         </div>
     </div>
 
-
+    @can('category_read')
     <div class="card-datatable table-responsive">
         <table class="datatables table border-top">
             <thead>
@@ -53,6 +54,7 @@ Dashbard || Category
         </table>
 
     </div>
+    @endcan
 
 
 </div>

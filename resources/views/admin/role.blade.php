@@ -3,6 +3,7 @@
 Dashbard || Add Role
 @endsection
 @section('content-main')
+@can('role_create')
 <div class="card">
     <div class="card-header">
         <h3>
@@ -54,7 +55,8 @@ Dashbard || Add Role
         </form>
     </div>
 </div>
-
+@endcan
+@can('role_read')
 <div class="card">
     <div class="card-header">
         <h3>Manage Roles</h3>
@@ -84,8 +86,12 @@ Dashbard || Add Role
                                     <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         @php $rid=Crypt::encrypt($role->id); @endphp
+                                        @can('role_edit')
                                         <a class="dropdown-item" href="{{ route('admin.role.edit', $rid) }}"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Edit</span></a>
+                                        @endcan
+                                        @can('role_delete')
                                         <a class="dropdown-item" href="" onclick="event.preventDefault();document.getElementById('delete-form-{{ $rid }}').submit();"><i class="me-1" data-feather="message-square"></i><span class="align-middle">Delete</span></a>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +108,7 @@ Dashbard || Add Role
         </table>
     </div>
 </div>
+@endcan
 @endsection
 @push('scripts')
 

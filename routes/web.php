@@ -92,6 +92,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('image-event-edit/{id}', [BlogController::class, 'imageeventEdit'])->name('imageeventEdit');
     Route::post('image-event-update', [BlogController::class, 'imageeventUpdate'])->name('imageeventUpdate');
     Route::post('image-event-delete/{id}', [BlogController::class, 'imageeventDelete'])->name('imageeventDelete');
+
+    Route::get('web-sliders', [BlogController::class, 'webSlider'])->name('webSlider');
+    Route::post('web-sliders-store', [BlogController::class, 'webSliderStore'])->name('webSliderStore');
+    Route::get('web-sliders-status/{id}', [BlogController::class, 'is_activeWebslider'])->name('is_activeWebslider');
+    Route::get('web-sliders-edit/{id}', [BlogController::class, 'webSliderEdit'])->name('webSliderEdit');
+    Route::post('web-sliders-update/{id}', [BlogController::class, 'webSliderUpdate'])->name('webSliderUpdate');
+    Route::post('web-sliders-delete/{id}', [BlogController::class, 'webSliderDelete'])->name('webSliderDelete');
+    Route::get('image-web-sliders-show/{id}', [BlogController::class, 'imageWebsliderShow'])->name('imageWebsliderShow');
+    Route::get('image-web-sliders-edit/{id}', [BlogController::class, 'imageWebsliderEdit'])->name('imageWebsliderEdit');
+    Route::post('image-web-sliders-update', [BlogController::class, 'imageWebsliderUpdate'])->name('imageWebsliderUpdate');
+    Route::post('image-web-sliders-delete/{id}', [BlogController::class, 'imageWebsliderDelete'])->name('imageWebsliderDelete');
 });
 
 Route::group(['middleware' => 'common'], function () {

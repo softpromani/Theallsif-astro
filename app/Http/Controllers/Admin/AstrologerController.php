@@ -95,6 +95,11 @@ class AstrologerController extends Controller
             'experience' => 'required',
             'education' => 'required',
             'country_code' => 'required',
+            'father_name' => 'required',
+            'pin_code' => 'required',
+            'dob_place' => 'required',
+            'dob_time' => 'required',
+            'gender' => 'required',
         ]);
 
         $phone = $request->country_code . $request->phone;
@@ -120,6 +125,14 @@ class AstrologerController extends Controller
             'description' => $request->description,
             'experience' => $request->experience,
             'education' => $request->education,
+
+            // 'father_name' => $request->father_name,
+            // 'pin_code' => $request->pin_code,
+            // 'dob_place' => $request->dob_place,
+            // 'dob_time' => $request->dob_time,
+            // 'gender' => $request->gender,
+
+
         ]);
         Customer::create([
             'first_name' => $request->first_name,

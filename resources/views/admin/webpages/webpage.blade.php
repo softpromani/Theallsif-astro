@@ -36,7 +36,10 @@ Dashbard || Add Web-Page
                                 <option selected disabled>Select Type</option>
                                 <option value="privacy-policy">Privacy & Policy</option>
                                 <option value="terms-condition">Terms & Condition</option>
-                                <option value="about-us">About Us</option>
+                                <option value="about-us">About US</option>
+                                <option value="about-us">Contact US</option>
+                                <option value="about-us">Refund Policy</option>
+                                <option value="about-us">Services</option>
                             </select>
                         </div>
                     </div>
@@ -50,8 +53,9 @@ Dashbard || Add Web-Page
                 </div>
             </div>
             <div class="modal-footer">
-
+                @can('web_page_create')
                 <button type="submit" class="btn btn-primary">Save</button>
+                @endcan
             </div>
         </form>
 
