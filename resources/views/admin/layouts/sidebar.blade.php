@@ -116,6 +116,23 @@
       </ul>
     </li>
 
+    @can('offer')
+    <li class="menu-item">
+      <a href="{{route('admin.offers')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Offer">Offer</div>
+      </a>
+    </li>
+    @endcan
+
+    @can('team')
+    <li class="menu-item">
+      <a href="{{route('admin.teams')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Teams">Teams</div>
+      </a>
+    </li>
+    @endcan
 
     <!-- <li class="menu-item">
       <a href="{{route('common-chat')}}" class="menu-link">

@@ -27,6 +27,12 @@ return new class extends Migration
             $table->string('language')->nullable();
             $table->string('image')->nullable();
             $table->string('is_active')->default(1);
+            $table->string('gender')->nullable();
+            $table->string('dob')->nullable();
+            $table->string('dob_time')->nullable();
+            $table->string('dob_place')->nullable();
+            $table->string('pin_code')->nullable();
+            $table->string('father_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

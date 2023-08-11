@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ExpertiesController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReportController;
 
@@ -44,6 +45,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('is_active/{id}', [AstrologerController::class, 'is_active'])->name('is_active');
     Route::get('cost/{id}', [AstrologerController::class, 'costHr'])->name('costHr');
     Route::post('charge-store', [AstrologerController::class, 'storeCostHr'])->name('storeCostHr');
+    // Route::post('upload-csv', [AstrologerController::class, 'uploadCsv'])->name('uploadCsv');
+    Route::get('expoart', [AstrologerController::class, 'exportAstrologer'])->name('exportAstrologer');
+
     Route::resource('experties', ExpertiesController::class);
     Route::resource('language', LanguageController::class);
     Route::resource('authuser', AuthUserController::class);
@@ -92,6 +96,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('image-event-edit/{id}', [BlogController::class, 'imageeventEdit'])->name('imageeventEdit');
     Route::post('image-event-update', [BlogController::class, 'imageeventUpdate'])->name('imageeventUpdate');
     Route::post('image-event-delete/{id}', [BlogController::class, 'imageeventDelete'])->name('imageeventDelete');
+
+    Route::get('offers', [AuthController::class, 'offers'])->name('offers');
+    Route::post('offer-store', [AuthController::class, 'offerStore'])->name('offerStore');
+    Route::get('offer-status/{id}', [AuthController::class, 'is_activeOffer'])->name('is_activeOffer');
+    Route::get('offer-edit/{id}', [AuthController::class, 'offerEdit'])->name('offerEdit');
+    Route::post('offer-update/{id}', [AuthController::class, 'offerUpdate'])->name('offerUpdate');
+    Route::post('offer-delete/{id}', [AuthController::class, 'offerDelete'])->name('offerDelete');
+
+    Route::get('teams', [TeamController::class, 'teams'])->name('teams');
+    Route::post('team-store', [TeamController::class, 'teamStore'])->name('teamStore');
+    Route::get('team-status/{id}', [TeamController::class, 'is_activeTeam'])->name('is_activeTeam');
+    Route::get('team-edit/{id}', [TeamController::class, 'teamEdit'])->name('teamEdit');
+    Route::post('team-update/{id}', [TeamController::class, 'teamUpdate'])->name('teamUpdate');
+    Route::post('team-delete/{id}', [TeamController::class, 'teamDelete'])->name('teamDelete');
 
     Route::get('web-sliders', [BlogController::class, 'webSlider'])->name('webSlider');
     Route::post('web-sliders-store', [BlogController::class, 'webSliderStore'])->name('webSliderStore');

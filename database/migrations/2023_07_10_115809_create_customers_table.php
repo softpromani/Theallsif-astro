@@ -27,6 +27,14 @@ return new class extends Migration
             $table->string('dob')->nullable();
             $table->string('dob_time')->nullable();
             $table->string('role')->default('customer');
+            $table->string('gender')->nullable();
+
+            $table->string('dob_place')->nullable();
+            $table->string('pin_code')->nullable();
+            $table->string('father_name')->nullable();
+
+            $table->string('referral_code')->nullable();
+            $table->string('referral_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

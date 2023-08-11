@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Error;
+use App\Models\Offer;
 use App\Models\User;
+use Exception;
+use DataTables;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -77,5 +83,249 @@ class AuthController extends Controller
         }
 
         return redirect()->route('login')->with('error', 'Invalid user ID'); // Handle case where user is not found
+    }
+
+    public function offers()
+    {
+        // return  $blogs = Blog::first()->images->first()->img;
+        if (request()->ajax()) {
+            $offers = Offer::latest()->get();
+            return Datatables::of($offers)
+                ->addIndexColumn()
+                ->addColumn('imagemedia', function ($image) {
+                    $img = '<div class="avatar me-2">';
+                    $img .= '<img src="';
+                    $img .=  $image->offerimages->first()->img ?? '';
+                    $img .= '" alt="Avatar" class="rounded-circle" /></div>';
+                    return $img;
+                })
+                ->addColumn('is_active', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '
+                    <label class="switch switch-primary">
+                    <input type="checkbox" class="switch-input is_active" data-id="' . $id . '"';
+                    $ht .= ($row->is_active == 1) ? 'checked' : '';
+                    $ht .= '>
+                    <span class="switch-toggle-slider">
+                      <span class="switch-on">
+                        <i class="ti ti-check"></i>
+                      </span>
+                      <span class="switch-off">
+                        <i class="ti ti-x"></i>
+                      </span>
+                    </span>
+                  </label>';
+                    return $ht;
+                })
+                ->addColumn('action', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '';
+                    if (Auth::user()->hasPermissionTo('offer_edit')) {
+                        $ht .= '<a href="' . route("admin.offerEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('offer_delete')) {
+                        $ht .= ' <form action="' . route("admin.offerDelete", $id) . '" method="post" style="display:inline">
+                        ' . csrf_field() . '
+                        <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                            <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
+                        </button>';
+                    }
+                    return $ht;
+                })
+                // 
+                ->rawColumns(['action', 'is_active', 'imagemedia'])
+                ->make(true);
+        }
+
+        return view('admin.offer.offer_list');
+    }
+
+    public function offerStore(Request $request)
+    {
+        $request->validate([
+            'offer_name' => 'required',
+            'activate_date' => 'required',
+            'deactivate_date' => 'required',
+            'image' => 'image|required',
+            'discount_type' => 'required',
+            'discount_balance' => 'required',
+            'offer_type' => 'required',
+        ]);
+
+        try {
+            $offer_code = rand(11111, 99999) . time();
+
+            $offer = Offer::create([
+                'offer_name' => $request->offer_name,
+                'activate_date' => $request->activate_date,
+                'deactivate_date' => $request->deactivate_date,
+                'offer_code' => $offer_code,
+                'discount_type' => $request->discount_type,
+                'discount_balance' => $request->discount_balance,
+                'offer_type' => $request->offer_type,
+                // 'image' => $ImageNames,
+            ]);
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $image = ImageHelper::uploadImage($file, 'offer', 'offer');
+                $offer->offerimages()->create($image);
+            }
+
+            if ($offer) {
+                return redirect()->back()->with('success', 'Offer Added Sucessfully');
+            } else {
+                return redirect()->back()->with('error', 'Offer not added ');
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function is_activeOffer(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+        $offer = Offer::find($id)->is_active;
+        if ($offer == 1) {
+            $update = Offer::find($id)->update([
+                'is_active' => 0
+            ]);
+        } else {
+            $update = Offer::find($id)->update([
+                'is_active' => 1
+            ]);
+        }
+        return redirect()->back()->with('success', 'Status Updated Successfully');
+    }
+
+    public function offerEdit($id)
+    {
+        $id = Crypt::decrypt($id);
+        if (request()->ajax()) {
+            $offers = Offer::latest()->get();
+            return Datatables::of($offers)
+                ->addIndexColumn()
+                ->addColumn('imagemedia', function ($image) {
+                    $img = '<div class="avatar me-2">';
+                    $img .= '<img src="';
+                    $img .=  $image->offerimages->first()->img ?? '';
+                    $img .= '" alt="Avatar" class="rounded-circle" /></div>';
+                    return $img;
+                })
+                ->addColumn('is_active', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '
+                    <label class="switch switch-primary">
+                    <input type="checkbox" class="switch-input is_active" data-id="' . $id . '"';
+                    $ht .= ($row->is_active == 1) ? 'checked' : '';
+                    $ht .= '>
+                    <span class="switch-toggle-slider">
+                      <span class="switch-on">
+                        <i class="ti ti-check"></i>
+                      </span>
+                      <span class="switch-off">
+                        <i class="ti ti-x"></i>
+                      </span>
+                    </span>
+                  </label>';
+                    return $ht;
+                })
+                ->addColumn('action', function ($row) {
+                    $id = Crypt::encrypt($row->id);
+                    $ht = '';
+                    if (Auth::user()->hasPermissionTo('offer_edit')) {
+                        $ht .= '<a href="' . route("admin.offerEdit", $id) . '" class="btn btn-link p-0 "style="display:inline"><i class="fa-sharp fa-solid fa-pen-to-square"></i></a>';
+                    }
+                    if (Auth::user()->hasPermissionTo('offer_delete')) {
+                        $ht .= ' <form action="' . route("admin.offerDelete", $id) . '" method="post" style="display:inline">
+                        ' . csrf_field() . '
+                        <button type="submit" class="btn btn-link p-0" onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                            <i class="fa-sharp fa-solid fa-trash" style="color: #fa052a;"></i>
+                        </button>';
+                    }
+                    return $ht;
+                })
+                // 
+                ->rawColumns(['action', 'is_active', 'imagemedia'])
+                ->make(true);
+        }
+        $edit = Offer::find($id);
+        return view('admin.offer.offer_edit', compact('edit'));
+    }
+
+    public function offerUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'offer_name' => 'required',
+            'activate_date' => 'required',
+            'deactivate_date' => 'required',
+            'image' => 'image|nullable',
+            'discount_type' => 'required',
+            'discount_balance' => 'required',
+            'offer_type' => 'required',
+        ]);
+
+        try {
+            $res = Offer::find($id)->update([
+                'offer_name' => $request->offer_name,
+                'activate_date' => $request->activate_date,
+                'deactivate_date' => $request->deactivate_date,
+                'discount_type' => $request->discount_type,
+                'discount_balance' => $request->discount_balance,
+                'offer_type' => $request->offer_type,
+            ]);
+
+            if ($request->hasFile('image')) {
+                $offer = Offer::find($id);
+                $md = $offer->offerimages->first();
+                $imagePath = $md->path . $md->image_name;
+                if (Storage::disk('public')->exists($imagePath)) {
+                    Storage::disk('public')->delete($imagePath);
+                }
+                $file = $request->file('image');
+                $image = ImageHelper::uploadImage($file, 'offer', 'offer');
+                $offer->offerimages()->update($image);
+            }
+
+            if ($res) {
+                return redirect()->back()->with('success', 'Offer Updated Sucessfully');
+            } else {
+                return redirect()->back()->with('error', 'Offer not Update ');
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function offerDelete($id)
+    {
+        $id = Crypt::decrypt($id);
+        try {
+            $offer = Offer::find($id);
+
+            if (isset($offer)) {
+                $media = $offer->offerimages;
+                if (isset($media)) {
+                    foreach ($media as $md) {
+                        $imagePath = $md->path . $md->image_name;
+                        if (Storage::disk('public')->exists($imagePath)) {
+                            Storage::disk('public')->delete($imagePath);
+                        }
+                        $md->delete();
+                    }
+                }
+                $offer->delete();
+                return redirect()->route('admin.offers')->with('error', 'Offer deleted successfully!');
+            }
+            return redirect()->back()->with('error', 'Offer not Found');
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+        return redirect()->back();
     }
 }

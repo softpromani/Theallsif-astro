@@ -12,7 +12,12 @@ use Illuminate\Support\Facades\File;
 use DataTables;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use League\Csv\Reader;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AstrologerExport;
+
 
 class AstrologerController extends Controller
 {
@@ -98,6 +103,7 @@ class AstrologerController extends Controller
             'father_name' => 'required',
             'pin_code' => 'required',
             'dob_place' => 'required',
+            'dob' => 'required',
             'dob_time' => 'required',
             'gender' => 'required',
         ]);
@@ -126,11 +132,12 @@ class AstrologerController extends Controller
             'experience' => $request->experience,
             'education' => $request->education,
 
-            // 'father_name' => $request->father_name,
-            // 'pin_code' => $request->pin_code,
-            // 'dob_place' => $request->dob_place,
-            // 'dob_time' => $request->dob_time,
-            // 'gender' => $request->gender,
+            'father_name' => $request->father_name,
+            'pin_code' => $request->pin_code,
+            'dob_place' => $request->dob_place,
+            'dob_time' => $request->dob_time,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
 
 
         ]);
@@ -145,6 +152,13 @@ class AstrologerController extends Controller
             'astrologer_id' => $data->id,
             'image' => $imageName,
             'role' => 'astrologer',
+
+            'father_name' => $request->father_name,
+            'pin_code' => $request->pin_code,
+            'dob_place' => $request->dob_place,
+            'dob_time' => $request->dob_time,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
         ]);
         if ($data) {
             return redirect()->back()->with('success', 'Astrologer added successfully!');
@@ -187,6 +201,13 @@ class AstrologerController extends Controller
             'experience' => 'required',
             'education' => 'required',
             'country_code' => 'required',
+
+            'father_name' => 'required',
+            'pin_code' => 'required',
+            'dob_place' => 'required',
+            'dob' => 'required',
+            'dob_time' => 'required',
+            'gender' => 'required',
         ]);
         $phone = $request->country_code . $request->phone;
         $image = Astrologer::find($id);
@@ -229,6 +250,13 @@ class AstrologerController extends Controller
             'description' => $request->description,
             'experience' => $request->experience,
             'education' => $request->education,
+
+            'father_name' => $request->father_name,
+            'pin_code' => $request->pin_code,
+            'dob_place' => $request->dob_place,
+            'dob_time' => $request->dob_time,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
         ]);
         Customer::where('astrologer_id', $id)->update([
             'first_name' => $request->first_name,
@@ -238,6 +266,13 @@ class AstrologerController extends Controller
             'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
+
+            'father_name' => $request->father_name,
+            'pin_code' => $request->pin_code,
+            'dob_place' => $request->dob_place,
+            'dob_time' => $request->dob_time,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
         ]);
         if ($data) {
 
@@ -374,4 +409,69 @@ class AstrologerController extends Controller
             return redirect()->back()->with('error', 'Server Error ');
         }
     }
+
+    public function exportAstrologer()
+    {
+        $fields = ['first_name', 'last_name', 'email', 'phone', 'country', 'state', 'city', 'description', 'experties', 'language', 'image', 'experience', 'education', 'father_name', 'pin_code', 'dob_place', 'dob_time', 'dob', 'gender'];
+        return Excel::download(new AstrologerExport($fields), 'Astrologer list.xlsx');
+    }
+
+    // public function uploadCsv(Request $request)
+    // {
+    //     $request->validate([
+    //         // 'csv_file' => 'required|mimes:csv|max:2048', // Validate file type and size
+    //     ]);
+    //     // dd($request->all());
+    //     if ($request->hasFile('csv_file')) {
+    //         $csvFile = $request->file('csv_file');
+    //         $csvData = file($csvFile->path()); // Read all lines from the CSV file
+    //         foreach ($csvData as $index => $line) {
+    //             if ($index === 0) {
+    //                 continue;
+    //             }
+    //             $row = str_getcsv($line); // Parse the CSV line
+    //             $astro = Astrologer::create([
+    //                 'first_name' => $row[0],
+    //                 'last_name' => $row[1],
+    //                 'email' => $row[2],
+    //                 'phone' => $row[3],
+    //                 'country' => $row[4],
+    //                 'state' => $row[5],
+    //                 'city' => $row[6],
+    //                 'description' => $row[7],
+    //                 'experties' => $row[8],
+    //                 'education' => $row[9],
+    //                 'father_name' => $row[10],
+    //                 'pin_code' => $row[11],
+    //                 'dob_place' => $row[12],
+    //                 'dob_time' => $row[13],
+    //                 'dob' => $row[14],
+    //                 'gender' => $row[15],
+    //                 'language' => $row[16],
+    //                 'experience' => $row[17],
+    //             ]);
+
+
+    //             Customer::create([
+    //                 'first_name' => $row[0],
+    //                 'last_name' => $row[1],
+    //                 'email' => $row[2],
+    //                 'phone' => $row[3],
+    //                 'country' => $row[4],
+    //                 'state' => $row[5],
+    //                 'city' => $row[6],
+    //                 'astrologer_id' => $astro->id,
+    //                 'role' => 'astrologer',
+    //                 'father_name' => $row[10],
+    //                 'pin_code' => $row[11],
+    //                 'dob_place' => $row[12],
+    //                 'dob_time' => $row[13],
+    //                 'dob' => $row[14],
+    //                 'gender' => $row[15],
+    //             ]);
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('success', 'CSV uploaded and data processed.');
+    // }
 }

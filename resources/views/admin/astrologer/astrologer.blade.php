@@ -27,9 +27,29 @@ Dashbard || Add Astrologer
 
 		@can('astrologer_create')
 		<div class="card-title mb-3">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				Add
-			</button>
+			<div class="row">
+				<div class="col-md-4">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						Add
+					</button>
+				</div>
+				@php
+				$role=Auth::user()->roles[0]->name;
+				@endphp
+				@if ($role =='superadmin')
+				<!-- <div class="col-md-4">
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+						Import
+					</button>
+				</div> -->
+				<div class="col-md-4">
+					<a href="{{route('admin.exportAstrologer')}}" class="btn btn-primary">
+						Export
+					</a>
+				</div>
+				@endif
+
+			</div>
 		</div>
 		@endcan
 		<div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
@@ -140,6 +160,12 @@ Dashbard || Add Astrologer
 						</div>
 						<div class="col-md-6">
 							<div class="mb-3">
+								<label for="dob" class="form-label">Dob Date</label>
+								<input type="date" class="form-control" id="dob" name="dob">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
 								<label for="dob_place" class="form-label">Dob Place</label>
 								<input type="text" class="form-control" id="dob_place" name="dob_place">
 							</div>
@@ -147,7 +173,7 @@ Dashbard || Add Astrologer
 						<div class="col-md-6">
 							<div class="mb-3">
 								<label for="dob_time" class="form-label">Dob Time</label>
-								<input type="datetime-local" class="form-control" id="dob_time" name="dob_time">
+								<input type="time" class="form-control" id="dob_time" name="dob_time">
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -250,6 +276,35 @@ Dashbard || Add Astrologer
 		</div>
 	</div>
 </div>
+
+<!-- <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Astrologer Import UploadCsv</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="#" method="post" enctype="multipart/form-data">
+				@csrf
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label for="csv_file" class="form-label">File</label>
+								<input type="file" class="form-control" id="csv_file" name="csv_file">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div> -->
 
 @endsection
 @push('scripts')

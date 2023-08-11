@@ -116,6 +116,23 @@
       </ul>
     </li>
 
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('offer')): ?>
+    <li class="menu-item">
+      <a href="<?php echo e(route('admin.offers')); ?>" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Offer">Offer</div>
+      </a>
+    </li>
+    <?php endif; ?>
+
+    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('team')): ?>
+    <li class="menu-item">
+      <a href="<?php echo e(route('admin.teams')); ?>" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Teams">Teams</div>
+      </a>
+    </li>
+    <?php endif; ?>
 
     <!-- <li class="menu-item">
       <a href="<?php echo e(route('common-chat')); ?>" class="menu-link">
