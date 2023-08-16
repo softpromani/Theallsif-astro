@@ -221,5 +221,14 @@
     </li>
     @endcan
 
+    @can('subscription')
+    <li class="menu-item">
+      <a href="#" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-file"></i>
+        <div data-i18n="Subscriptions">Subscriptions</div>
+      </a>
+    </li>
+    @endcan
+
   </ul>
 </aside>
