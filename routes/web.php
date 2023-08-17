@@ -16,6 +16,11 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReportController;
 
+//Frontend--------------------
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\Frontend\ServiceController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,14 +33,50 @@ use App\Http\Controllers\ReportController;
 */
 
 
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact_us');
+Route::get('/details/{id}', [HomeController::class, 'details'])->name('details');
+Route::get('/contactus', [HomeController::class, 'contactus'])->name('contactus');
+Route::get('/consultHistroy', [HomeController::class, 'consultHistroy'])->name('consultHistroy');
+Route::get('/zodiacsigns', [HomeController::class, 'zodiacsigns'])->name('zodiacsigns');
+Route::get('/payment', [HomeController::class, 'payment'])->name('payment');
+Route::get('/astrologer', [HomeController::class, 'astrologer'])->name('astrologer');
+Route::get('/astrologyprofile', [HomeController::class, 'astrologyprofile'])->name('astrologyprofile');
+Route::get('/chat', [HomeController::class, 'chat'])->name('chat');
+Route::get('/updateprofile', [HomeController::class, 'updateprofile'])->name('updateprofile');
+
+//User
+Route::post('send-otp', [UserController::class, 'sendOTP'])->name('sendOTP');
+Route::post('verify-otp', [UserController::class, 'verifyOTP'])->name('verifyOTP');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::post('/update-profile/{id}', [UserController::class, 'updateProfile'])->name('updateProfile');
+// Service Related route 
+Route::group(['prefix' => 'service', 'as' => 'service.'], function () {
+    Route::get('/aries', [ServiceController::class, 'aries'])->name('aries');
+    Route::get('/palm', [ServiceController::class, 'palm'])->name('palm');
+    Route::get('/chinese', [ServiceController::class, 'chinese'])->name('chinese');
+    Route::get('/chinese-single', [ServiceController::class, 'chinese_single'])->name('chinese_single');
+    Route::get('/kundli-dosh', [ServiceController::class, 'kundli_dosh'])->name('kundli_dosh');
+    Route::get('/crystal', [ServiceController::class, 'crystal'])->name('crystal');
+    Route::get('/numerology', [ServiceController::class, 'numerology'])->name('numerology');
+    Route::get('/tarot', [ServiceController::class, 'tarot'])->name('tarot');
+    Route::get('/tarot-single', [ServiceController::class, 'tarot_single'])->name('tarot_single');
+    Route::get('/vastu-shastra', [ServiceController::class, 'vastu_shastra'])->name('vastu_shastra');
+});
+
+
+
+
 // Auth
 Route::get('/', [AuthController::class, 'loginPage'])->name('login');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('login', [AuthController::class, 'login'])->name('login-admin');
 Route::resource('register', RegisterController::class);
 
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/', [DashboardController::class, 'index'])->name('admin-dashboard');
     Route::resource('profile', ProfileController::class);
     Route::post('image-profile/{id}', [ProfileController::class, 'profileImage'])->name('image-profile');

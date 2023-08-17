@@ -21,4 +21,14 @@ class Blog extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function like_unlikes()
+    {
+        return $this->morphMany(LikeUnlike::class, 'likeable');
+    }
 }
