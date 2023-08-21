@@ -221,5 +221,23 @@
     </li>
     @endcan
 
+    @can('offer')
+    <li class="menu-item">
+      <a href="{{route('admin.complaint')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Complaint">Complaint</div>
+      </a>
+    </li>
+    @endcan
+
+    @can('offer')
+    <li class="menu-item">
+      <a href="{{route('admin.socialLink')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Web Configuration">Web Configuration</div>
+      </a>
+    </li>
+    @endcan
+
   </ul>
 </aside>

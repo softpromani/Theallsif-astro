@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->string('offer_name');
-            $table->string('offer_code');
+            $table->string('user_id')->nullable();
+            $table->string('offer_code')->unique();
             $table->string('offer_type');
+            $table->float('min_order_value', 10, 2)->default(0);
+            $table->float('max_discount_value', 10, 2)->default(0);
             $table->string('activate_date');
             $table->string('deactivate_date');
             $table->string('discount_type');
-            $table->string('discount_balance');
+            $table->integer('discount')->default(0);
             $table->string('is_active')->default(1);
             $table->timestamps();
             $table->softDeletes();

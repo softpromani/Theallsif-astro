@@ -811,6 +811,7 @@ class AuthController extends Controller
                     'city' => $request->city,
                     'name' => $name,
                     'gender' => $request->gender,
+                    'is_profile' => true,
                 ]
             );
             if (isset($customer)) {

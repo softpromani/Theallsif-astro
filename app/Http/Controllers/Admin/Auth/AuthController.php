@@ -6,6 +6,7 @@ use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Customer;
 use App\Models\Error;
 use App\Models\Offer;
 use App\Models\User;
@@ -148,7 +149,6 @@ class AuthController extends Controller
             'deactivate_date' => 'required',
             'image' => 'image|required',
             'discount_type' => 'required',
-            'discount_balance' => 'required',
             'offer_type' => 'required',
         ]);
 
@@ -161,9 +161,11 @@ class AuthController extends Controller
                 'deactivate_date' => $request->deactivate_date,
                 'offer_code' => $offer_code,
                 'discount_type' => $request->discount_type,
-                'discount_balance' => $request->discount_balance,
+                'discount' => $request->discount,
                 'offer_type' => $request->offer_type,
-                // 'image' => $ImageNames,
+                'max_discount_value' => $request->max_discount_value,
+                'min_order_value' => $request->min_order_value,
+                'user_id' => json_encode($request->user_id ?? []),
             ]);
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -251,7 +253,15 @@ class AuthController extends Controller
                 ->make(true);
         }
         $edit = Offer::find($id);
-        return view('admin.offer.offer_edit', compact('edit'));
+        if ($edit->offer_type == 'Astrologer Wise') {
+            $users = Customer::where('role', 'astrologer')->get();
+        } else if ($edit->offer_type == 'Customer Wise') {
+            $users = Customer::where('role', 'customer')->get();
+        } else {
+            $users = null;
+        }
+
+        return view('admin.offer.offer_edit', compact('edit', 'users'));
     }
 
     public function offerUpdate(Request $request, $id)
@@ -262,7 +272,6 @@ class AuthController extends Controller
             'deactivate_date' => 'required',
             'image' => 'image|nullable',
             'discount_type' => 'required',
-            'discount_balance' => 'required',
             'offer_type' => 'required',
         ]);
 
@@ -272,8 +281,11 @@ class AuthController extends Controller
                 'activate_date' => $request->activate_date,
                 'deactivate_date' => $request->deactivate_date,
                 'discount_type' => $request->discount_type,
-                'discount_balance' => $request->discount_balance,
+                'discount' => $request->discount,
                 'offer_type' => $request->offer_type,
+                'max_discount_value' => $request->max_discount_value,
+                'min_order_value' => $request->min_order_value,
+                'user_id' => json_encode($request->user_id ?? []),
             ]);
 
             if ($request->hasFile('image')) {
@@ -327,5 +339,31 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Server Error ');
         }
         return redirect()->back();
+    }
+
+    public function fetchCustomer($type)
+    {
+        try {
+            if ($type == 'Astrologer Wise') {
+                $res = Customer::where('role', 'astrologer')->get();
+            } else if ($type == 'Customer Wise') {
+                $res = Customer::where('role', 'customer')->get();
+            } else {
+                $res = null;
+            }
+
+            $html = ' <option value="">--Select Person--</option>';
+
+            if ($res != null) {
+                foreach ($res as $r) {
+                    $html .= '<option value="' . $r->id . '">' . $r->name . '</option>';
+                }
+            }
+            return response()->json($html);
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
     }
 }

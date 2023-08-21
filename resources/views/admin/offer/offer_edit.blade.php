@@ -33,35 +33,35 @@ Dashbard || Edit Offer
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-6">
-                                <label for="offer_name" class="form-label">Offer Name</label>
+                                <label for="offer_name" class="form-label">Coupan Name</label>
                                 <input type="text" class="form-control" id="offer_name" name="offer_name" value="{{$edit->offer_name ?? ''}}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="select2success" class="form-label">Offer Type</label>
+                            <label for="select2success" class="form-label">Coupan Type</label>
                             <div class="select2-primary" style="z-index: 999999999 !important;">
 
                                 <select id="select2pr" class="select2 form-select" name="offer_type">
-                                    <option value="All" {{isset($edit)?($edit->offer_type =='All' ? 'selected':''):''}}>All</option>
-                                    <option value="Astrologer" {{isset($edit)?($edit->offer_type =='Astrologer' ? 'selected':''):''}}>Astrologer</option>
-                                    <option value="Customer" {{isset($edit)?($edit->offer_type =='Customer' ? 'selected':''):''}}>Customer</option>
+                                    <option value="Normal" {{isset($edit)?($edit->offer_type =='Normal' ? 'selected':''):''}}>Normal</option>
+                                    <option value="Astrologer Wise" {{isset($edit)?($edit->offer_type =='Astrologer Wise' ? 'selected':''):''}}>Astrologer Wise</option>
+                                    <option value="Customer Wise" {{isset($edit)?($edit->offer_type =='Customer Wise' ? 'selected':''):''}}>Customer Wise</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="activate_date" class="form-label">Activate Date</label>
                                 <input type="datetime-local" class="form-control" id="activate_date" name="activate_date" value="{{$edit->activate_date ??''}}">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="deactivate_date" class="form-label">Deactivate Date</label>
                                 <input type="datetime-local" class="form-control" id="deactivate_date" name="deactivate_date" value="{{$edit->deactivate_date ??''}}">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="select2success" class="form-label">Discount Type</label>
                             <div class="select2-primary" style="z-index: 999999999 !important;">
 
@@ -71,10 +71,22 @@ Dashbard || Edit Offer
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="discount_balance" class="form-label">Discount Balance</label>
-                                <input type="text" class="form-control" id="discount_balance" name="discount_balance" value="{{$edit->discount_balance ??''}}">
+                                <label for="discount" class="form-label">Discount</label>
+                                <input type="text" class="form-control" id="discount" name="discount" value="{{$edit->discount ??''}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="min_order_value" class="form-label">Min Order Value</label>
+                                <input type="text" class="form-control" id="min_order_value" name="min_order_value" value="{{$edit->min_order_value ??''}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="max_discount_value" class="form-label">Max Discount Value</label>
+                                <input type="text" class="form-control" id="max_discount_value" name="max_discount_value" value="{{$edit->max_discount_value ??''}}">
                             </div>
                         </div>
                     </div>
@@ -82,9 +94,26 @@ Dashbard || Edit Offer
                         <div class="col-md-1">
                             <img src="{{$edit->offerimages->first()->img}}" alt="" srcset="" height="50px" width="50px">
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-5">
                             <label for="image" class="form-label">Image</label>
                             <input type="file" class="form-control" id="image" name="image">
+                        </div>
+
+                        <div class="col-md-6 " id="coupan-wise">
+
+                            <label for="select2pro" class="form-label">Coupan By Person</label>
+                            <div class="select2-primary" style="z-index: 999999999 !important;">
+
+                                <select id="select2pro" class="select2 form-select @if($users) @else d-none @endif" name="user_id[]" multiple>
+                                    @if($users)
+                                    @forelse ($users as $user)
+                                    <option value="{{ $user->id }}" {{ isset($edit) ? (in_array($user->id, json_decode($edit->user_id)) ? 'selected' : '' ) : ''  }}>{{ $user->name ?? '' }}</option>
+                                    @empty
+                                    <option>No data found</option>
+                                    @endforelse
+                                    @endif
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,11 +139,13 @@ Dashbard || Edit Offer
                 <tr>
                     <th>Sr. No.</th>
                     <th>Image</th>
-                    <th>Offer Name</th>
-                    <th>Offer Code</th>
-                    <th>Offer Type</th>
+                    <th>Coupan Name</th>
+                    <th>Coupan Code</th>
+                    <th>Coupan Type</th>
                     <th>Discount Type</th>
-                    <th>Discount Balance</th>
+                    <th>Discount</th>
+                    <th>Max Discount Value</th>
+                    <th>Min Order Value</th>
                     <th>Activate Date</th>
                     <th>Deactivate Date</th>
                     <th>Is Active</th>
@@ -139,7 +170,8 @@ Dashbard || Edit Offer
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
-                }, {
+                },
+                {
                     data: 'imagemedia',
                     name: 'imagemedia   '
                 },
@@ -160,8 +192,18 @@ Dashbard || Edit Offer
                     name: 'discount_type',
                 },
                 {
-                    data: 'discount_balance',
-                    name: 'discount_balance',
+                    data: 'discount',
+                    name: 'discount',
+                },
+
+                {
+                    data: 'max_discount_value',
+                    name: 'max_discount_value',
+                },
+
+                {
+                    data: 'min_order_value',
+                    name: 'min_order_value',
                 },
                 {
                     data: 'activate_date',
@@ -182,7 +224,7 @@ Dashbard || Edit Offer
                     orderable: true,
                     searchable: true
                 },
-                // Add more column definitions here
+
             ]
         });
     });
@@ -223,4 +265,51 @@ Dashbard || Edit Offer
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#exampleModal').on('shown.bs.modal', function() {
+            $('#select2pro').select2({
+                dropdownParent: $('#exampleModal')
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#select2pr").change(function() {
+            $('#coupan-wise').hide();
+            $(this).find("option:selected").each(function() {
+                var optionValue = $(this).attr("value");
+                if (optionValue == 'Astrologer Wise' || optionValue == 'Customer Wise') {
+                    $('#coupan-wise').show();
+                } else if (optionValue == 'Normal') {
+                    $('#coupan-wise').hide();
+                }
+            });
+        }).change();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('change', "#select2pr", function() {
+            $(this).find("option:selected").each(function() {
+                var optionValue = $(this).attr("value");
+                var newurl = "{{ url('/admin/fetchcustomer') }}/" + optionValue;
+                $.ajax({
+                    url: newurl,
+                    method: 'get',
+                    beforeSend: function() {
+                        $('#select2pro').html('<option selected hidden>Fetching.......</option>');
+                    },
+                    success: function(p) {
+                        $("#select2pro").html(p);
+                    }
+                });
+            });
+        }).change();
+    });
+</script>
+
 @endpush

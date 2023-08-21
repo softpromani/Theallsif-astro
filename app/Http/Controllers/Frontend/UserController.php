@@ -155,12 +155,13 @@ class UserController extends Controller
                 'state' => $request->state,
                 'city' => $request->city,
                 'name' => $name,
+                'is_profile' => true,
             ]
         );
         if (isset($user)) {
-            return redirect()->back()->with('success', 'Status Updated Successfully');
+            return redirect()->back()->with('success', 'Profile Updated Successfully');
         } else {
-            return redirect()->back()->with('error', 'Status Not Update Successfully');
+            return redirect()->back()->with('error', 'Profile Not Update Successfully');
         }
     }
 }

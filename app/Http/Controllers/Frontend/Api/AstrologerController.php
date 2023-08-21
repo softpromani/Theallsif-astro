@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Astrologer;
 use App\Models\Experties;
 use App\Models\Faq;
-use App\Models\language;
+use App\Models\Language;
 use App\Models\RatingReview;
 use App\Models\WebPage;
 use Exception;
@@ -56,7 +56,7 @@ class AstrologerController extends Controller
         }
 
         try {
-            $languages = language::get();
+            $languages = Language::get();
 
             return response()->json([
                 'message' => 'Data Found Successfully !',

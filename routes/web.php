@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Auth\RegisterController;
 use App\Http\Controllers\Admin\Auth\ProfileController;
 use App\Http\Controllers\Admin\AuthUserController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\ComplaintController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExpertiesController;
 use App\Http\Controllers\Admin\LanguageController;
@@ -144,6 +145,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('offer-edit/{id}', [AuthController::class, 'offerEdit'])->name('offerEdit');
     Route::post('offer-update/{id}', [AuthController::class, 'offerUpdate'])->name('offerUpdate');
     Route::post('offer-delete/{id}', [AuthController::class, 'offerDelete'])->name('offerDelete');
+    Route::get('fetchcustomer/{type}', [AuthController::class, 'fetchCustomer'])->name('fetchCustomer');
 
     Route::get('teams', [TeamController::class, 'teams'])->name('teams');
     Route::post('team-store', [TeamController::class, 'teamStore'])->name('teamStore');
@@ -162,6 +164,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('image-web-sliders-edit/{id}', [BlogController::class, 'imageWebsliderEdit'])->name('imageWebsliderEdit');
     Route::post('image-web-sliders-update', [BlogController::class, 'imageWebsliderUpdate'])->name('imageWebsliderUpdate');
     Route::post('image-web-sliders-delete/{id}', [BlogController::class, 'imageWebsliderDelete'])->name('imageWebsliderDelete');
+
+    Route::get('complaint', [ComplaintController::class, 'complaint'])->name('complaint');
+    Route::post('complaint-store', [ComplaintController::class, 'complaintStore'])->name('complaintStore');
+    Route::get('complaint-status/{id}', [ComplaintController::class, 'is_activeComplaint'])->name('is_activeComplaint');
+    Route::get('complaint-edit/{id}', [ComplaintController::class, 'complaintEdit'])->name('complaintEdit');
+    Route::post('complaint-update/{id}', [ComplaintController::class, 'complaintUpdate'])->name('complaintUpdate');
+    Route::post('complaint-delete/{id}', [ComplaintController::class, 'complaintDelete'])->name('complaintDelete');
+
+
+    Route::get('social-links', [ComplaintController::class, 'socialLink'])->name('socialLink');
+    Route::post('social-links-store', [ComplaintController::class, 'sociallinkStore'])->name('sociallinkStore');
 });
 
 Route::group(['middleware' => 'common'], function () {
