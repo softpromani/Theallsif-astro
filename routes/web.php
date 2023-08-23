@@ -16,11 +16,12 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReportController;
-
+use App\Http\Controllers\Admin\SubscriptionController;
 //Frontend--------------------
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\ServiceController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,8 +176,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
 
     Route::get('social-links', [ComplaintController::class, 'socialLink'])->name('socialLink');
     Route::post('social-links-store', [ComplaintController::class, 'sociallinkStore'])->name('sociallinkStore');
+
+    Route::get('subscription', [SubscriptionController::class, 'subscription'])->name('subscription');
+    Route::post('subscription-store', [SubscriptionController::class, 'subscriptionStore'])->name('subscriptionStore');
+    Route::get('subscription-status/{id}', [SubscriptionController::class, 'is_activeSubscription'])->name('is_activeSubscription');
+    Route::get('subscription-edit/{id}', [SubscriptionController::class, 'subscriptionEdit'])->name('subscriptionEdit');
+    Route::post('subscription-update/{id}', [SubscriptionController::class, 'subscriptionUpdate'])->name('subscriptionUpdate');
+    Route::post('subscription-delete/{id}', [SubscriptionController::class, 'subscriptionDelete'])->name('subscriptionDelete');
 });
 
 Route::group(['middleware' => 'common'], function () {
     Route::get('chat', [ChatController::class, 'chat'])->name('common-chat');
+});
+
+Route::get('storage-link', function () {
+    Artisan::call('storage:link');
 });

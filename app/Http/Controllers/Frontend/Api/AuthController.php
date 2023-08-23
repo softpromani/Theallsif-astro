@@ -836,4 +836,74 @@ class AuthController extends Controller
             ]);
         }
     }
+
+    public function signUp(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'date_of_birth' => 'required',
+            'date_of_time' => 'required',
+            'name' => 'required',
+            'place_of_birth' => 'required',
+            'gender' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation Fail',
+                'error' => $validator->messages()
+            ], 200);
+        }
+
+        try {
+
+            $user = Auth::guard('sanctum')->user();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Unauthenticated',
+                    'status' => false,
+                    'error' => null
+                ], 401);
+            }
+            $fullName = $request->name;
+            $nameParts = explode(' ', $fullName, 2); // Split into 2 parts at the first space
+
+            $first_name = $nameParts[0];
+            $last_name = isset($nameParts[1]) ? $nameParts[1] : '';
+            if ($user->role == 'customer') {
+
+                $customer = Customer::find($user->id)->update(
+                    [
+                        'dob_time' => $request->date_of_time,
+                        'dob' => $request->date_of_birth,
+                        'dob_place' => $request->place_of_birth,
+                        'name' => $request->name,
+                        'is_profile' => true,
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                        'gender' => $request->gender,
+                    ]
+                );
+            }
+            if (isset($customer)) {
+                $cust = Customer::find($user->id);
+                return response()->json([
+                    'message' => 'Data updated successfully !',
+                    'data' => $cust,
+                    'status' => true,
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Data  not update successfully !',
+                    'data' => NULL,
+                    'status' => false
+                ]);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                'data' => NULL,
+                'message' => 'Server Error -' . $ex->getMessage(),
+                'status' => false
+            ]);
+        }
+    }
 }

@@ -243,6 +243,12 @@ Dashbard || Add Astrologer
 						</div>
 					</div>
 
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="service_agreement" class="form-label">Service Agreement</label>
+							<input type="file" class="form-control" id="service_agreement" name="service_agreement">
+						</div>
+					</div>
 
 				</div>
 				<div class="modal-footer">

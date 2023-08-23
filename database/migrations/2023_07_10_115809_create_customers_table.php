@@ -35,6 +35,7 @@ return new class extends Migration
 
             $table->string('referral_code')->nullable();
             $table->string('referral_id')->nullable();
+            $table->integer('is_profile')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

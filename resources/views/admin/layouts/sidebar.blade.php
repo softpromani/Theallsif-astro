@@ -68,32 +68,43 @@
       </ul>
     </li>
 
-    @can('employee')
-    <li class="menu-item">
-      <a href="{{route('admin.authuser.index')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-smart-home"></i>
-        <div data-i18n="Employee">Employee</div>
-      </a>
-    </li>
-    @endcan
 
-    @can('customer')
     <li class="menu-item">
-      <a href="{{route('admin.customers')}}" class="menu-link">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Customer">Customer</div>
+        <div data-i18n="Users">Users</div>
       </a>
+      <ul class="menu-sub">
+        @can('employee')
+        <li class="menu-item">
+          <a href="{{route('admin.authuser.index')}}" class="menu-link">
+            <div data-i18n="Employee">Employee</div>
+          </a>
+        </li>
+        @endcan
+        @can('customer')
+        <li class="menu-item">
+          <a href="{{route('admin.customers')}}" class="menu-link">
+            <div data-i18n="Customer">Customer</div>
+          </a>
+        </li>
+        @endcan
+        @can('astrologer')
+        <li class="menu-item">
+          <a href="{{route('admin.astrologer.index')}}" class="menu-link">
+            <div data-i18n="Astrologer">Astrologer</div>
+          </a>
+        </li>
+        @endcan
+        @can('team')
+        <li class="menu-item">
+          <a href="{{route('admin.teams')}}" class="menu-link">
+            <div data-i18n="Teams">Teams</div>
+          </a>
+        </li>
+        @endcan
+      </ul>
     </li>
-    @endcan
-
-    @can('astrologer')
-    <li class="menu-item">
-      <a href="{{route('admin.astrologer.index')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Astrologer">Astrologer</div>
-      </a>
-    </li>
-    @endcan
 
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -116,23 +127,29 @@
       </ul>
     </li>
 
-    @can('offer')
     <li class="menu-item">
-      <a href="{{route('admin.offers')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Offer">Offer</div>
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-gift"></i>
+        <div data-i18n="Offer & Subscription">Offer & Subscription</div>
       </a>
-    </li>
-    @endcan
 
-    @can('team')
-    <li class="menu-item">
-      <a href="{{route('admin.teams')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Teams">Teams</div>
-      </a>
+      <ul class="menu-sub">
+        @can('offer')
+        <li class="menu-item">
+          <a href="{{route('admin.offers')}}" class="menu-link">
+            <div data-i18n="Offer">Offer</div>
+          </a>
+        </li>
+        @endcan
+        @can('subscription')
+        <li class="menu-item">
+          <a href="{{route('admin.subscription')}}" class="menu-link">
+            <div data-i18n="Subscriptions">Subscriptions</div>
+          </a>
+        </li>
+        @endcan
+      </ul>
     </li>
-    @endcan
 
     <!-- <li class="menu-item">
       <a href="{{route('common-chat')}}" class="menu-link">
@@ -167,59 +184,80 @@
       </ul>
     </li>
 
-    @can('web_slider')
     <li class="menu-item">
-      <a href="{{route('admin.webSlider')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
-        <div data-i18n="Web Sliders">Web Sliders</div>
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+        <div data-i18n="Blog & Events">Blog & Events</div>
       </a>
-    </li>
-    @endcan
 
-    @can('category')
-    <li class="menu-item">
-      <a href="{{route('admin.category')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
-        <div data-i18n="Category Pages">Category Pages</div>
-      </a>
+      <ul class="menu-sub">
+        @can('category')
+        <li class="menu-item">
+          <a href="{{route('admin.category')}}" class="menu-link">
+            <div data-i18n="Category">Category</div>
+          </a>
+        </li>
+        @endcan
+        @can('blog')
+        <li class="menu-item">
+          <a href="{{route('admin.blog')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-file"></i>
+            <div data-i18n="Blog">Blog</div>
+          </a>
+        </li>
+        @endcan
+        @can('event')
+        <li class="menu-item">
+          <a href="{{route('admin.event')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-file"></i>
+            <div data-i18n="Event">Event</div>
+          </a>
+        </li>
+        @endcan
+      </ul>
     </li>
-    @endcan
 
-    @can('blog')
     <li class="menu-item">
-      <a href="{{route('admin.blog')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
-        <div data-i18n="Blog Pages">Blog Pages</div>
-      </a>
-    </li>
-    @endcan
-
-    @can('event')
-    <li class="menu-item">
-      <a href="{{route('admin.event')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
-        <div data-i18n="Event Pages">Event Pages</div>
-      </a>
-    </li>
-    @endcan
-
-    @can('faq')
-    <li class="menu-item">
-      <a href="{{route('admin.faq')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
-        <div data-i18n="Faq Pages">Faq Pages</div>
-      </a>
-    </li>
-    @endcan
-
-    @can('web_page')
-    <li class="menu-item">
-      <a href="{{route('admin.webPage')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-file"></i>
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
         <div data-i18n="Web Pages">Web Pages</div>
       </a>
+
+      <ul class="menu-sub">
+        @can('web_page')
+        <li class="menu-item">
+          <a href="{{route('admin.webPage')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-file"></i>
+            <div data-i18n="Pages">Pages</div>
+          </a>
+        </li>
+        @endcan
+        @can('web_slider')
+        <li class="menu-item">
+          <a href="{{route('admin.webSlider')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-file"></i>
+            <div data-i18n="Web Sliders">Web Sliders</div>
+          </a>
+        </li>
+        @endcan
+        @can('faq')
+        <li class="menu-item">
+          <a href="{{route('admin.faq')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-file"></i>
+            <div data-i18n="Faq Pages">Faq Pages</div>
+          </a>
+        </li>
+        @endcan
+        @can('offer')
+        <li class="menu-item">
+          <a href="{{route('admin.socialLink')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti ti-user"></i>
+            <div data-i18n="Web Configuration">Web Configuration</div>
+          </a>
+        </li>
+        @endcan
+      </ul>
     </li>
-    @endcan
 
     @can('offer')
     <li class="menu-item">
@@ -230,14 +268,7 @@
     </li>
     @endcan
 
-    @can('offer')
-    <li class="menu-item">
-      <a href="{{route('admin.socialLink')}}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Web Configuration">Web Configuration</div>
-      </a>
-    </li>
-    @endcan
+
 
   </ul>
 </aside>

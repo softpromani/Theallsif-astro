@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('send-otp', [AuthController::class, 'sendOTP']);
 Route::post('verify-otp', [AuthController::class, 'verifyOTP']);
-
+Route::post('sign-up', [AuthController::class, 'signUp']);
 Route::group(['prefix' => 'astrology', 'middlware' => 'auth:api'], function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/astrologers-show', [AstrologerController::class, 'getAstrologerCount']);

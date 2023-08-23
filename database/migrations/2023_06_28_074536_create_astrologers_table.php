@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('is_active')->default(1);
             $table->string('gender')->nullable();
+            $table->string('service_agreement')->nullable();
             $table->string('dob')->nullable();
             $table->string('dob_time')->nullable();
             $table->string('dob_place')->nullable();
