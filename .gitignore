@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 .htaccesss
 storage/logs/
+storage/framework/
