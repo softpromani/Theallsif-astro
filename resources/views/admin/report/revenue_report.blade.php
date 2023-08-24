@@ -13,15 +13,23 @@ Dashbard || Revenue Report
                 <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="ti ti-calendar"></i>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end p-1">
                     <li>
+                        <input type="text" class="form-control date_range flatpickr-input " placeholder="YYYY-MM-DD to YYYY-MM-DD" id="flatpickr-range" name="date_range" readonly="readonly">
+                    </li>
+                    <!-- <li>
                         <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a>
                     </li>
                     <li>
                         <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a>
+                        <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Date Range</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a>
@@ -34,7 +42,7 @@ Dashbard || Revenue Report
                     </li>
                     <li>
                         <a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

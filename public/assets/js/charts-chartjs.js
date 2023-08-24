@@ -990,7 +990,7 @@
             pointRadius: 5
           },
           {
-            label: 'Profit Revenue',
+            label: 'Admin Revenue',
             data: [
               {
                 x: 70,

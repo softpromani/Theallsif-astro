@@ -42,7 +42,7 @@ Dashbard || Call Report
                 <h4>Call Report</h4>
             </div>
             <div class="col-md-4 col-6 mb-4">
-                <label for="flatpickr-range" class="form-label">Date Range</label>
+                <label for="flatpickr-range" class="form-label"><b>Date Range</b></label>
                 <input type="text" class="form-control date_range flatpickr-input" placeholder="YYYY-MM-DD to YYYY-MM-DD" id="flatpickr-range" name="date_range" readonly="readonly">
             </div>
             <!-- </form> -->
