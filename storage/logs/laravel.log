@@ -818,3 +818,35 @@
 [stacktrace]
 #0 {main}
 "} 
+[2023-08-31 07:03:30] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChFavorite.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:03:34] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChFavorite.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:04:29] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChFavorite.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:04:35] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChFavorite.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:05:34] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChFavorite.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:06:35] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChMessage.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:06:36] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChMessage.php:8)
+[stacktrace]
+#0 {main}
+"} 
+[2023-08-31 07:07:14] local.ERROR: Trait "Chatify\Traits\UUID" not found {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Chatify\\Traits\\UUID\" not found at E:\\Theallsif-astro\\app\\Models\\ChMessage.php:8)
+[stacktrace]
+#0 {main}
+"} 
