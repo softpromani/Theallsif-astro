@@ -24,6 +24,11 @@ class Astrologer extends Model
         return $this->hasOne(AstrologerCost::class, 'astrologer_id');
     }
 
+    public function serviceAgreement()
+    {
+        return $this->hasOne(ServiceAgreement::class, 'astrologer_id', 'id');
+    }
+
     public function customer_astrologer()
     {
         return $this->hasOne(Customer::class, 'astrologer_id');

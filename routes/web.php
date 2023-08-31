@@ -77,7 +77,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login-admin');
 Route::resource('register', RegisterController::class);
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:web', 'as' => 'admin.'], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/', [DashboardController::class, 'index'])->name('admin-dashboard');
     Route::resource('profile', ProfileController::class);
@@ -88,6 +88,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as' => 'admin.'], fu
     Route::get('is_active/{id}', [AstrologerController::class, 'is_active'])->name('is_active');
     Route::get('cost/{id}', [AstrologerController::class, 'costHr'])->name('costHr');
     Route::post('charge-store', [AstrologerController::class, 'storeCostHr'])->name('storeCostHr');
+    Route::get('service-agreement-admin/{id}', [AstrologerController::class, 'serviceAgreementadmin'])->name('serviceAgreementadmin');
+    Route::get('service-agreement-astrologer/{id}', [AstrologerController::class, 'serviceAgreementastro'])->name('serviceAgreementastro');
+    Route::post('service-agreement-admin', [AstrologerController::class, 'storeServiceAgreementadmin'])->name('storeServiceAgreementadmin');
+    Route::post('service-agreement-astrologer', [AstrologerController::class, 'storeServiceAgreementastro'])->name('storeServiceAgreementastro');
     // Route::post('upload-csv', [AstrologerController::class, 'uploadCsv'])->name('uploadCsv');
     Route::get('expoart', [AstrologerController::class, 'exportAstrologer'])->name('exportAstrologer');
 

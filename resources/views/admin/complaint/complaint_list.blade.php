@@ -42,11 +42,25 @@ Dashbard || Complaint
 
     @can('offer_read')
     <div class="card-datatable table-responsive">
+
+        <div class="col-md-3">
+            <label for="select2pr" class="form-label"><b>Status</b></label>
+            <div class="select2-primary" style="z-index: 999999999 !important;">
+                <select class="select2 form-select select2pr" name="status" id="status-filter">
+                    <option>Select Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Transfer">Transfer</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+        </div>
+
         <table class="datatables table border-top">
             <thead>
                 <tr>
                     <th>Sr. No.</th>
                     <th>User Name</th>
+                    <th>User Type</th>
                     <th>Complaint ID</th>
                     <th>Complaint Discreption</th>
                     <th>Status</th>
@@ -72,26 +86,16 @@ Dashbard || Complaint
                 @csrf
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="select2success" class="form-label">User Name</label>
                             <div class="select2-primary" style="z-index: 999999999 !important;">
                                 @php
-                                $users=\App\Models\Customer::where('role','customer')->get();
+                                $users=\App\Models\Customer::get();
                                 @endphp
                                 <select id="select2success" class="select2 form-select" name="user_id">
                                     @foreach($users as $user)
-                                    <option value="{{$user->id}}">{{$user->full_name ?? ''}}</option>
+                                    <option value="{{$user->id}}">{{$user->phone ?? ''}}/{{$user->role ?? ''}}/{{$user->full_name ?? ''}}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="select2pr" class="form-label">Status</label>
-                            <div class="select2-primary" style="z-index: 999999999 !important;">
-                                <select id="select2pr" class="select2 form-select" name="status">
-                                    <option value="Panding">Panding</option>
-                                    <option value="Transfer">Transfer</option>
-                                    <option value="Complited">Complited</option>
                                 </select>
                             </div>
                         </div>
@@ -101,7 +105,16 @@ Dashbard || Complaint
                                 <textarea type="text" class="form-control" name="complaint_disc" rows="8"></textarea>
                             </div>
                         </div>
-
+                        <div class="col-md-12">
+                            <label for="select2pr" class="form-label">Status</label>
+                            <div class="select2-primary" style="z-index: 999999999 !important;">
+                                <select class="select2 form-select select2pr" name="status">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Transfer">Transfer</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -115,49 +128,7 @@ Dashbard || Complaint
 </div>
 @endsection
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.datatables').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{!! route('admin.complaint') !!}",
 
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'user_id',
-                    name: 'user_id',
-                },
-                {
-                    data: 'complaint_ticket',
-                    name: 'complaint_ticket',
-                },
-                {
-                    data: 'complaint_disc',
-                    name: 'complaint_disc',
-                },
-
-                {
-                    data: 'status',
-                    name: 'status',
-                },
-                {
-                    data: 'is_active',
-                    name: 'is_active',
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: true,
-                    searchable: true
-                },
-
-            ]
-        });
-    });
-</script>
 <script>
     $(document).ready(function() {
         $(document).on('change', '.is_active', function() {
@@ -188,11 +159,66 @@ Dashbard || Complaint
 <script>
     $(document).ready(function() {
         $('#exampleModal').on('shown.bs.modal', function() {
-            $('#select2pr').select2({
+            $('.select2pr').select2({
                 dropdownParent: $('#exampleModal')
             });
         });
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        var dataTable = $('.datatables').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route("admin.complaint") }}', // Change to the correct route
+                data: function(d) {
+                    d.status = $('#status-filter').val();
+                }
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'user_id',
+                    name: 'user_id',
+                },
+                {
+                    data: 'user_type',
+                    name: 'user_type',
+                },
+                {
+                    data: 'complaint_ticket',
+                    name: 'complaint_ticket',
+                },
+                {
+                    data: 'complaint_disc',
+                    name: 'complaint_disc',
+                },
+
+                {
+                    data: 'status',
+                    name: 'status',
+                },
+                {
+                    data: 'is_active',
+                    name: 'is_active',
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: true
+                },
+
+            ]
+        });
+
+        $('#status-filter').on('change', function() {
+            dataTable.ajax.reload();
+        });
+    });
+</script>
 @endpush

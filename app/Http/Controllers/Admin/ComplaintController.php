@@ -43,16 +43,27 @@ class ComplaintController extends Controller
     }
 
 
-    public function complaint()
+    public function complaint(Request $request, $complaint_type = Null)
     {
-        // return  $blogs = Blog::first()->images->first()->img;
         if (request()->ajax()) {
-            $complaints = Complaint::latest()->get();
+            $query = Complaint::latest();
+            if (request()->has('status')) {
+                $statusFilter = request('status');
+                if ($statusFilter != 'Select Status') {
+                    $query->where('status', $statusFilter);
+                }
+            }
+            $complaints = $query->get();
             return Datatables::of($complaints)
                 ->addIndexColumn()
                 ->addColumn('user_id', function ($row) {
                     $ht = '';
                     $ht .= $row->customer->name;
+                    return $ht;
+                })
+                ->addColumn('user_type', function ($row) {
+                    $ht = '';
+                    $ht .= $row->customer->role;
                     return $ht;
                 })
                 ->addColumn('is_active', function ($row) {
@@ -89,7 +100,7 @@ class ComplaintController extends Controller
                     return $ht;
                 })
                 // 
-                ->rawColumns(['action', 'is_active', 'user_id'])
+                ->rawColumns(['action', 'is_active', 'user_id', 'user_type'])
                 ->make(true);
         }
 
@@ -143,12 +154,24 @@ class ComplaintController extends Controller
     {
         $id = Crypt::decrypt($id);
         if (request()->ajax()) {
-            $complaints = Complaint::latest()->get();
+            $query = Complaint::latest();
+            if (request()->has('status')) {
+                $statusFilter = request('status');
+                if ($statusFilter != 'Select Status') {
+                    $query->where('status', $statusFilter);
+                }
+            }
+            $complaints = $query->get();
             return Datatables::of($complaints)
                 ->addIndexColumn()
                 ->addColumn('user_id', function ($row) {
                     $ht = '';
                     $ht .= $row->customer->name;
+                    return $ht;
+                })
+                ->addColumn('user_type', function ($row) {
+                    $ht = '';
+                    $ht .= $row->customer->role;
                     return $ht;
                 })
                 ->addColumn('is_active', function ($row) {
@@ -185,7 +208,7 @@ class ComplaintController extends Controller
                     return $ht;
                 })
                 // 
-                ->rawColumns(['action', 'is_active', 'user_id'])
+                ->rawColumns(['action', 'is_active', 'user_id', 'user_type'])
                 ->make(true);
         }
         $edit = Complaint::find($id);
