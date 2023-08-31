@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('astrologer_costs', function (Blueprint $table) {
             $table->id();
             $table->string('astrologer_id');
-            $table->string('astrologer_cost')->nullable();
-            $table->string('admin_cost')->nullable();
+            $table->double('payment_chat',10,2)->default(0.00)->comment('per-minute charge');
+            $table->double('payment_call',10,2)->default(0.00)->comment('per-minute charge');
+            $table->bigInteger('admin_charge')->default(0)->comment('admin charges in percentage');
             $table->timestamps();
             $table->softDeletes();
         });
