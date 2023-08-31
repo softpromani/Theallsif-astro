@@ -31,26 +31,16 @@ Dashbard || Edit Complaint
                 @csrf
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label for="select2success" class="form-label">User Name</label>
                             <div class="select2-primary" style="z-index: 999999999 !important;">
                                 @php
-                                $users=\App\Models\Customer::where('role','customer')->get();
+                                $users=\App\Models\Customer::get();
                                 @endphp
                                 <select id="select2success" class="select2 form-select" name="user_id">
                                     @foreach($users as $user)
-                                    <option value="{{$user->id}}" {{ isset($edit) ? ($edit->user_id == $user->id ? 'selected' : '') : '' }}>{{$user->full_name ?? ''}}</option>
+                                    <option value="{{$user->id}}" {{ isset($edit) ? ($edit->user_id == $user->id ? 'selected' : '') : '' }}>{{$user->phone ?? ''}}/{{$user->role ?? ''}}/{{$user->full_name ?? ''}}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="select2pr" class="form-label">Status</label>
-                            <div class="select2-primary" style="z-index: 999999999 !important;">
-                                <select id="select2pr" class="select2 form-select" name="status">
-                                    <option value="Panding" {{ isset($edit) ? ($edit->status == 'Panding' ? 'selected' : '') : '' }}>Panding</option>
-                                    <option value="Transfer" {{ isset($edit) ? ($edit->status == 'Transfer' ? 'selected' : '') : '' }}>Transfer</option>
-                                    <option value="Complited" {{ isset($edit) ? ($edit->status == 'Complited' ? 'selected' : '') : '' }}>Complited</option>
                                 </select>
                             </div>
                         </div>
@@ -58,6 +48,16 @@ Dashbard || Edit Complaint
                             <div class="mb-6">
                                 <label for="complaint_disc" class="form-label">Complaint Discription</label>
                                 <textarea type="text" class="form-control" name="complaint_disc" rows="8">{{$edit->complaint_disc ??''}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="select2pr" class="form-label">Status</label>
+                            <div class="select2-primary" style="z-index: 999999999 !important;">
+                                <select id="select2pr" class="select2 form-select" name="status">
+                                    <option value="Panding" {{ isset($edit) ? ($edit->status == 'Panding' ? 'selected' : '') : '' }}>Panding</option>
+                                    <option value="Transfer" {{ isset($edit) ? ($edit->status == 'Transfer' ? 'selected' : '') : '' }}>Transfer</option>
+                                    <option value="Complited" {{ isset($edit) ? ($edit->status == 'Complited' ? 'selected' : '') : '' }}>Complited</option>
+                                </select>
                             </div>
                         </div>
 
@@ -80,11 +80,23 @@ Dashbard || Edit Complaint
 
     @can('offer_read')
     <div class="card-datatable table-responsive">
+        <div class="col-md-3">
+            <label for="select2pr" class="form-label"><b>Status</b></label>
+            <div class="select2-primary" style="z-index: 999999999 !important;">
+                <select class="select2 form-select select2pr" name="status" id="status-filter">
+                    <option>Select Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Transfer">Transfer</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+        </div>
         <table class="datatables table border-top">
             <thead>
                 <tr>
                     <th>Sr. No.</th>
                     <th>User Name</th>
+                    <th>User Type</th>
                     <th>Complaint ID</th>
                     <th>Complaint Discreption</th>
                     <th>Status</th>
@@ -102,11 +114,15 @@ Dashbard || Edit Complaint
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('.datatables').DataTable({
+        var dataTable = $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('admin.complaint') !!}",
-
+            ajax: {
+                url: '{{ route("admin.complaint") }}', // Change to the correct route
+                data: function(d) {
+                    d.status = $('#status-filter').val();
+                }
+            },
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -116,6 +132,10 @@ Dashbard || Edit Complaint
                     name: 'user_id',
                 },
                 {
+                    data: 'user_type',
+                    name: 'user_type',
+                },
+                {
                     data: 'complaint_ticket',
                     name: 'complaint_ticket',
                 },
@@ -123,6 +143,7 @@ Dashbard || Edit Complaint
                     data: 'complaint_disc',
                     name: 'complaint_disc',
                 },
+
                 {
                     data: 'status',
                     name: 'status',
@@ -139,6 +160,10 @@ Dashbard || Edit Complaint
                 },
 
             ]
+        });
+
+        $('#status-filter').on('change', function() {
+            dataTable.ajax.reload();
         });
     });
 </script>

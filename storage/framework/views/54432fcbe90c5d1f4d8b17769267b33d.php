@@ -122,17 +122,219 @@ Dashbard || Admin
     <div class="col-12 mb-4">
       <div class="card">
         <div class="card-header flex-nowrap header-elements">
+          <h5 class="card-title mb-0">Analysis Data</h5>
+          <div class="card-header-elements ms-auto py-0 d-none d-sm-block">
+
+            <div class="btn-group" role="group" aria-label="radio toggle button group">
+              <label for="flatpickr-range" class="form-label"> <i class="ti ti-calendar"></i></label>
+              <input type="text" class="form-control date_range flatpickr-input" placeholder="YYYY-MM-DD to YYYY-MM-DD" id="flatpickr-range" name="date_range" readonly="readonly">
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-2">
+          <div class="row gy-3">
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-info me-3 p-2">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Astrologer::get()->count()); ?>+</h5>
+                  <small>Astrologers</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Customers</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-danger me-3 p-2">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\User::get()->count()); ?>+</h5>
+                  <small>Employee</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-success me-3 p-2">
+                  <i class="ti ti-currency-dollar ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0">$9745</h5>
+                  <small>Recharges</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>New Customers</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-success me-3 p-2">
+                  <i class="ti ti-currency-dollar ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0">$9745</h5>
+                  <small>Revenue</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Visitor</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2 avatar avatar-online">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Active Customer</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2 avatar avatar-online">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Free Customer</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2 avatar avatar-online">
+                  <i class="ti ti-users ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Busy Customer</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-external-link ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Referrals</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-external-link ti-gift"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Offer</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-discount-2 ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Discount/Promo</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-phone ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Attend Call</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="ti ti-phone ti-sm"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Missed Call</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="fa-regular fa-comments"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Attend Chat</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="d-flex align-items-center">
+                <div class="badge rounded-pill bg-label-primary me-3 p-2">
+                  <i class="fa-regular fa-comments"></i>
+                </div>
+                <div class="card-info">
+                  <h5 class="mb-0"><?php echo e(\App\Models\Customer::where('role','customer')->get()->count()); ?>+</h5>
+                  <small>Missed Chat</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-header flex-nowrap header-elements">
           <h5 class="card-title mb-0">Revenue Data</h5>
           <div class="card-header-elements ms-auto py-0 d-none d-sm-block">
+
             <div class="btn-group" role="group" aria-label="radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio" id="dailyRadio" checked="">
-              <label class="btn btn-outline-secondary waves-effect" for="dailyRadio">Daily</label>
-
-              <input type="radio" class="btn-check" name="btnradio" id="monthlyRadio">
-              <label class="btn btn-outline-secondary waves-effect" for="monthlyRadio">Monthly</label>
-
-              <input type="radio" class="btn-check" name="btnradio" id="yearlyRadio">
-              <label class="btn btn-outline-secondary waves-effect" for="yearlyRadio">Yearly</label>
+              <label for="flatpickr-range" class="form-label"> <i class="ti ti-calendar"></i></label>
+              <input type="text" class="form-control date_range flatpickr-input" placeholder="YYYY-MM-DD to YYYY-MM-DD" id="flatpickr-range" name="date_range" readonly="readonly">
             </div>
           </div>
         </div>
@@ -141,6 +343,8 @@ Dashbard || Admin
         </div>
       </div>
     </div>
+
+
   </div>
 </div>
 

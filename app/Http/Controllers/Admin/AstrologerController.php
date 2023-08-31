@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\URL;
 use League\Csv\Reader;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AstrologerExport;
+use App\Helpers\ImageHelper;
+use App\Notifications\ServiceAgreements;
+use App\Models\Media;
+use Illuminate\Support\Facades\Storage;
+use App\Models\ServiceAgreement;
+use Illuminate\Support\Facades\Notification;
 
 
 class AstrologerController extends Controller
@@ -69,7 +75,43 @@ class AstrologerController extends Controller
                     }
                     return $ht;
                 })
-                ->rawColumns(['action', 'is_active'])
+                ->addColumn('service_by_admin', function ($row) {
+                    $ht = '';
+                    $ht .= '<a  class="btn btn-link p-0 service_by_admin "style="display:inline" data-id="' . $row->id . '"><button type="button" class="btn btn-sm btn-primary">Upload</button></a>';
+                    return $ht;
+                })
+                ->addColumn('service_admin_download', function ($row) {
+                    $ht = '';
+                    $imagePath = $row->serviceAgreement->agreement_by_admin ?? '';
+
+                    if ($imagePath == null) {
+                        $downloadLink = asset($imagePath);
+                        $ht .= '<a class="btn btn-link p-0  "style="display:inline" data-id="' . $row->id . '"><button type="button" class="btn btn-sm btn-primary" disabled>Download </button></a>';
+                    } else {
+                        $downloadLink = asset($imagePath);
+                        $ht .= '<a href="' . $downloadLink . '" download class="btn btn-link p-0  "style="display:inline" data-id="' . $row->id . '"><button type="button" class="btn btn-sm btn-primary">Download</button></a>';
+                    }
+                    return $ht;
+                })
+                ->addColumn('service_by_astrologer', function ($row) {
+                    $ht = '';
+                    $ht .= '<a  class="btn btn-link p-0 service_by_astrologer "style="display:inline" data-id="' . $row->id . '"><button type="button" class="btn btn-sm btn-primary">Upload</button></a>';
+                    return $ht;
+                })
+                ->addColumn('service_astrologer_download', function ($row) {
+                    $ht = '';
+                    $imagePath = $row->serviceAgreement->agreement_by_astrologer ?? '';
+
+                    if ($imagePath == null) {
+                        $downloadLink = asset($imagePath);
+                        $ht .= '<a class="btn btn-link p-0  "style="display:inline" data-id="' . $row->id . '"><button type="button" class="btn btn-sm btn-primary" disabled>Download </button></a>';
+                    } else {
+                        $downloadLink = asset($imagePath);
+                        $ht .= '<a href="' . $downloadLink . '" download class="btn btn-link p-0  "style="display:inline" data-id="' . $row->id . '"><button type="button" class="btn btn-sm btn-primary">Download</button></a>';
+                    }
+                    return $ht;
+                })
+                ->rawColumns(['action', 'is_active', 'service_by_admin', 'service_by_astrologer', 'service_astrologer_download', 'service_admin_download'])
                 ->make(true);
         }
         return view('admin.astrologer.astrologer');
@@ -320,7 +362,6 @@ class AstrologerController extends Controller
             $cost = AstrologerCost::where('astrologer_id', $id)->first();
             // dd($cost);
             $view = '';
-            if ($cost != null) {
                 $view .= '<div class="row">
                 <div class="col-md-6" hidden>
                     <div class="mb-3">
@@ -330,41 +371,31 @@ class AstrologerController extends Controller
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="payment" class="form-label">Astrologer Cost/Min</label>
-                        <input type="text" class="form-control" id="payment" name="payment" value="' . $cost->astrologer_cost . '">
+                        <label for="payment_call" class="form-label">Astrologer Call/Min Cost</label>
+                        <input type="number" class="form-control" id="payment_call" name="payment_call" value="';
+                        $view .=$cost->payment_call??0.00;
+                        $view .='" step="0.01">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="payment" class="form-label">Admin Cost/Min</label>
-                        <input type="text" class="form-control" id="admin_payment" name="admin_payment" value="' . $cost->admin_cost . '">
+                        <label for="payment_chat" class="form-label">Astrologer Chat/Min Cost</label>
+                        <input type="number" class="form-control" id="payment_chat" name="payment_chat" value="';
+                        $view .=$cost->payment_chat??0;
+                        $view .='" step="0.01">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="admin_charge" class="form-label">Admin Charge (in percentage)</label>
+                        <input type="number" class="form-control" id="admin_charge" name="admin_charge" value="';
+                        $view .=$cost->admin_charge??0 ;
+                        $view .='">
                     </div>
                 </div>
             </div>
        ';
-            } else {
-                $view .= '<div class="row">
-                <div class="col-md-6" hidden >
-                    <div class="mb-3">
-                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
-                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="payment" class="form-label">Astrologer Cost/Min</label>
-                        <input type="text" class="form-control" id="payment" name="payment"/>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                <div class="mb-3">
-                    <label for="payment" class="form-label">Admin Cost/Min</label>
-                    <input type="text" class="form-control" id="admin_payment" name="admin_payment"/>
-                </div>
-            </div>
-            </div>
-       ';
-            }
+            
             return $view;
         } catch (Exception $ex) {
             $url = URL::current();
@@ -378,8 +409,9 @@ class AstrologerController extends Controller
     {
         $request->validate([
             'astrologer_id' => 'required',
-            'payment' => 'required',
-            'admin_payment' => 'required',
+            'payment_call' => 'required',
+            'payment_chat' => 'required',
+            'admin_charge'=>'required'
         ]);
         try {
             $res = AstrologerCost::updateOrCreate(
@@ -388,8 +420,9 @@ class AstrologerController extends Controller
                 ],
                 [
                     'astrologer_id' => $request->astrologer_id,
-                    'astrologer_cost' => $request->payment,
-                    'admin_cost' => $request->admin_payment,
+                    'payment_chat' => $request->payment_chat,
+                    'payment_call' => $request->payment_call,
+                    'admin_charge'=>$request->admin_charge
                 ]
             );
             if ($res) {
@@ -414,6 +447,245 @@ class AstrologerController extends Controller
     {
         $fields = ['first_name', 'last_name', 'email', 'phone', 'country', 'state', 'city', 'description', 'experties', 'language', 'image', 'experience', 'education', 'father_name', 'pin_code', 'dob_place', 'dob_time', 'dob', 'gender'];
         return Excel::download(new AstrologerExport($fields), 'Astrologer list.xlsx');
+    }
+
+    public function serviceAgreementadmin($id)
+    {
+        try {
+            $service_agreement = ServiceAgreement::where('astrologer_id', $id)->first();
+
+            $view = '';
+            if ($service_agreement != null) {
+                $view .= '<div class="row">
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="role" name="role" value="' . Auth::user()->roles[0]->name . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                <div class="col-2"> <img src="' . asset($service_agreement->agreement_by_admin) . '" alt="" srcset="" height="50px" width="50px"></div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+               </div>
+            </div>
+       ';
+            } else {
+                $view .= '<div class="row">
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="role" name="role" value="' . Auth::user()->roles[0]->name . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+            </div>
+            </div>
+       ';
+            }
+            return $view;
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function serviceAgreementastro($id)
+    {
+        try {
+            $service_agreement = ServiceAgreement::where('astrologer_id', $id)->first();
+
+            $view = '';
+            if ($service_agreement != null) {
+                $view .= '<div class="row">
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="role" name="role" value="' . Auth::user()->roles[0]->name . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                <div class="col-2"> <img src="' . asset($service_agreement->agreement_by_astrologer) . '" alt="" srcset="" height="50px" width="50px"></div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+               </div>
+            </div>
+       ';
+            } else {
+                $view .= '<div class="row">
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="astrologer_id" class="form-label">Astrologer Id</label>
+                        <input type="text" class="form-control" id="astrologer_id" name="astrologer_id" value="' . $id . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6" hidden>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="role" name="role" value="' . Auth::user()->roles[0]->name . '"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+            </div>
+            </div>
+       ';
+            }
+            return $view;
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function storeServiceAgreementadmin(Request $request)
+    {
+
+        $request->validate([
+            'astrologer_id' => 'required',
+            'image' => 'required|mimes:pdf,jpg',
+        ]);
+        $service_agreement = ServiceAgreement::where('astrologer_id', $request->astrologer_id)->first();
+
+        try {
+            if ($service_agreement != null) {
+                if ($request->hasFile('image')) {
+                    // Delete the old image if it exists
+                    if ($service_agreement->agreement_by_admin) {
+                        $oldImagePath = public_path($service_agreement->agreement_by_admin);
+                        if (File::exists($oldImagePath)) {
+                            File::delete($oldImagePath);
+                        }
+                    }
+                    $img = 'service_agreement-' . time() . '-' . rand(0, 99) . '.' . $request->image->extension();
+                    $request->image->move(public_path('upload/service_agreement'), $img);
+
+                    $agreement = ServiceAgreement::where('astrologer_id', $request->astrologer_id)->update([
+                        'agreement_by_admin' => 'upload/service_agreement/' . $img,
+                    ]);
+                }
+                $agreement1 = ServiceAgreement::where('astrologer_id', $request->astrologer_id)->first();
+                if ($agreement1->update(['uploaded_by' => Auth::user()->id])) {
+                    $message['title'] = 'Your Service Argeement Uploded By ' . Auth::user()->name . '';
+                    $message['body'] = 'Download and upload your verification : ';
+                    // $agreement1->notify(new ServiceAgreements($message));
+                    Notification::send($service_agreement, new ServiceAgreements($message));
+                    return redirect()->back()->with('success', 'Astrologer Service Agreement Upload Updated by Admin Sucessfully!');
+                } else {
+                    return redirect()->back()->with('error', 'Astrologer Service Agreement Upload Not Update by Admin!');
+                }
+            } else {
+                if ($request->hasFile('image')) {
+                    $img = 'service_agreement-' . time() . '-' . rand(0, 99) . '.' . $request->image->extension();
+                    $request->image->move(public_path('upload/service_agreement'), $img);
+                }
+                $agreement = ServiceAgreement::create([
+                    'astrologer_id' => $request->astrologer_id,
+                    'uploaded_by' => Auth::user()->id,
+                    'agreement_by_admin' => 'upload/service_agreement/' . $img,
+                ]);
+                if ($agreement) {
+                    $message['title'] = 'Your Service Argeement Uploded By ' . Auth::user()->name . '';
+                    $message['body'] = 'Download And Upload Your Verification ?';
+                    // $agreement->notify(new ServiceAgreements($message));
+                    Notification::send($agreement, new ServiceAgreements($message));
+                    return redirect()->back()->with('success', 'Astrologer Service Agreement Uploaded by Admin Sucessfully!');
+                } else {
+                    return redirect()->back()->with('error', 'Astrologer Service Agreement Not Upload by Admin!');
+                }
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
+    }
+
+    public function storeServiceAgreementastro(Request $request)
+    {
+
+        $request->validate([
+            'astrologer_id' => 'required',
+            'image' => 'required|mimes:pdf,jpg',
+        ]);
+
+        $service_agreement = ServiceAgreement::where('astrologer_id', $request->astrologer_id)->first();
+
+        try {
+            if ($service_agreement != null) {
+                if ($request->hasFile('image')) {
+                    // Delete the old image if it exists
+                    if ($service_agreement->agreement_by_astrologer) {
+                        $oldImagePath = public_path($service_agreement->agreement_by_astrologer);
+                        if (File::exists($oldImagePath)) {
+                            File::delete($oldImagePath);
+                        }
+                    }
+                    $img = 'service_agreement-' . time() . '-' . rand(0, 99) . '.' . $request->image->extension();
+                    $request->image->move(public_path('upload/service_agreement'), $img);
+
+                    $agreement = ServiceAgreement::where('astrologer_id', $request->astrologer_id)->update([
+                        'agreement_by_astrologer' => 'upload/service_agreement/' . $img,
+                    ]);
+                }
+                $agreement1 = ServiceAgreement::where('astrologer_id', $request->astrologer_id)->first();
+                if ($agreement1->update(['uploaded_by' => Auth::user()->id])) {
+                    return redirect()->back()->with('success', 'Astrologer Service Agreement Upload Updated by Astrologer Sucessfully!');
+                } else {
+                    return redirect()->back()->with('error', 'Astrologer Service Agreement Upload Not Update by Astrologer!');
+                }
+            } else {
+                if ($request->hasFile('image')) {
+                    $img = 'service_agreement-' . time() . '-' . rand(0, 99) . '.' . $request->image->extension();
+                    $request->image->move(public_path('upload/service_agreement'), $img);
+                }
+                $agreement = ServiceAgreement::create([
+                    'astrologer_id' => $request->astrologer_id,
+                    'uploaded_by' => Auth::user()->id,
+                    'agreement_by_astrologer' => 'upload/service_agreement/' . $img,
+                ]);
+                if ($agreement) {
+                    return redirect()->back()->with('success', 'Astrologer Service Agreement Uploaded  by Astrologer Sucessfully!');
+                } else {
+                    return redirect()->back()->with('error', 'Astrologer Service Agreement Not Upload by Astrologer!');
+                }
+            }
+        } catch (Exception $ex) {
+            $url = URL::current();
+            Error::create(['url' => $url, 'message' => $ex->getMessage()]);
+            return redirect()->back()->with('error', 'Server Error ');
+        }
     }
 
     // public function uploadCsv(Request $request)

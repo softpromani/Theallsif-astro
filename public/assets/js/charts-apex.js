@@ -225,7 +225,7 @@
         }
         ,
         {
-          name: 'Profite Revenue',
+          name: 'Admin Revenue',
           data: [85, 100, 30, 40, 95, 90, 30, 110, 62, 20]
         }
       ],

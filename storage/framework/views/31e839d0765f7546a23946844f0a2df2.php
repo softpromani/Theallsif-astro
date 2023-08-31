@@ -2,6 +2,9 @@
 Dashbard || Add Astrologer
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content-main'); ?>
+<?php
+$role=Auth::user()->roles[0]->name;
+?>
 <div class="card">
 	<div class="card-header border-bottom">
 		<?php if($errors->any()): ?>
@@ -34,15 +37,7 @@ Dashbard || Add Astrologer
 						Add
 					</button>
 				</div>
-				<?php
-				$role=Auth::user()->roles[0]->name;
-				?>
 				<?php if($role =='superadmin'): ?>
-				<!-- <div class="col-md-4">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-						Import
-					</button>
-				</div> -->
 				<div class="col-md-4">
 					<a href="<?php echo e(route('admin.exportAstrologer')); ?>" class="btn btn-primary">
 						Export
@@ -80,6 +75,12 @@ Dashbard || Add Astrologer
 					<th>Experience</th>
 					<th>Education</th>
 					<th>Is Active</th>
+					<?php if($role =='superadmin'): ?>
+					<th>Service By Admin</th>
+					<th>Service Astrologer Download</th>
+					<?php endif; ?>
+					<th>Service By Astrologer</th>
+					<th>Service Admin Download</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -244,13 +245,6 @@ Dashbard || Add Astrologer
 						</div>
 					</div>
 
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label for="service_agreement" class="form-label">Service Agreement</label>
-							<input type="file" class="form-control" id="service_agreement" name="service_agreement">
-						</div>
-					</div>
-
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -277,6 +271,50 @@ Dashbard || Add Astrologer
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 					<button id="myButton" type="button" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Uplode Service By Admin</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="<?php echo e(route('admin.storeServiceAgreementadmin')); ?>" method="post" enctype="multipart/form-data">
+				<?php echo csrf_field(); ?>
+				<div id="contentDiv2" class="modal-body">
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Uplode Service By Astrologer</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="<?php echo e(route('admin.storeServiceAgreementastro')); ?>" method="post" enctype="multipart/form-data">
+				<?php echo csrf_field(); ?>
+				<div id="contentDiv3" class="modal-body">
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save</button>
 				</div>
 			</form>
 
@@ -389,6 +427,22 @@ Dashbard || Add Astrologer
 					data: 'is_active',
 					name: 'is_active',
 				},
+				<?php if($role == 'superadmin'): ?> {
+					data: 'service_by_admin',
+					name: 'service_by_admin',
+				},
+				{
+					data: 'service_astrologer_download',
+					name: 'service_astrologer_download',
+				},
+				<?php endif; ?> {
+					data: 'service_by_astrologer',
+					name: 'service_by_astrologer',
+				},
+				{
+					data: 'service_admin_download',
+					name: 'service_admin_download',
+				},
 				{
 					data: 'action',
 					name: 'action',
@@ -411,6 +465,7 @@ Dashbard || Add Astrologer
 		});
 	});
 </script>
+
 <script>
 	$(document).ready(function() {
 		$('#exampleModal').on('shown.bs.modal', function() {
@@ -420,6 +475,7 @@ Dashbard || Add Astrologer
 		});
 	});
 </script>
+
 <script>
 	$(document).ready(function() {
 		$(document).on('change', '.is_active', function() {
@@ -464,12 +520,45 @@ Dashbard || Add Astrologer
 			var Id = $(this).data('id');
 			var newurl = "<?php echo e(url('/admin/cost')); ?>/" + Id;
 			$.ajax({
-				// url: '/admin/cost/' + Id,
 				url: newurl,
 				type: 'get',
 				success: function(response) {
 					$('#contentDiv').html(response);
 					$('#exampleModal1').modal('show');
+				},
+			});
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		$(document).on('click', '.service_by_admin', function() {
+			var Id = $(this).data('id');
+			var newurl = "<?php echo e(url('/admin/service-agreement-admin')); ?>/" + Id;
+			$.ajax({
+				url: newurl,
+				type: 'get',
+				success: function(response) {
+					$('#contentDiv2').html(response);
+					$('#exampleModal2').modal('show');
+				},
+			});
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		$(document).on('click', '.service_by_astrologer', function() {
+			var Id = $(this).data('id');
+			var newurl = "<?php echo e(url('/admin/service-agreement-astrologer')); ?>/" + Id;
+			$.ajax({
+				url: newurl,
+				type: 'get',
+				success: function(response) {
+					$('#contentDiv3').html(response);
+					$('#exampleModal3').modal('show');
 				},
 			});
 		});

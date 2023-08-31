@@ -18,3 +18,5 @@ yarn-error.log
 /.idea
 /.vscode
 .htaccesss
+storage/logs/
+storage/framework/
